@@ -38,6 +38,9 @@ function App() {
       <Route path="/sign-up" exact={true}>
         <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
       </Route>
+      <Route path="/map">
+        
+      </Route>
       <ProtectedRoute path="/users" exact={true} authenticated={authenticated}>
         <UsersList/>
       </ProtectedRoute>
