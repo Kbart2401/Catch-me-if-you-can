@@ -76,13 +76,11 @@ const SignUpForm = ({ authenticated, setAuthenticated }) => {
 				></input>
 			</div>
 			<div>
-				<label>Gender</label> 
-				<input
-					type="text"
-					name="gender"
-					onChange={updateGender}
-					value={gender}
-				></input>
+				<label>Gender</label>
+				<select>
+					<option name="gender" onChange={updateGender} value="male">Male</option>
+					<option name="gender" onChange={updateGender} value="female">Female</option>
+				</select>
 			</div>
 			<div>
 				<label>Password</label>
