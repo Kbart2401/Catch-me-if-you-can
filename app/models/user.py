@@ -2,6 +2,12 @@ from .db import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
+Rival = db.table(
+    'rivals',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('rival_user_id', db.Integer, db.ForeignKey('users.id'))
+)
+
 class User(db.Model, UserMixin):
   __tablename__ = 'users'
 
@@ -11,6 +17,9 @@ class User(db.Model, UserMixin):
   email = db.Column(db.String(255), nullable = False, unique = True)
   gender = db.Column(db.String(40))
   hashed_password = db.Column(db.String(255), nullable = False)
+  routes = db.relationship('Route', back_populates='user')
+  run_times = db.relationship('RunTime', back_populates='user')
+  rivals = db.relationship('users', secondary='rivals', backref=db.backref('rivals', lazy='dynamic'))
 
 
   @property
