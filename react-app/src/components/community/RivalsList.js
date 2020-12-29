@@ -8,12 +8,12 @@ function RivalsList() {
 		async function fetchData() {
 			const response = await fetch(`/api/users/${userId}/rivals`);
 			const responseData = await response.json();
-			setUsers(responseData.users);
+			setRivals(responseData.rivals);
 		}
 		fetchData();
 	}, []);
 
-	const userComponents = users.map((user) => {
+	const userComponents = rivals.map((rival) => {
 		return (
 			<li key={user.id}>
 				<NavLink to={`/users/${user.id}`}>{user.username}</NavLink>
@@ -23,10 +23,10 @@ function RivalsList() {
 
 	return (
 		<>
-			<h1>User List: </h1>
+			<h1>Rival List: </h1>
 			<ul>{userComponents}</ul>
 		</>
 	);
 }
 
-export default UsersList;
+export default RivalsList;
