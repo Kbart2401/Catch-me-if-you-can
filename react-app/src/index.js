@@ -7,9 +7,9 @@ import Map from "./components/Map"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* <App /> */}
     <BrowserRouter>
-      <Route path="/map">
+      <Route path="/">
         <Map />
       </Route>
     </BrowserRouter>
