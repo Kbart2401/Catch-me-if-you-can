@@ -12,6 +12,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
     const user = await login(email, password);
     if (!user.errors) {
       setAuthenticated(true);
+      window.localStorage.setItem("userId", user.id)
     } else {
       setErrors(user.errors);
     }
