@@ -117,7 +117,7 @@ const SignUpForm = ({ authenticated, setAuthenticated }) => {
 					</Grid>
 					<Grid item xs={12} sm={6}>
 						<label>Gender</label>
-						<Select>
+						<Select defaultValue="male">
 							<option name="gender" onChange={updateGender} value="male">
 								Male
 							</option>
