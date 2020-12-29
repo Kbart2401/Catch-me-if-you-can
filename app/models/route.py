@@ -7,10 +7,10 @@ class Route(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(40), nullable=False)
   user_creator = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-  user = db.relationship('User', back_populates='routes')
+  user = db.relationship('User', back_populates='routes', primaryjoin='User.id==Route.user_creator')
   route_coordinates = db.Column(db.ARRAY(db.Integer))
   date_created = db.Column(db.Date())
-  routes = db.relationship('Route', back_populates='routes')
+  run_times = db.relationship('RunTime', back_populates='route')
 
   def to_dict(self):
     return {
