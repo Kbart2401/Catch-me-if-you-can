@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../services/auth";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import InputLabel from "@material-ui/core/InputLabel";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -12,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Select } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -25,21 +28,43 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.secondary.main,
 	},
 	form: {
-		width: "100%", // Fix IE 11 issue.
+		width: "100%",
 		marginTop: theme.spacing(3),
+	},
+	select: {
+		width: "100%",
+		// height: 56,
+		marginTop: theme.spacing(-1),
+		minWidth: 120,
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
+	},
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
 	},
 }));
 
 const SignUpForm = ({ authenticated, setAuthenticated }) => {
 	const [firstname, setFirstname] = useState(""); //first name
 	const [lastname, setLastname] = useState(""); //last name
-	const [gender, setGender] = useState(""); //gender
+	const [gender, setGender] = useState("gender"); //gender
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [repeatPassword, setRepeatPassword] = useState("");
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	// useEffect, set isLoaded=true, render after
+	useEffect(() => {
+		if (isLoaded === true) {
+			console.log("hello, effect loaded");
+		}
+		setIsLoaded(true);
+	}, [isLoaded]);
 
 	const classes = useStyles();
 	const onSignUp = async (e) => {
@@ -85,78 +110,113 @@ const SignUpForm = ({ authenticated, setAuthenticated }) => {
 				<Typography component="h1" variant="h5">
 					Sign Up
 				</Typography>
-			</div>
-			<form className={classes.form} onSubmit={onSignUp}>
-				<Grid container spacing={2}>
-					<Grid item xs={12} sm={6}>
-						<label>First Name</label>
-						<input
-							type="text"
-							name="firstname"
-							onChange={updateFirstname}
-							value={firstname}
-						></input>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<label>Last Name</label>
-						<input
-							type="text"
-							name="lastname"
-							onChange={updateLastname}
-							value={lastname}
-						></input>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<label>Email</label>
-						<input
-							type="text"
-							name="email"
-							onChange={updateEmail}
-							value={email}
-						></input>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<label>Gender</label>
-						<Select defaultValue="male">
-							<option name="gender" onChange={updateGender} value="male">
-								Male
-							</option>
-							<option name="gender" onChange={updateGender} value="female">
-								Female
-							</option>
-						</Select>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<label>Password</label>
-						<input
-							type="password"
-							name="password"
-							onChange={updatePassword}
-							value={password}
-						></input>
-					</Grid>
-					<Grid item xs={12} sm={6}>
-						<label>Repeat Password</label>
-						<input
-							type="password"
-							name="repeat_password"
-							onChange={updateRepeatPassword}
-							value={repeatPassword}
-							required={true}
-						></input>
-					</Grid>
-					<Button variant="contained" type="submit">
-						Sign Up
-					</Button>
-					<Grid container justify="flex-end">
-						<Grid item>
-							<Link href="#" variant="body2">
-								Already have an account? Sign in
-							</Link>
+				<form className={classes.form} onSubmit={onSignUp}>
+					<Grid container spacing={2}>
+						<Grid item xs={12} sm={6}>
+							<TextField
+								type="text"
+								name="firstname"
+								onChange={updateFirstname}
+								value={firstname}
+								label="First Name"
+								required={true}
+								autoFocus
+								variant="outlined"
+							></TextField>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<TextField
+								type="text"
+								name="lastname"
+								onChange={updateLastname}
+								value={lastname}
+								label="Last Name"
+								required={true}
+								autoFocus
+								variant="outlined"
+							></TextField>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<TextField
+								type="text"
+								name="email"
+								onChange={updateEmail}
+								value={email}
+								label="Email"
+								required={true}
+								autoFocus
+								variant="outlined"
+							></TextField>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							{/* <label>Gender</label> */}
+							<FormControl className={classes.formControl}>
+								<InputLabel id="gender-select-label">Gender</InputLabel>
+								<Select
+									className={classes.select}
+									labelId="gender-select-label"
+									defaultValue="gender"
+									// value={gender}
+									onChange={updateGender}
+									autoFocus
+									// variant="outlined"
+									// className={classes.selectEmpty}
+									displayEmpty={true}
+									margin="normal"
+								>
+									{/* <MenuItem disabled>Gender</MenuItem> */}
+									<MenuItem name="gender" value="male">
+										Male
+									</MenuItem>
+									<MenuItem name="gender" value="female">
+										Female
+									</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							{/* <label>Password</label> */}
+							<TextField
+								type="password"
+								name="password"
+								onChange={updatePassword}
+								value={password}
+								label="password"
+								required={true}
+								autoFocus
+								variant="outlined"
+							></TextField>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<TextField
+								type="password"
+								name="repeat_password"
+								onChange={updateRepeatPassword}
+								value={repeatPassword}
+								required={true}
+								label="Repeat password"
+								autoFocus
+								variant="outlined"
+							></TextField>
+						</Grid>
+						<Button
+							variant="contained"
+							type="submit"
+							fullWidth
+							className={classes.submit}
+						>
+							Sign Up
+						</Button>
+						<Grid container justify="flex-end">
+							<Grid item>
+								<Link href="/login" variant="body2">
+									Already have an account? Sign in
+								</Link>
+							</Grid>
 						</Grid>
 					</Grid>
-				</Grid>
-			</form>
+				</form>
+			</div>
 		</Container>
 	);
 };
