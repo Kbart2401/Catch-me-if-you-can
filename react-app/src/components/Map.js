@@ -44,6 +44,9 @@ const Map = () => {
         })
     } 
 
+    const handleClick = (e) => {
+        console.log('this is:')
+    }
 
     directionsClient.getDirections({
         profile: 'walking',
@@ -68,9 +71,9 @@ const Map = () => {
         <ReactMapGL {...viewport} 
         mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
         mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-        onViewportChange={viewport => setViewport(viewport)}>
+        onViewportChange={viewport => setViewport(viewport)} onClick={handleClick}> 
             <Marker latitude={marker.latitude} longitude={marker.longitude} onDragStart={dragHandlerStart} onDrag={dragHandler} 
-            onDragEnd={dragHandlerEnd}>
+            onDragEnd={dragHandlerEnd} draggable={true}>
                     <Pin />
             </Marker>
         
