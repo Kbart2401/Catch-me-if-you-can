@@ -59,6 +59,7 @@ const SignUpForm = ({ authenticated, setAuthenticated }) => {
 		setLastname(e.target.value);
 	};
 	const updateGender = (e) => {
+		debugger
 		setGender(e.target.value);
 	};
 
@@ -117,11 +118,11 @@ const SignUpForm = ({ authenticated, setAuthenticated }) => {
 					</Grid>
 					<Grid item xs={12} sm={6}>
 						<label>Gender</label>
-						<Select>
-							<option name="gender" onChange={updateGender} value="male">
+						<Select onChange={updateGender}>
+							<option name="gender" value="male">
 								Male
 							</option>
-							<option name="gender" onChange={updateGender} value="female">
+							<option name="gender" value="female">
 								Female
 							</option>
 						</Select>
