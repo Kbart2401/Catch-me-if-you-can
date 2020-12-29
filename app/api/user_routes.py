@@ -17,3 +17,10 @@ def users():
 def user(id):
     user = User.query.get(id)
     return user.to_dict()
+
+
+# @user_routes.route('/<int:id>/rivals')
+# @login_required
+# def userrivals(id):
+#     rivals = User.query.getAll(id)
+#     return user.to_dict()
