@@ -80,21 +80,18 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
 				</Typography>
 				<form className={classes.form} onSubmit={onLogin}>
 					<Grid container spacing={2}>
-						{/* <Grid item xs={12} sm={6}> */}
-							<TextField
-								fullWidth
-								label="email"
-								name="email"
-								type="text"
-								placeholder="Email"
-								value={email}
-								onChange={updateEmail}
-								autoFocus
-								// margin="normal"
-								variant="outlined"
-							></TextField>
-						{/* </Grid> */}
-						{/* <Grid item xs={12} sm={6}></Grid> */}
+						<TextField
+							fullWidth
+							label="email"
+							name="email"
+							type="text"
+							placeholder="Email"
+							value={email}
+							onChange={updateEmail}
+							autoFocus
+							// margin="normal"
+							variant="outlined"
+						></TextField>
 						<TextField
 							fullWidth
 							label="password"
