@@ -6,20 +6,24 @@ function RivalsList() {
 
 	useEffect(() => {
 		async function fetchData() {
-			const response = await fetch(`/api/users/${userId}/rivals`);
+			const response = await fetch(`/api/users/1`);
+			console.log("response", response);
 			const responseData = await response.json();
+			console.log("response data", responseData);
 			setRivals(responseData.rivals);
 		}
 		fetchData();
 	}, []);
-
-	const rivalComponents = rivals.map((rival) => {
-		return (
-			<li key={user.id}>
-				<NavLink to={`/users/${user.id}`}>{user.username}</NavLink>
-			</li>
-		);
-	});
+	let rivalComponents = [];
+	if (rivals) {
+		rivalComponents = rivals.map((rival) => {
+			return (
+				<li key={rival.id}>
+					<NavLink to={`/users/${rival.id}`}>{rival.first_name}</NavLink>
+				</li>
+			);
+		});
+	}
 
 	return (
 		<>
