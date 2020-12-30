@@ -9,23 +9,32 @@ import Profile from './Body/Profile'
 import Splash from './Body/Splash';
 import User from './Body/User';
 import UsersList from './Body/UsersList';
-import RivalsList from './Body/community/RivalsList'
+import RivalsList from './Body/community/RivalsList';
+import Routes from './Body/Routes';
+
+//MUI
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core';
 
 const ProtectedRoute = props => {
-  const { Component, path, exact, user } = props
   return (
     <Route {...props}>
-      {user ? props.children : <Redirect to='/login' />}
+      {!props.user && <Redirect to='/login' />}
     </Route>
   )
 };
 
+const useStyles = makeStyles(() => ({
+  paper: {
+    backgroundColor: '#e9ecef',
+  },
+}))
+
 const Body = (props) => {
-  // const isLoggedIn = useSelector(state => state.session.user ? true : false);
+  const classes = useStyles()
+
   const [isLoaded, setIsLoaded] = useState(false)
   const [user, setUser] = useState({})
-
-
 
   useEffect(() => {
     setUser(props.user)
@@ -34,16 +43,19 @@ const Body = (props) => {
 
   return isLoaded && (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <Switch>
-        <Route exact path="/" render={props => <Splash {...props} />} />
-        <Route exact path="/login" render={props => <LoginForm {...props} />} />
-        <Route exact path="/signup" render={props => <SignUpForm {...props} />} />
-        <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
-        <ProtectedRoute exact user={user} path="/home" component={Home} />
-        <ProtectedRoute exact user={user} path='/profile' component={Profile} />
-        <ProtectedRoute exact user={user} path="/users" component={UsersList} />
-        <ProtectedRoute exact user={user} path="/users/:userId" component={User} />
-      </Switch>
+      <Paper className={classes.paper} elevation={0}>
+        <Switch>
+          <Route exact path="/" render={props => <Splash {...props} />} />
+          <Route exact path="/login" render={props => <LoginForm {...props} />} />
+          <Route exact path="/signup" render={props => <SignUpForm {...props} />} />
+          <Route exact path='/routes' render={props => <Routes {...props} />} />
+          <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
+          <ProtectedRoute exact user={user} path="/home" component={Home} />
+          <ProtectedRoute exact user={user} path='/profile' component={Profile} />
+          <ProtectedRoute exact user={user} path="/users" component={UsersList} />
+          <ProtectedRoute exact user={user} path="/users/:userId" component={User} />
+        </Switch>
+      </Paper>
     </div>
   )
 }

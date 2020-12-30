@@ -94,14 +94,13 @@ export const retrieveRivals = (userId) => async dispatch => {
 }
 
 export const logoutUser = () => async dispatch => {
-  console.log('Attempting to remove User')
   try {
     const res = await fetch("/api/auth/logout", {
       headers: {
         "Content-Type": "application/json",
       }
-    })
-    dispatch(removeUser())
+    }).then(dispatch(removeUser()))
+
     return res
   } catch (e) {
     console.error(e)

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import * as sessionActions from '../store/actions/session'
 
 //Mui
-import { makeStyles, Typography, IconButton, Button } from '@material-ui/core';
+import { makeStyles, Typography, Button } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -33,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
   navBar_right: {
     display: 'flex',
+    alignItems: 'center',
     gridArea: 'right',
-    maxWidth: '25rem',
+    // maxWidth: '25rem',
   },
 
 
@@ -96,9 +97,9 @@ const Header = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(props.user)
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
 
   const handleMenuOpen = (event) => {
@@ -119,7 +120,7 @@ const Header = (props) => {
   }
 
   const handleLogout = () => {
-    dispatch(sessionActions.logoutUser)
+    dispatch(sessionActions.logoutUser())
     handleMenuClose()
     history.push('/')
   }
@@ -138,17 +139,11 @@ const Header = (props) => {
     </Menu >
   );
 
-  // const handleMenuClick = (path) => {
-  //   setWhichDialog(path)
-  //   setAuthDialog(true)
-  // }
-
   useEffect(() => {
     setUser(props.user)
-    setIsLoaded(true)
-  }, [])
+  }, [props.user])
 
-  return isLoaded && (
+  return (
     <>
       <div className={classes.navBar_root}>
 
@@ -171,18 +166,20 @@ const Header = (props) => {
 
         {/* RIGHT */}
         <div className={classes.navBar_right}>
-          <Typography>{user ? user.email : 'Guest'}</Typography>
+
+          {/* <Typography>{user.first_name}</Typography> */}
           {user ? (
             <>
-              <IconButton
+              <Button
                 edge="end"
                 aria-label="account of current user"
                 aria-haspopup="true"
                 onClick={handleMenuOpen}
                 color="inherit"
+                endIcon={<AccountCircle />}
               >
-                <AccountCircle />
-              </IconButton>
+                <Typography>{user ? user.first_name : 'Guest'}</Typography>
+              </Button>
             </>
           ) : (
               <Button onClick={() => handleMenuClick('/login')}><Typography>Login</Typography></Button>

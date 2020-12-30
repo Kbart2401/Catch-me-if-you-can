@@ -17,6 +17,7 @@ const sessionReducer = (state = initialState, action) => {
       console.log('setting rivals')
       newState = Object.assign({}, state);
       newState.rivals = { test: 'test' }
+      return newState
     default:
       return state;
   }

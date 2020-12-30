@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
 
 const App = (props) => {
   const classes = useStyles()
-
   return (
     <div className={classes.root}>
       <BrowserRouter>
