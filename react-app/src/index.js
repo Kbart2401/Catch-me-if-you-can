@@ -9,7 +9,7 @@ ReactDOM.render(
   <React.StrictMode>
     {/* <App /> */}
     <BrowserRouter>
-      <Route path="/">
+      <Route path="/create">
         <Map />
       </Route>
     </BrowserRouter>

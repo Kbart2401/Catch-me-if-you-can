@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react"; 
-import ReactMapGL, {Marker, Layer, Source} from "react-map-gl"; 
+import ReactMapGL, {Marker, Layer, Source, GeolocateControl} from "react-map-gl"; 
 import Pin from './Pin'; 
-import * as parkData from "./skateboard-parks.json"; 
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"})
 
@@ -9,26 +8,18 @@ const directionsClient = mbxDirections({accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImE
 
 const Map = () => {
     
-    const [endMarker, setEndMarker] = useState({latitude: null, longitude: null})
+    const [markers, setMarkers] = useState([])
     const [routeData, setRouteData] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
     const [events, setEvents] = useState({});
     
     useEffect(() => {
     //api request to the mapbox directions with SDK JS 
-        if (endMarker.latitude) {
+        if (markers[0]) {
             directionsClient.getDirections({
                 profile: 'walking',
                 geometries: 'geojson', 
-                waypoints: [
-                    {
-                        coordinates: [-75.6972, 45.4215],
-                        approach: 'unrestricted'
-                    },
-                    {
-                        coordinates: [endMarker.longitude, endMarker.latitude]
-                    }
-                ]
+                waypoints: markers, 
             })
                 .send()
                 .then(response => {
@@ -49,7 +40,7 @@ const Map = () => {
                     setIsLoaded(true);
                 });
         }
-    }, [endMarker]);
+    }, [markers]);
 
 
     //set viewport
@@ -63,10 +54,9 @@ const Map = () => {
     
     //click event for dropping marker on map
     function clickMarker(event) {
-        setEndMarker({
-            latitude: event.lngLat[1], 
-            longitude: event.lngLat[0],
-        })
+        setMarkers ([...markers, {
+            coordinates: [event.lngLat[1], event.lngLat[0]]
+        }])
     };
 
     //drag and drop marker
@@ -95,7 +85,8 @@ const Map = () => {
         <ReactMapGL {...viewport} 
         mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
         mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-        onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker} onDrag> 
+        onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}> 
+            <GeolocateControl positionOptions={{enableHighAccuracy: true}}  />
             {isLoaded &&
             <>
                 <Marker latitude={endMarker.latitude} longitude={endMarker.longitude} onDragStart={dragHandlerStart} onDrag={dragHandler} 
