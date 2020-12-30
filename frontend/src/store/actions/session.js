@@ -24,9 +24,10 @@ export const loginUser = (user) => async (dispatch) => {
     });
 
     if (res.ok) {
-      dispatch(setUser(res.data));
+      const data = await res.json()
+      dispatch(setUser(data));
 
-      return res;
+      return data;
     }
   } catch (e) {
     console.error(e)

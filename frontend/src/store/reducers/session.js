@@ -9,9 +9,8 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = { ...action.payload };
       return newState;
     case REMOVE_USER:
-      console.log('Removing User')
       newState = Object.assign({}, state);
-      newState.user = {};
+      newState.user = null;
       return newState;
     case SET_RIVALS:
       console.log('setting rivals')

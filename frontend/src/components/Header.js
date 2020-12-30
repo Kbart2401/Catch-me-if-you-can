@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as sessionActions from '../store/actions/session'
 
@@ -97,9 +97,10 @@ const Header = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const loadedUser = useSelector(state => state.session.user)
   const [user, setUser] = useState(props.user)
   const [anchorEl, setAnchorEl] = useState(null);
-  // const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
 
   const handleMenuOpen = (event) => {
@@ -140,16 +141,16 @@ const Header = (props) => {
   );
 
   useEffect(() => {
-    setUser(props.user)
-  }, [props.user])
+    setUser(loadedUser)
+    setIsLoaded(true)
+  }, [loadedUser, user])
 
-  return (
+  return isLoaded && (
     <>
       <div className={classes.navBar_root}>
 
         {/* LEFT */}
         <div className={classes.navBar_left}>
-          {/* TODO: history.push('/home') */}
           <Button onClick={() => handleMenuClick('/home')}>
             <Typography color='primary' >Catch Me If You Can</Typography>
           </Button>
@@ -166,21 +167,17 @@ const Header = (props) => {
 
         {/* RIGHT */}
         <div className={classes.navBar_right}>
-
-          {/* <Typography>{user.first_name}</Typography> */}
           {user ? (
-            <>
-              <Button
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                onClick={handleMenuOpen}
-                color="inherit"
-                endIcon={<AccountCircle />}
-              >
-                <Typography>{user ? user.first_name : 'Guest'}</Typography>
-              </Button>
-            </>
+            <Button
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              onClick={handleMenuOpen}
+              color="inherit"
+              endIcon={<AccountCircle />}
+            >
+              <Typography>{user.first_name}</Typography>
+            </Button>
           ) : (
               <Button onClick={() => handleMenuClick('/login')}><Typography>Login</Typography></Button>
             )}
