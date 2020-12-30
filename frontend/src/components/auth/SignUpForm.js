@@ -84,7 +84,6 @@ const SignUpForm = ({ authenticated, setAuthenticated }) => {
 		setLastname(e.target.value);
 	};
 	const updateGender = (e) => {
-		debugger
 		setGender(e.target.value);
 	};
 
