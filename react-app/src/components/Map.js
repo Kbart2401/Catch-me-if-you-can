@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react"; 
-import ReactMapGL, {Marker, Layer, Source, GeolocateControl} from "react-map-gl"; 
+import ReactMapGL, {Marker, Layer, Source} from "react-map-gl"; 
 import Pin from './Pin'; 
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
-const directionsClient = mbxDirections({accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"})
+const directionsClient = mbxDirections({accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA"})
 
 const Map = () => {
     const [viewport, setViewport] = useState({});
@@ -28,18 +28,26 @@ const Map = () => {
 
     navigator.geolocation.getCurrentPosition(success,error); 
 
-
     //api request to the mapbox directions with SDK JS 
     useEffect(() => {
         if (markers[1]) {
             directionsClient.getDirections({
                 profile: 'walking',
                 geometries: 'geojson', 
-                waypoints: markers, 
+                waypoints: [
+                    {
+                        coordinates: [-12.09741244894624,-77.07167861645539]
+                    }, 
+                    {
+                        coordinates: [-12.079032325446034, -77.0564007539064]
+                    }
+                ], 
             })
                 .send()
                 .then(response => {
                     const route = response.body.routes[0].geometry.coordinates; 
+                    console.log(response); 
+                    console.log(route); 
                     const geojson = {
                         type: 'FeatureCollection', 
                         features: [ 
@@ -72,6 +80,11 @@ const Map = () => {
         mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
         mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
         onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}> 
+            {markers.length === 1 && 
+            <Marker latitude={markers[0].coordinates[0]} longitude={markers[0].coordinates[1]}>
+                <Pin /> 
+            </Marker>
+            }
             {isLoaded &&
             <>
                 <Source id="route-data" type="geojson" data={routeData}>
