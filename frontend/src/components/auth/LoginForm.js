@@ -82,7 +82,7 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
 					<Grid container spacing={2}>
 						{/* <Grid item xs={12} sm={6}> */}
 						<TextField
-							fullwidth
+							fullWidth
 							label="email"
 							name="email"
 							type="text"
