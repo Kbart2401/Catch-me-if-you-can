@@ -8,45 +8,48 @@ const directionsClient = mbxDirections({accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImE
 
 
 const Map = () => {
-
-    const [isLoaded, setIsLoaded] = useState(false)
+    
+    const [endMarker, setEndMarker] = useState({latitude: null, longitude: null})
     const [routeData, setRouteData] = useState({})
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [events, setEvents] = useState({});
     
     useEffect(() => {
     //api request to the mapbox directions with SDK JS 
-    
-    directionsClient.getDirections({
-        profile: 'walking',
-        geometries: 'geojson', 
-        waypoints: [
-            {
-                coordinates: [-75.6972, 45.4215],
-                approach: 'unrestricted'
-            },
-            {
-                coordinates: [-75.546518086577947, 45.467134581917357]
-            }
-        ]
-    })
-        .send()
-        .then(response => {
-            const route = response.body.routes[0].geometry.coordinates; 
-            const geojson = {
-                type: 'FeatureCollection', 
-                features: [ 
-                    { type: 'Feature', 
-                      geometry: {
-                        type: 'LineString', 
-                        coordinates: route,
-                      }, 
+        if (endMarker.latitude) {
+            directionsClient.getDirections({
+                profile: 'walking',
+                geometries: 'geojson', 
+                waypoints: [
+                    {
+                        coordinates: [-75.6972, 45.4215],
+                        approach: 'unrestricted'
+                    },
+                    {
+                        coordinates: [endMarker.longitude, endMarker.latitude]
                     }
                 ]
-            };
-            //assume no route currently exists (at this point)
-            setRouteData({...geojson});
-            setIsLoaded(true);
-        });
-    }, []);
+            })
+                .send()
+                .then(response => {
+                    const route = response.body.routes[0].geometry.coordinates; 
+                    const geojson = {
+                        type: 'FeatureCollection', 
+                        features: [ 
+                            { type: 'Feature', 
+                            geometry: {
+                                type: 'LineString', 
+                                coordinates: route,
+                            }, 
+                            }
+                        ]
+                    };
+                    //assume no route currently exists (at this point)
+                    setRouteData({...geojson});
+                    setIsLoaded(true);
+                });
+        }
+    }, [endMarker]);
 
 
     //set viewport
@@ -57,15 +60,16 @@ const Map = () => {
         width: "100vw",
         height: "100vh",   
     });
-
-    //set marker
-    const [marker, setMarker] = useState({
-        latitude: 45.4211,
-        longitude: -75.6903,
-    })
+    
+    //click event for dropping marker on map
+    function clickMarker(event) {
+        setEndMarker({
+            latitude: event.lngLat[1], 
+            longitude: event.lngLat[0],
+        })
+    };
 
     //drag and drop marker
-    const [events, setEvents] = useState({});
 
     function logDrag(name, event) {
         setEvents({...events, [name]: event.lngLat});
@@ -81,24 +85,28 @@ const Map = () => {
 
     function dragHandlerEnd(event) {
         logDrag('onDragEnd', event);
-        setMarker({
+        setEndMarker({
             latitude: event.lngLat[1],
             longitude: event.lngLat[0],
         })
-    } 
+    }
 
-    return isLoaded && (
+    return (
         <ReactMapGL {...viewport} 
         mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
         mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-        onViewportChange={viewport => setViewport(viewport)}> 
-            <Marker latitude={marker.latitude} longitude={marker.longitude} onDragStart={dragHandlerStart} onDrag={dragHandler} 
-            onDragEnd={dragHandlerEnd} draggable={true}>
-                    <Pin />
-            </Marker>
-            <Source id="route-data" type="geojson" data={routeData}>
-                <Layer id="route" type="line" paint={{'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75}} />
-            </Source>
+        onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker} onDrag> 
+            {isLoaded &&
+            <>
+                <Marker latitude={endMarker.latitude} longitude={endMarker.longitude} onDragStart={dragHandlerStart} onDrag={dragHandler} 
+                onDragEnd={dragHandlerEnd} draggable={true}>
+                        <Pin />
+                </Marker>
+                <Source id="route-data" type="geojson" data={routeData}>
+                    <Layer id="route" type="line" paint={{'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75}} />
+                </Source>
+            </>
+            }
         </ReactMapGL>
     )
 }
