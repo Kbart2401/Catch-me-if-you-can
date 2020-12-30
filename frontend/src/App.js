@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
 import { authenticate } from "./services/auth";
+import RivalsList from "./components/community/RivalsList";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -39,7 +40,8 @@ function App() {
         <SignUpForm authenticated={authenticated} setAuthenticated={setAuthenticated} />
       </Route>
       <ProtectedRoute path="/users" exact={true} authenticated={authenticated}>
-        <UsersList/>
+        <UsersList />
+        <RivalsList />
       </ProtectedRoute>
       <ProtectedRoute path="/users/:userId" exact={true} authenticated={authenticated}>
         <User />
