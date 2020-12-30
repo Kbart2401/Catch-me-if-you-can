@@ -15,17 +15,48 @@ import { makeStyles, Typography, IconButton, Button } from '@material-ui/core';
 // import Dialog from '@material-ui/core/Dialog';
 
 //Icons
-// import PersonIcon from '@material-ui/icons/Person';
-// import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-// import DashboardIcon from '@material-ui/icons/Dashboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
+  navBar_root: {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gridTemplateAreas: 'left middle right',
+    justifyContent: 'space-between',
+    padding: '0.5rem'
+  },
+  navBar_left: {
+    display: 'flex',
+    gridArea: '\'left\'',
+    maxWidth: '25rem',
+  },
+  navBar_middle: {
+    display: 'grid',
+    gridArea: '\'middle\'',
+  },
+  navBar_right: {
+    display: 'flex',
+    gridArea: '\'right\'',
+    maxWidth: '25rem',
+  },
   navBar_icon: {
     minWidth: '1.5rem',
     maxWidth: '3rem',
+  },
+  navBar_iconContainer: {
+    display: 'grid',
+    gridAutoColumns: 'column',
+    gap: '.5rem',
+    maxWidth: 'fit-content',
+    justifyContent: 'center',
+  },
+  navBar_iconWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '.5rem',
+    cursor: 'pointer',
   },
   iconButton: {
     '&.MuiIconButton-root': {
@@ -38,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
     height: 'auto',
   }
 }));
+
+const navs = {
+
+}
 
 
 const Header = (props) => {
@@ -56,10 +91,6 @@ const Header = (props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
-  const handleClose = () => {
-    // setAuthDialog(false);
-  }
 
   const handleNavClick = (path) => {
     history.push(path)
@@ -89,10 +120,10 @@ const Header = (props) => {
 
   return isLoaded && (
     <>
-      <div className={'navBar_root'}>
+      <div className={classes.navBar_root}>
 
         {/* LEFT */}
-        <div className={'navBar_left'}>
+        <div className={classes.navBar_left}>
           {/* TODO: history.push('/home') */}
           <Button onClick={() => handleMenuClick('/home')}>
             <Typography color='primary' >Catch Me If You Can</Typography>
@@ -100,8 +131,8 @@ const Header = (props) => {
         </div>
 
         {/* MIDDLE */}
-        <div className={'navBar_middle'}>
-          <div className={'navBar_iconContainer'}>
+        <div className={classes.navBar_middle}>
+          <div className={classes.navBar_iconContainer}>
             <Button>
               <Typography>Home</Typography>
             </Button>
@@ -109,7 +140,7 @@ const Header = (props) => {
         </div>
 
         {/* RIGHT */}
-        <div className={'navBar_right'}>
+        <div className={classes.navBar_right}>
           {user ? (
             <>
               <Typography>{user ? user.first_name : 'Guest'}</Typography>
@@ -126,7 +157,7 @@ const Header = (props) => {
           ) : (
               <Button onClick={() => handleMenuClick('/login')}><Typography>Login</Typography></Button>
             )}
-          <div className={'navBar_iconContainer'}>
+          <div className={classes.navBar_iconContainer}>
             <IconButton
               className={classes.iconButton}
               title={'settings'}
