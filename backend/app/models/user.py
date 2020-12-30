@@ -23,10 +23,6 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     routes = db.relationship('Route', back_populates='user')
     run_times = db.relationship('RunTime', back_populates='user')
-    # rivals = db.relationship('User', secondary=rivals_table, backref=db.backref('rivals', lazy='dynamic'))
-    # rivals = db.relationship('User', secondary=rivals_table, backref='rivals', foreign_keys='[rivals.c.user_id, rivals.c.rival_user_id]')
-    # rivals = db.relationship('User', secondary=rivals_table, primaryjoin=('User.id==rivals_table.c.user_id'), backref=db.backref('rivals', lazy='dynamic'),
-    #                          secondaryjoin=('User.id==rivals_table.c.rivals_user_id'))
     rivals = db.relationship('User', secondary=rivals_table, primaryjoin=id==rivals_table.c.user_id, secondaryjoin=id==rivals_table.c.rival_user_id )
 
     @property
@@ -50,16 +46,5 @@ class User(db.Model, UserMixin):
         }
 
     def __repr__(self):
-        return '<parent> {}'.format(self.id)
+        return '<User> {}'.format(self.id)
 
-
-# user1 = User(first_name='Kyle', last_name='Bart',
-#              email='kyle@gmail.com', gender='male', password='password')
-# user2 = User(first_name='Aaron', last_name='H',
-#              email='aaron@gmail.com', gender='male', password='password')
-# db.session.add(user1)
-# db.session.add(user2)
-# db.session.commit()
-# user1.rivals.append(user2)
-# user2.rivals.append(user1)
-# db.session.commit()
