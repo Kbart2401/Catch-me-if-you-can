@@ -13,7 +13,7 @@ function RivalsList() {
 		fetchData();
 	}, []);
 
-	const userComponents = rivals.map((rival) => {
+	const rivalComponents = rivals.map((rival) => {
 		return (
 			<li key={user.id}>
 				<NavLink to={`/users/${user.id}`}>{user.username}</NavLink>
@@ -24,7 +24,7 @@ function RivalsList() {
 	return (
 		<>
 			<h1>Rival List: </h1>
-			<ul>{userComponents}</ul>
+			<ul>{rivalComponents}</ul>
 		</>
 	);
 }
