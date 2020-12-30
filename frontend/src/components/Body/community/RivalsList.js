@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 function RivalsList() {
-	const [rivals, setRivals] = useState([]);
+  const loadedRivals = useSelector(state => state.session.rivals)
+  const user = useSelector(state => state.session.user)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [rivals, setRivals] = useState([])
 
-	useEffect(() => {
-		async function fetchData() {
-			const response = await fetch(`/api/users/${userId}/rivals`);
-			const responseData = await response.json();
-			setRivals(responseData.rivals);
-		}
-		fetchData();
-	}, []);
+  useEffect(() => {
+    setIsLoaded(true)
+  }, []);
 
-	const userComponents = rivals.map((rival) => {
-		return (
-			<li key={user.id}>
-				<NavLink to={`/users/${user.id}`}>{user.username}</NavLink>
-			</li>
-		);
-	});
+  return isLoaded && (
+    <>
+      <h1>Rival List: </h1>
+      <ul>{rivals.map(rival => (
 
-	return (
-		<>
-			<h1>Rival List: </h1>
-			<ul>{userComponents}</ul>
-		</>
-	);
+        <li key={user.id}>
+          <NavLink to={`/users/${user.id}`}>{user.username}</NavLink>
+        </li>
+      ))}</ul>
+    </>
+  );
 }
 
 export default RivalsList;

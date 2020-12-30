@@ -47,6 +47,7 @@ const AppContainer = (props) => {
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(data => setUser(data))
+    dispatch(sessionActions.retrieveRivals())
     setIsLoaded(true)
   }, [dispatch]);
 

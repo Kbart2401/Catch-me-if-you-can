@@ -4,43 +4,46 @@ import { useDispatch } from 'react-redux';
 
 import * as sessionActions from '../store/actions/session'
 
-//Components
-// import { AuthContext } from '../context/Context';
-// import LoginForm from './Header/LoginForm';
-// import SignupForm from './Header/SignupForm';
-// import NavBar from './Header/NavBar'
-
 //Mui
 import { makeStyles, Typography, IconButton, Button } from '@material-ui/core';
-// import Dialog from '@material-ui/core/Dialog';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 //Icons
-import SettingsIcon from '@material-ui/icons/Settings';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+
 
 const useStyles = makeStyles((theme) => ({
   navBar_root: {
     display: 'grid',
     gridAutoFlow: 'column',
-    gridTemplateAreas: 'left middle right',
+    gridTemplateAreas: '\'left middle right\'',
     justifyContent: 'space-between',
     padding: '0.5rem'
   },
   navBar_left: {
     display: 'flex',
-    gridArea: '\'left\'',
+    gridArea: 'left',
     maxWidth: '25rem',
   },
   navBar_middle: {
-    display: 'grid',
-    gridArea: '\'middle\'',
+    // display: 'grid',
+    display: 'flex',
+    gridArea: 'middle',
   },
   navBar_right: {
     display: 'flex',
-    gridArea: '\'right\'',
+    gridArea: 'right',
     maxWidth: '25rem',
   },
+
+
+  navBar_navContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+
   navBar_icon: {
     minWidth: '1.5rem',
     maxWidth: '3rem',
@@ -48,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   navBar_iconContainer: {
     display: 'grid',
     gridAutoColumns: 'column',
-    gap: '.5rem',
+    // gap: '.5rem',
     maxWidth: 'fit-content',
     justifyContent: 'center',
   },
@@ -56,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '.5rem',
-    cursor: 'pointer',
+    // cursor: 'pointer',
   },
   iconButton: {
     '&.MuiIconButton-root': {
@@ -64,15 +67,28 @@ const useStyles = makeStyles((theme) => ({
       padding: '.5rem'
     }
   },
+
+
   dialog: {
     width: 'auto',
     height: 'auto',
   }
 }));
 
-const navs = {
-
-}
+const navs = [
+  {
+    title: 'Dashboard',
+    path: '/home'
+  },
+  {
+    title: 'Routes',
+    path: '/routes'
+  },
+  {
+    title: 'Community',
+    path: '/community',
+  },
+]
 
 
 const Header = (props) => {
@@ -82,7 +98,8 @@ const Header = (props) => {
 
   const [user, setUser] = useState({})
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
+  const isMenuOpen = Boolean(anchorEl);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -98,15 +115,28 @@ const Header = (props) => {
 
   const handleMenuClick = (path) => {
     history.push(path)
-    // user ? history.push(path) : history.push('/login')
     handleMenuClose()
   }
 
   const handleLogout = () => {
-    console.log('logging out')
     dispatch(sessionActions.logoutUser)
+    handleMenuClose()
     history.push('/')
   }
+
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={() => handleMenuClick('/profile')}>Profile</MenuItem>
+      <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+    </Menu >
+  );
 
   // const handleMenuClick = (path) => {
   //   setWhichDialog(path)
@@ -132,18 +162,18 @@ const Header = (props) => {
 
         {/* MIDDLE */}
         <div className={classes.navBar_middle}>
-          <div className={classes.navBar_iconContainer}>
-            <Button>
-              <Typography>Home</Typography>
-            </Button>
+          <div className={classes.navBar_navContainer}>
+            {navs.map(nav => (
+              <Button key={nav.title} onClick={() => handleNavClick(nav.path)}><Typography>{nav.title}</Typography></Button>
+            ))}
           </div>
         </div>
 
         {/* RIGHT */}
         <div className={classes.navBar_right}>
+          <Typography>{user ? user.email : 'Guest'}</Typography>
           {user ? (
             <>
-              <Typography>{user ? user.first_name : 'Guest'}</Typography>
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -157,22 +187,19 @@ const Header = (props) => {
           ) : (
               <Button onClick={() => handleMenuClick('/login')}><Typography>Login</Typography></Button>
             )}
-          <div className={classes.navBar_iconContainer}>
-            <IconButton
-              className={classes.iconButton}
-              title={'settings'}
-              onClick={() => handleMenuClick('settings')}
-            >
-              <SettingsIcon color='primary' />
-            </IconButton>
-          </div>
         </div>
       </div >
-      {/* <Dialog open={authDialog} onClose={handleClose} className={classes.dialog} aria-labelledby="form-dialog-title">
-        {renderDialog(whichDialog)}
-      </Dialog> */}
+      { renderMenu}
     </>
   )
 }
+
+// const Header = (props) => {
+//   return (
+//     <>
+//       <NavBar user={props.user} />
+//     </>
+//   )
+// }
 
 export default Header
