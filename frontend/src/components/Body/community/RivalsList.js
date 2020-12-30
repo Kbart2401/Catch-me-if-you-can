@@ -16,9 +16,8 @@ function RivalsList() {
     <>
       <h1>Rival List: </h1>
       <ul>{rivals.map(rival => (
-
-        <li key={user.id}>
-          <NavLink to={`/users/${user.id}`}>{user.username}</NavLink>
+        <li key={rival.id}>
+          <NavLink to={`/users/${rival.id}`}>{rival.username}</NavLink>
         </li>
       ))}</ul>
     </>

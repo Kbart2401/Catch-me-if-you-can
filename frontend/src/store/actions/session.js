@@ -81,7 +81,7 @@ export const restoreUser = () => async dispatch => {
 
 export const retrieveRivals = (userId) => async dispatch => {
   try {
-    const res = await fetch(`/api/users/${userId}/rivals`);
+    const res = await fetch(`/api/users/${userId}`);
 
     if (res.ok) {
       const data = await res.json()

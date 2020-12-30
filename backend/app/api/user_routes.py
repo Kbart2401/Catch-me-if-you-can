@@ -46,7 +46,7 @@ def user(id):
             user_total_run_time = total_times.time
         return {'user': user.to_dict(), "total_time": user_total_run_time, 
                 "rivals": my_rivals, "created_routes": my_routes}
-    return {'user': user.to_dict(), "rivals": my_rivals, "created_routes": created_routes.to_dict()}
+    return {'user': user.to_dict(), "rivals": my_rivals, "created_routes": my_routes}
 
 
 # Add running route
