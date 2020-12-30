@@ -10,7 +10,7 @@ const directionsClient = mbxDirections({accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImE
 const Map = () => {
 
     const [isLoaded, setIsLoaded] = useState(false)
-    const [data, setData] = useState({})
+    const [routeData, setRouteData] = useState({})
     
     useEffect(() => {
     //api request to the mapbox directions with SDK JS 
@@ -33,28 +33,17 @@ const Map = () => {
             const route = response.body.routes[0].geometry.coordinates; 
             const geojson = {
                 type: 'FeatureCollection', 
-                properties: {}, 
-                geometry: {
-                    type: 'LineString', 
-                    coordinates: route,
-                }
+                features: [ 
+                    { type: 'Feature', 
+                      geometry: {
+                        type: 'LineString', 
+                        coordinates: route,
+                      }, 
+                    }
+                ]
             };
             //assume no route currently exists (at this point)
-            setRouteLayer({
-                id: 'route',
-                type: 'line', 
-                source: {
-                    type: 'geojson',
-                    data: {
-                        type: 'Feature', 
-                        properties: {}, 
-                        geometry: {
-                            type: 'LineString', 
-                            coordinates: geojson,
-                        }
-                    }
-                }
-            })
+            setRouteData({...geojson});
             setIsLoaded(true);
         });
     }, []);
@@ -107,17 +96,9 @@ const Map = () => {
             onDragEnd={dragHandlerEnd} draggable={true}>
                     <Pin />
             </Marker>
-            <Layer {...routeLayer} paint={{'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75}} />
-            {/* {parkData.features.map(data => {
-               let longitude = data.geometry.coordinates[0];
-               let latitude = data.geometry.coordinates[1];
-               return (
-                <Marker latitude={latitude} longitude={longitude}>
-                    <img src="https://raw.githubusercontent.com/leighhalliday/mapbox-react-demo/master/public/skateboarding.svg"
-                    style={{width:"20px", height:"20px"}}/>
-                </Marker>
-               )
-            })} */}
+            <Source id="route-data" type="geojson" data={routeData}>
+                <Layer id="route" type="line" paint={{'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75}} />
+            </Source>
         </ReactMapGL>
     )
 }
