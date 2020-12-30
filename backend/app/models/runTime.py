@@ -20,4 +20,5 @@ class RunTime(db.Model):
         "date_ran": self.date_ran,
     }
 
-  
+  def __repr__(self):
+    return f'<RunTime {self.time}>'
