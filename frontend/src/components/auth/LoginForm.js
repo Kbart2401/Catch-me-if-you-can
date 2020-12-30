@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	paper: {
 		marginTop: theme.spacing(8),
 		display: "flex",
-	
+
 		flexDirection: "column",
 		alignItems: "center",
 	},
@@ -80,21 +80,23 @@ const LoginForm = ({ authenticated, setAuthenticated }) => {
 				</Typography>
 				<form className={classes.form} onSubmit={onLogin}>
 					<Grid container spacing={2}>
-						<Grid item xs={12} sm={6}>
-							<TextField
-								label="email"
-								name="email"
-								type="text"
-								placeholder="Email"
-								value={email}
-								onChange={updateEmail}
-								autoFocus
-								// margin="normal"
-								variant="outlined"
-							></TextField>
-						</Grid>
-						<Grid item xs={12} sm={6}></Grid>
+						{/* <Grid item xs={12} sm={6}> */}
 						<TextField
+							fullwidth
+							label="email"
+							name="email"
+							type="text"
+							placeholder="Email"
+							value={email}
+							onChange={updateEmail}
+							autoFocus
+							// margin="normal"
+							variant="outlined"
+						></TextField>
+						{/* </Grid> */}
+						{/* <Grid item xs={12} sm={6}></Grid> */}
+						<TextField
+							fullWidth
 							label="password"
 							name="password"
 							type="password"
