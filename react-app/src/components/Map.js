@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"; 
-import ReactMapGL, {Marker, Layer, Source} from "react-map-gl"; 
+import ReactMapGL, {Marker, Layer, Source, Popup} from "react-map-gl"; 
 import Pin from './Pin'; 
+import './Map.css'; 
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA"})
 
@@ -9,6 +10,10 @@ const Map = () => {
     const [markers, setMarkers] = useState([])
     const [routeData, setRouteData] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
+    const [distance, setDistance] = useState(0)
+    const [selectPoint, setSelectPoint] = useState(null); 
+    const [names, setName] = useState([]); 
+    const [index, setIndex] = useState(null); 
     
     //establish viewport coordinates based on user location
     function success(pos) {
@@ -28,26 +33,32 @@ const Map = () => {
 
     navigator.geolocation.getCurrentPosition(success,error); 
 
+    
     //api request to the mapbox directions with SDK JS 
     useEffect(() => {
         if (markers.length >= 2) {
+            const ways = markers.map(marker => {
+                return {
+                    coordinates: [marker.coordinates[1], marker.coordinates[0]]
+                }
+            });
             directionsClient.getDirections({
                 profile: 'walking',
                 geometries: 'geojson', 
-                waypoints: [
-                    {
-                        coordinates: [markers[0].coordinates[1], markers[0].coordinates[0]]
-                    },
-                    {
-                        coordinates: [markers[1].coordinates[1], markers[1].coordinates[0]]
-                    }
-                ] 
+                waypoints: ways
             })
                 .send()
                 .then(response => {
                     const route = response.body.routes[0].geometry.coordinates; 
-                    console.log(response); 
-                    console.log(route); 
+                    const dist = response.body.routes[0].distance;
+                    
+                    const waypoints = response.body.waypoints;
+                    let nameArr = []; 
+                    for (let i = 0; i < waypoints.length; i++) {
+                        let name = waypoints[i].name; 
+                        nameArr.push(name);  
+                    }
+                    
                     const geojson = {
                         type: 'FeatureCollection', 
                         features: [ 
@@ -55,11 +66,13 @@ const Map = () => {
                             geometry: {
                                 type: 'LineString', 
                                 coordinates: route,
-                            }, 
+                                }, 
                             }
                         ]
                     };
-                    //assume no route currently exists (at this point)
+                    
+                    setName(nameArr); 
+                    setDistance(dist);
                     setRouteData({...geojson});
                     setIsLoaded(true);
                 });
@@ -73,37 +86,58 @@ const Map = () => {
         setMarkers ([...markers, {
             coordinates: [event.lngLat[1], event.lngLat[0]]
         }])
-        // setMarkers ({
-        //     latitude: event.lngLat[1], 
-        //     longitude: event.lngLat[0],
-        // })
     };
 
     return (
-        <ReactMapGL {...viewport} 
-        mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
-        mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-        onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}> 
-            {markers.length === 1 && 
-            <Marker latitude={markers[0].coordinates[0]} longitude={markers[0].coordinates[1]}>
-                <Pin /> 
-            </Marker>
-            }
-            {isLoaded &&
-            <>
-                <Source id="route-data" type="geojson" data={routeData}>
-                    <Layer id="route" type="line" paint={{'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75}} />
-                </Source>
-                {markers.map(marker => {
-                    return (
-                        <Marker latitude={marker.coordinates[0]} longitude={marker.coordinates[1]}>
-                            <Pin /> 
-                        </Marker>
-                    )
-                })}
-            </>
-            }
-        </ReactMapGL>
+        <div className={"map_container"}>
+            <div className={"panel"}>{distance}</div>
+            <ReactMapGL {...viewport} 
+            mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
+            mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
+            onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}> 
+                {markers.length === 1 && 
+                <Marker latitude={markers[0].coordinates[0]} longitude={markers[0].coordinates[1]}>
+                    <Pin /> 
+                </Marker>
+                }
+                {isLoaded &&
+                <> 
+                    <Source id="route-data" type="geojson" data={routeData}>
+                        <Layer id="route" type="line" paint={{'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75}} />
+                    </Source>
+                    {markers.map((marker, i) => {
+                        return (
+                            <Marker latitude={marker.coordinates[0]} longitude={marker.coordinates[1]}>
+                                <button  
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        setSelectPoint(marker);
+                                        setIndex(i);  
+                                    }}
+                                >
+                                    <Pin /> 
+                                </button>
+                            </Marker>
+                        )
+                    })}
+
+                    {selectPoint ? (
+                        <Popup 
+                            latitude={selectPoint.coordinates[0]} 
+                            longitude={selectPoint.coordinates[1]}
+                            onClose={() => {
+                                setSelectPoint(null); 
+                            }}
+                            >
+                            <div>
+                                {names[index]}
+                            </div>
+                        </Popup>
+                    ) : null}
+                </>
+                }
+            </ReactMapGL>
+        </div>
     )
 }
 
