@@ -11,7 +11,7 @@ import User from './Body/User';
 import UsersList from './Body/UsersList';
 import RivalsList from './Body/community/RivalsList';
 import Routes from './Body/Routes';
-import Map from './Body/Map'; 
+import MapSearch from './Body/MapSearch'; 
 
 //MUI
 import Paper from '@material-ui/core/Paper';
@@ -55,7 +55,7 @@ const Body = (props) => {
           <ProtectedRoute exact user={user} path='/profile' component={Profile} />
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />
           <ProtectedRoute exact user={user} path="/users/:userId" component={User} />
-          <ProtectedRoute exact user={user} path="/create" component={Map} /> 
+          <ProtectedRoute exact user={user} path="/search" component={MapSearch} /> 
         </Switch>
       </Paper>
     </div>
