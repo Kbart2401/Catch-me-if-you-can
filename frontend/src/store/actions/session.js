@@ -2,11 +2,13 @@
 export const SET_USER = 'Catch_Me_If_You_Can/session/SET_USER';
 export const REMOVE_USER = 'Catch_Me_If_You_Can/session/REMOVE_USER';
 export const SET_RIVALS = 'Catch_Me_If_You_Can/session/SET_RIVALS';
+export const SET_ROUTES = 'Catch_Me_If_You_Can/session/SET_ROUTES';
 
 //Store Actions
-export const setUser = (user) => ({ type: SET_USER, payload: user });
-export const removeUser = (user) => ({ type: REMOVE_USER });
-export const setRivals = (rivals) => ({ type: SET_RIVALS, payload: rivals });
+const setUser = (user) => ({ type: SET_USER, payload: user });
+const removeUser = (user) => ({ type: REMOVE_USER });
+const setRivals = (rivals) => ({ type: SET_RIVALS, payload: rivals });
+const setCreatedRoutes = routes => ({type: SET_ROUTES, payload: routes})
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
@@ -71,7 +73,9 @@ export const restoreUser = () => async dispatch => {
 
     if (res.ok) {
       const data = await res.json()
-      dispatch(setUser(data))
+      dispatch(setUser(data.user))
+      dispatch(setRivals(data.rivals))
+      dispatch(setCreatedRoutes(data.created_routes))
       return data
     }
   }
