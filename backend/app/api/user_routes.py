@@ -47,7 +47,3 @@ def user(id):
         return {'user': user.to_dict(), "total_time": user_total_run_time, 
                 "rivals": my_rivals, "created_routes": my_routes}
     return {'user': user.to_dict(), "rivals": my_rivals, "created_routes": my_routes}
-
-
-# Add running route
-# @user_routes.route('/')
