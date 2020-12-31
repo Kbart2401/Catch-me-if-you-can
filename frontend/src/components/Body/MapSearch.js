@@ -6,7 +6,7 @@ import './Map.css';
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
 
-const Map = () => {
+const MapSearch = () => {
   const [viewport, setViewport] = useState({});
   const [markers, setMarkers] = useState([])
   const [routeData, setRouteData] = useState({})
@@ -16,6 +16,9 @@ const Map = () => {
   const [names, setName] = useState([]);
   const [index, setIndex] = useState(null);
   const user = useSelector((state) => state.session.user)
+
+  //DELETE ME - we will fetch from backend not from redux
+  const createdRoutes = useSelector((state) => state.session.created_routes)
 
   //establish viewport coordinates based on user location
   function success(pos) {
@@ -33,9 +36,21 @@ const Map = () => {
     alert(`ERROR(${err.code}): ${err.message}`);
   };
 
+  //Get geolocation and set marker locations
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success, error);
-  }, [])
+    // async function getMarkers() {
+    //   const res = await fetch('/api/routes')
+    //   const data = await res.json()
+    //   setMarkers(data)
+    // }
+    if (createdRoutes) {
+      const routeMarkers = createdRoutes.map(route => {
+        return route.route_coordinates[0]
+      })
+      setMarkers(routeMarkers)
+      }
+}, [createdRoutes])
 
 
   //api request to the mapbox directions with SDK JS 
@@ -84,98 +99,56 @@ const Map = () => {
     }
   }, [markers]);
 
-  //click event for dropping marker on map
-  function clickMarker(event) {
-    setMarkers([...markers,
-    [event.lngLat[1], event.lngLat[0]]
-    ])
-  };
 
-  //click event for resetting routes
-  function clickReset() {
-    setMarkers([]);
-    setRouteData({});
-    setIsLoaded(false);
-    setDistance(0);
-    setName([]);
-  }
-
-  //submit for saving route to database 
-  async function clickSubmit() {
-    await fetch('/api/routes/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: user.id,
-        routeCoordinates: markers,
-        name: 'New route',
-      })
-    })
-  }
-
-  return (
-    <div className={"map_container"}>
-      <div className={"panel"}>
-        {distance}
-        <button onClick={clickReset}>
-          Reset Route
+return (
+  <div className={"map_container"}>
+    <ReactMapGL {...viewport}
+      mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
+      mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
+      onViewportChange={viewport => setViewport(viewport)}>
+      {markers.length === 1 &&
+        <Marker latitude={markers[0][0]} longitude={markers[0][1]}>
+          <Pin />
+        </Marker>
+      }
+      {isLoaded &&
+        <>
+          {markers.map((marker, i) => {
+            return (
+              <Marker latitude={marker[0]} longitude={marker[1]}>
+                <button
+                  onClick={e => {
+                    e.preventDefault();
+                    setSelectPoint(marker);
+                    setIndex(i);
+                  }}
+                >
+                  <Pin />
                 </button>
-        <button onClick={clickSubmit}>
-          Submit Route
-                </button>
-      </div>
-      <ReactMapGL {...viewport}
-        mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
-        mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-        onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
-        {markers.length === 1 &&
-          <Marker latitude={markers[0][0]} longitude={markers[0][1]}>
-            <Pin />
-          </Marker>
-        }
-        {isLoaded &&
-          <>
-            <Source id="route-data" type="geojson" data={routeData}>
-              <Layer id="route" type="line" paint={{ 'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75 }} />
-            </Source>
-            {markers.map((marker, i) => {
-              return (
-                <Marker latitude={marker[0]} longitude={marker[1]}>
-                  <button
-                    onClick={e => {
-                      e.preventDefault();
-                      setSelectPoint(marker);
-                      setIndex(i);
-                    }}
-                  >
-                    <Pin />
-                  </button>
-                </Marker>
-              )
-            })}
+              </Marker>
+            )
+          })}
 
-            {selectPoint ? (
-              <Popup
-                latitude={selectPoint.coordinates[0]}
-                longitude={selectPoint.coordinates[1]}
-                onClose={() => {
-                  setSelectPoint(null);
-                }}
-              >
-                <div>
-                  {names[index]}
+          {selectPoint ? (
+            <Popup
+              latitude={selectPoint.coordinates[0]}
+              longitude={selectPoint.coordinates[1]}
+              onClose={() => {
+                setSelectPoint(null);
+              }}
+            >
+              <div>
+                {names[index]}
                                 latitude: {selectPoint.coordinates[0]}
                                 longitude: {selectPoint.coordinates[1]}
-                </div>
-              </Popup>
-            ) : null}
-          </>
-        }
-      </ReactMapGL>
-    </div>
-  )
+              </div>
+            </Popup>
+          ) : null}
+        </>
+      }
+    </ReactMapGL>
+  </div>
+)
 }
 
-export default Map; 
+export default MapSearch; 
