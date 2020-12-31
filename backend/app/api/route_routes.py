@@ -22,3 +22,12 @@ def new_route():
     db.session.commit()
     return route.to_dict()
 
+# Delete a created route
+@route_routes.route('/', methods=['DELETE'])
+@login_required
+def remove_route():
+    id = request.get_json().get('routeId')
+    route = Route.query.get(id)
+    db.session.delete(route)
+    db.session.commit()
+    return route.to_dict()
