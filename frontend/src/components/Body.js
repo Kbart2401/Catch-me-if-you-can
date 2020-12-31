@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 //Components
 import LoginForm from './Header/LoginForm';
 import SignUpForm from './Header/SignUpForm';
-import Home from './Body/Home';
+import Dashboard from './Body/Dashboard';
 import Profile from './Body/Profile'
 import Splash from './Body/Splash';
 import User from './Body/User';
@@ -50,7 +50,7 @@ const Body = (props) => {
           <Route exact path="/signup" render={props => <SignUpForm {...props} />} />
           <Route exact path='/routes' render={props => <Routes {...props} />} />
           <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
-          <ProtectedRoute exact user={user} path="/home" component={Home} />
+          <ProtectedRoute exact user={user} path="/dashboard" component={Dashboard} />
           <ProtectedRoute exact user={user} path='/profile' component={Profile} />
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />
           <ProtectedRoute exact user={user} path="/users/:userId" component={User} />

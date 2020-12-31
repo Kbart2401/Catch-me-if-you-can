@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
+//MUI
+import { Typography } from '@material-ui/core'
+
 function RivalsList() {
   const loadedRivals = useSelector(state => state.session.rivals)
   const user = useSelector(state => state.session.user)
@@ -15,11 +18,19 @@ function RivalsList() {
   return isLoaded && (
     <>
       <h1>Rival List: </h1>
-      <ul>{rivals.map(rival => (
-        <li key={rival.id}>
-          <NavLink to={`/users/${rival.id}`}>{rival.username}</NavLink>
-        </li>
-      ))}</ul>
+      {rivals ?
+        (
+          <ul>
+            {rivals.map((rival) => (
+              <li key={rival.id}>
+                <NavLink to={`/users/${rival.id}`}>{rival.first_name}</NavLink>
+              </li>
+            ))}
+          </ul>
+        )
+        : <Typography>You have no Rivals</Typography>
+      }
+
     </>
   );
 }
