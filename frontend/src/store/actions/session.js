@@ -62,7 +62,7 @@ export const signupUser = (user) => async (dispatch) => {
 
 export const restoreUser = () => async dispatch => {
   try {
-    const res = await fetch('/api/auth/', {
+    const res = await fetch('/api/users/restore', {
       headers: {
         'Content-Type': 'application/json'
       }
