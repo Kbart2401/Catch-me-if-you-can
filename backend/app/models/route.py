@@ -16,7 +16,7 @@ class Route(db.Model):
     return {
         "id": self.id,
         "name": self.name,
-        "user_creator": self.userCreator,
-        "route_coordinates": self.routeCoordinates,
-        "date_created": self.dateCreated
+        "user_creator": self.user_creator,
+        "route_coordinates": self.route_coordinates,
+        "date_created": self.date_created
     }
