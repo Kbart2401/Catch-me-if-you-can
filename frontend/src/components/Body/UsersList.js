@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-function RivalsList() {
-	const [rivals, setRivals] = useState([]);
+function UsersList() {
+	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
 		async function fetchData() {
-			const response = await fetch(`/api/users/${userId}/rivals`);
+			const response = await fetch("/api/users/");
 			const responseData = await response.json();
-			setRivals(responseData.rivals);
+			setUsers(responseData.users);
 		}
 		fetchData();
 	}, []);
 
-	const userComponents = rivals.map((rival) => {
+	const userComponents = users.map((user) => {
 		return (
 			<li key={user.id}>
-				<NavLink to={`/users/${user.id}`}>{user.username}</NavLink>
+				<NavLink to={`/users/${user.id}`}>{user.first_name}</NavLink>
 			</li>
 		);
 	});
 
 	return (
 		<>
-			<h1>Rival List: </h1>
+			<h1>User List: </h1>
 			<ul>{userComponents}</ul>
 		</>
 	);
 }
 
-export default RivalsList;
+export default UsersList;
