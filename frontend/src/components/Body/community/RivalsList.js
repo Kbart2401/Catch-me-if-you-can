@@ -11,6 +11,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 function RivalsList() {
 	const dispatch = useDispatch();
@@ -50,13 +52,17 @@ function RivalsList() {
 	return (
 		isLoaded && (
 			<>
-				<h1>Search for new rivals:</h1>
+				<Typography component="h1" variant="h5">
+					Search for new rivals:
+				</Typography>
 				<SearchBar
 					placeholder="Enter rival's name "
 					value={query}
 					onChange={(term) => setQuery(term)}
 				/>
-				<h1>Search Results: </h1>
+				<Typography component="h1" variant="h5">
+					Search Results:{" "}
+				</Typography>
 				<List>
 					{users.map((user) => (
 						<ListItem key={user.id}>
@@ -64,7 +70,9 @@ function RivalsList() {
 						</ListItem>
 					))}
 				</List>
-				<h1>Current rivals: </h1>
+				<Typography component="h1" variant="h5">
+					Current rivals:{" "}
+				</Typography>
 				<List>
 					{loadedRivals.map((rival) => (
 						<ListItem key={rival.id}>
