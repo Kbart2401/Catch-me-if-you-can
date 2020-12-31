@@ -49,6 +49,7 @@ const Map = () => {
             })
                 .send()
                 .then(response => {
+                    console.log(response.body)
                     const route = response.body.routes[0].geometry.coordinates; 
                     const dist = response.body.routes[0].distance;
                     
@@ -70,7 +71,6 @@ const Map = () => {
                             }
                         ]
                     };
-                    
                     setName(nameArr); 
                     setDistance(dist);
                     setRouteData({...geojson});
@@ -79,8 +79,6 @@ const Map = () => {
         }
     }, [markers]);
 
-
-    
     //click event for dropping marker on map
     function clickMarker(event) {
         setMarkers ([...markers, {
@@ -88,9 +86,31 @@ const Map = () => {
         }])
     };
 
+    //click event for resetting routes
+    function clickReset() {
+        setMarkers([]);
+        setRouteData({});
+        setIsLoaded(false); 
+        setDistance(0); 
+        setName([]);
+    }
+
+    //submit for saving route to database 
+    function clickSubmit() {
+
+    }
+
     return (
         <div className={"map_container"}>
-            <div className={"panel"}>{distance}</div>
+            <div className={"panel"}>
+                {distance}
+                <button onClick={clickReset}>
+                    Reset Route
+                </button>
+                <button onClick={clickSubmit}>
+                    Submit Route
+                </button>
+            </div>
             <ReactMapGL {...viewport} 
             mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
             mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
@@ -131,6 +151,8 @@ const Map = () => {
                             >
                             <div>
                                 {names[index]}
+                                latitude: {selectPoint.coordinates[0]}
+                                longitude: {selectPoint.coordinates[1]}
                             </div>
                         </Popup>
                     ) : null}
