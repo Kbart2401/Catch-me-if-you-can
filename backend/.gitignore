@@ -2,5 +2,9 @@
 __pycache__/
 *.py[cod]
 .venv
+<<<<<<< HEAD:.gitignore
+/frontend 
+=======
 .vscode/launch.json
 
+>>>>>>> master:backend/.gitignore
