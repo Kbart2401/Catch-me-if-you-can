@@ -30,18 +30,18 @@ const Map = () => {
 
     //api request to the mapbox directions with SDK JS 
     useEffect(() => {
-        if (markers[1]) {
+        if (markers.length >= 2) {
             directionsClient.getDirections({
                 profile: 'walking',
                 geometries: 'geojson', 
                 waypoints: [
                     {
-                        coordinates: [-12.09741244894624,-77.07167861645539]
-                    }, 
+                        coordinates: [markers[0].coordinates[1], markers[0].coordinates[0]]
+                    },
                     {
-                        coordinates: [-12.079032325446034, -77.0564007539064]
+                        coordinates: [markers[1].coordinates[1], markers[1].coordinates[0]]
                     }
-                ], 
+                ] 
             })
                 .send()
                 .then(response => {
@@ -73,6 +73,10 @@ const Map = () => {
         setMarkers ([...markers, {
             coordinates: [event.lngLat[1], event.lngLat[0]]
         }])
+        // setMarkers ({
+        //     latitude: event.lngLat[1], 
+        //     longitude: event.lngLat[0],
+        // })
     };
 
     return (
