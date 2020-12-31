@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 //Components
 import LoginForm from './Header/LoginForm';
 import SignUpForm from './Header/SignUpForm';
-import Dashboard from './Body/Dashboard';
+import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
 import Splash from './Body/Splash';
 import User from './Body/User';
