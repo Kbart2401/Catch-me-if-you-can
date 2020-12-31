@@ -51,7 +51,7 @@ const LoginForm = (props) => {
   const onLogin = async (e) => {
     e.preventDefault();
     setErrors([]);
-    dispatch(sessionActions.loginUser({ email, password })).then(history.push('/home')).catch(
+    dispatch(sessionActions.loginUser({ email, password })).then(history.push('/dashboard')).catch(
       res => {
         if (res.data && res.data.errors) setErrors(res.data.errors)
       }
