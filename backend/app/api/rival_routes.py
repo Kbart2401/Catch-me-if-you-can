@@ -18,3 +18,18 @@ def add_rival():
     db.session.add(rival)
     db.session.commit()
     return user.to_dict()
+
+# Remove rivals
+@rival_routes.route('/', methods=['DELETE'])
+@login_required
+def remove_rivals():
+    id = request.get_json().get('id')
+    rival_id = request.get_json().get('rival_id')
+    user = User.query.get(id)
+    rival = User.query.get(rival_id)
+    user.rivals.remove(rival)
+    rival.rivals.remove(user)
+    db.session.add(user)
+    db.session.add(rival)
+    db.session.commit()
+    return user.to_dict()

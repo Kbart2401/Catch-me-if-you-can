@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import * as sessionActions from "../../../store/actions/session.js";
+import { useDispatch } from "react-redux";
 
 //MUI
 import { Typography } from '@material-ui/core'
 
 function RivalsList() {
-  const loadedRivals = useSelector(state => state.session.rivals)
-  const user = useSelector(state => state.session.user)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [rivals, setRivals] = useState([])
+  const dispatch = useDispatch();
+  const loadedRivals = useSelector((state) => state.session.rivals);
+  const user = useSelector((state) => state.session.user);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [rivals, setRivals] = useState([]);
+  useEffect(() => {
+    if (user) {
+      dispatch(sessionActions.retrieveRivals(user.id))
+        .then((data) => setRivals(data.rivals))
+        .then(setIsLoaded(true));
+    }
+  }, [user]);
 
   useEffect(() => {
     setIsLoaded(true)
