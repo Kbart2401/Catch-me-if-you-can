@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 const navs = [
   {
     title: 'Dashboard',
-    path: '/home'
+    path: '/dashboard'
   },
   {
     title: 'Routes',
@@ -151,7 +151,7 @@ const Header = (props) => {
 
         {/* LEFT */}
         <div className={classes.navBar_left}>
-          <Button onClick={() => handleMenuClick('/home')}>
+          <Button onClick={() => handleMenuClick('/dashboard')}>
             <Typography color='primary' >Catch Me If You Can</Typography>
           </Button>
         </div>

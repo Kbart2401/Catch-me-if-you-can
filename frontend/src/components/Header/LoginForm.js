@@ -48,15 +48,15 @@ const LoginForm = (props) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const onLogin = async (e) => {
-		e.preventDefault();
-		setErrors([]);
-		dispatch(sessionActions.loginUser({ email, password }))
-			.then(history.push("/home"))
-			.catch((res) => {
-				if (res.data && res.data.errors) setErrors(res.data.errors);
-			});
-	};
+  const onLogin = async (e) => {
+    e.preventDefault();
+    setErrors([]);
+    dispatch(sessionActions.loginUser({ email, password })).then(history.push('/dashboard')).catch(
+      res => {
+        if (res.data && res.data.errors) setErrors(res.data.errors)
+      }
+    )
+  };
 
 	const handleChange = (prop) => (e) => {
 		switch (prop) {

@@ -14,6 +14,7 @@ import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
+
 function RivalsList() {
 	const dispatch = useDispatch();
 	const loadedRivals = useSelector((state) => state.session.rivals);
