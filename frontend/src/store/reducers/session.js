@@ -1,7 +1,7 @@
 import { SET_USER, REMOVE_USER, SET_RIVALS,
 SET_ROUTES } from '../actions/session';
 
-const initialState = { user: null };
+const initialState = { user: null, rivals: [] };
 const sessionReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
@@ -14,8 +14,10 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = null;
       return newState;
     case SET_RIVALS:
-      newState = Object.assign({...state}, {rivals: action.payload});
-      return newState;
+      console.log('setting rivals')
+      newState = Object.assign({}, state);
+      newState.rivals = [ ...action.payload ]
+      return newState
     case SET_ROUTES:
       newState = Object.assign({...state}, {created_routes: action.payload})
       return newState;
