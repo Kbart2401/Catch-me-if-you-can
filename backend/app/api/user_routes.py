@@ -39,7 +39,7 @@ def user():
             new_rivals = map(to_obj, rivals)
             my_rivals = list(new_rivals)
         else:
-            my_rivals = ''
+            my_rivals = []
         if total_times:
             if isinstance(total_times, list):
                 def run_times(total_time):

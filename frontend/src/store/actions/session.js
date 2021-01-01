@@ -30,7 +30,10 @@ export const loginUser = (user) => async (dispatch) => {
     if (res.ok) {
       const data = await res.json()
       dispatch(setUser(data));
-
+      window.location.replace("/dashboard")
+      //   .catch((res) => {
+			// 	if (res.data && res.data.errors) setErrors(res.data.errors);
+			// });
       return data;
     }
   } catch (e) {

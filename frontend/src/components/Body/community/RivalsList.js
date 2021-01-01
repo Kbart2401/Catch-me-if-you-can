@@ -20,7 +20,7 @@ function RivalsList() {
 	const loadedRivals = useSelector((state) => state.session.rivals);
 	const user = useSelector((state) => state.session.user);
 	const [isLoaded, setIsLoaded] = useState(false);
-	// const [rivals, setRivals] = useState([]);
+	const [rivals, setRivals] = useState([]);
 	const [users, setUsers] = useState([]);
 	const [query, setQuery] = useState("");
 
