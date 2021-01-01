@@ -11,11 +11,13 @@ def new_route():
     user_creator = request.get_json().get('id')
     name = request.get_json().get('name')
     route_coordinates = request.get_json().get('routeCoordinates')
+    distance = request.get_json().get('distance')
     date_created = request.get_json().get('dateCreated')
     route = Route(
         name=name,
         user_creator=user_creator,
         route_coordinates=route_coordinates,
+        distance=distance,
         date_created=date_created
     )
     db.session.add(route)
