@@ -16,16 +16,24 @@ function makeRadius(lngLatArray, radiusInMeters) {
 
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
-  const [location, setLocation] = useState([]);
-  const [coords, setCoords] = useState([]); 
-  const [searchData, setSearchData] = useState({})
+  //set circle coordinates
+  const [polyCoords, setPolyCoords] = useState([]); 
+  //create source with circle radius layer
+  const [searchData, setSearchData] = useState({});
+  //after submission click of search runs
   const [isLoaded, setIsLoaded] = useState(false);
+  //all runs created prior to filtering
+  const [allRoutes, setAllRoutes] = useState([]);
+  //markers show runs in your area after filtering
   const [markers, setMarkers] = useState([]);
+  //estalish pop-ups for marker selected
+  const [selectPoint, setSelectPoint] = useState(null);
+  const [index, setIndex] = useState(0);
+  //set route details on popup
   const [radius, setRadius] = useState(0); 
   const [distance, setDistance] = useState(0)
-  const [selectPoint, setSelectPoint] = useState(null);
   const [names, setName] = useState([]);
-  const [index, setIndex] = useState('HEH');
+
   const user = useSelector((state) => state.session.user)
 
   //DELETE ME - we will fetch from backend not from redux
@@ -51,9 +59,10 @@ const MapSearch = () => {
   
   //click event for dropping marker on map && creating radius
   function clickLocation(event) {
-    setLocation([event.lngLat[0], event.lngLat[1]]);
+    
+    setMarkers([]); 
     const point = turf.point([event.lngLat[0], event.lngLat[1]]);
-    const buffered = turf.buffer(point, 80, { units: 'kilometers' });
+    const buffered = turf.buffer(point, 1500, { units: 'meters' });
     const geojson = {
         type: 'FeatureCollection', 
         features: [
@@ -66,7 +75,7 @@ const MapSearch = () => {
             }
         ]
     }
-    setCoords(buffered.geometry.coordinates);
+    setPolyCoords(buffered.geometry.coordinates);
     setSearchData(geojson); 
     setIsLoaded(true);   
   };
@@ -77,24 +86,14 @@ const MapSearch = () => {
       var routemarkers = createdRoutes.map(route => {
         return route.route_coordinates[0]
       })
-      // setMarkers(routemarkers)
-    }
-    console.log(routemarkers);
+    };
+    
     let results = [];
-    // const point = turf.point(location); 
-    // console.log('POINT', point);
-    // const poly = turf.polygon(coords); 
-    // console.log('POLY', poly)
-    // let result = (turf.inside(point, poly))
-    // console.log(result); 
     routemarkers.forEach(marker => {
       const point = turf.point([marker[1], marker[0]]);
-      console.log('HELLO', point); 
-      const poly = turf.polygon(coords); 
-      console.log('POLY', poly)
-      console.log(turf.inside(point,poly))
+      const poly = turf.polygon(polyCoords); 
+    
       if (turf.inside(point, poly)) {
-        console.log('HEY THERE')
         results.push(marker); 
       } 
       setMarkers(results); 
@@ -125,23 +124,40 @@ return (
       mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
       mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
       onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
-      {location.length === 2 && 
-        <Marker longitude={location[0]} latitude={location[1]}>
-          <SearchPin />
-        </Marker>
-      }      
       {isLoaded &&
       <>
         <Source id="search-data" type="geojson" data={searchData}>
             <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
         </Source>
-        {markers.map((marker) => {
+        {markers.map((marker, i) => {
           return (
             <Marker latitude={marker[0]} longitude={marker[1]}>
-              <SearchPin />
+              <button>
+                onClick={e => {
+                    e.preventDefault();
+                    setSelectPoint(marker);
+                    setIndex(i);
+                }}
+                <SearchPin />
+              </button>
             </Marker>
             )
         })}
+        {selectPoint ? (
+            <Popup
+                latitude={selectPoint.coordinates[0]}
+                longitude={selectPoint.coordinates[1]}
+                onClose={() => {
+                    setSelectPoint(null);
+                }}
+            >
+                <div>
+                    {names[index]}
+                latitude: {selectPoint.coordinates[0]}
+                longitude: {selectPoint.coordinates[1]}
+                </div>
+            </Popup>
+        ) : null}
       </>
       }
     </ReactMapGL>
