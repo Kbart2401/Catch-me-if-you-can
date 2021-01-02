@@ -21,7 +21,18 @@ def add_runtime():
     return run_time.to_dict()
 
 # Search for all runTimes associated with specific route
-@runTime_routes.route('/<int:route_id>')
+@runTime_routes.route('/routes/<int:route_id>')
 @login_required
 def get_runtimes_for_route(route_id):
-    
+    run_times = RunTime.query.filter_by(route_id=route_id)
+    return {"run_times": [run_time.to_dict() for run_time in run_times]}
+
+# Search for all runTimes associated with user
+@runTime_routes.route('/users/<int:id>')
+@login_required
+def get_runtimes_for_user(id):
+    run_times = RunTime.query.filter_by(user_id=id).all()
+    run_times.sort(key=lambda x: x.date_ran, reverse=False)
+    if len(run_times) >= 10:
+        run_times = run_times[:10]
+    return {"run_times": [run_time.to_dict() for run_time in run_times]}
