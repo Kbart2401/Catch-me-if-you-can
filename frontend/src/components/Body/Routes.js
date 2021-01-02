@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from '../Body/Map'
+import Map from './Map/Map'
 
 const Routes = (props) => {
   return (

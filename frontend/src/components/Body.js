@@ -4,14 +4,15 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 //Components
 import LoginForm from './Header/LoginForm';
 import SignUpForm from './Header/SignUpForm';
+
 import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
 import Splash from './Body/Splash';
 import User from './Body/User';
 import UsersList from './Body/UsersList';
-import RivalsList from './Body/community/RivalsList';
+import RivalsList from './Body/Community/RivalsList';
 import Routes from './Body/Routes';
-import MapSearch from './Body/MapSearch';
+import MapSearch from './Body/Map/MapSearch';
 
 //MUI
 import Paper from '@material-ui/core/Paper';
