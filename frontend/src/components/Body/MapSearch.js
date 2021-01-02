@@ -3,7 +3,7 @@ import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import Pin from './Pin';
 import { useSelector } from 'react-redux';
 import './Map.css';
-import * as turf from 'turf'
+import * as turf from '@turf/turf'
 const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
 const tilequeryClient = mbxTilesets({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
 
@@ -46,12 +46,11 @@ const MapSearch = () => {
   
   navigator.geolocation.getCurrentPosition(success, error);
   
-  //click event for dropping marker on map
+  //click event for dropping marker on map && creating radius
   function clickMarker(event) {
     setMarker([event.lngLat[0], event.lngLat[1]]);
-    // const searchRadius = makeRadius([-90.548630, 14.616599], 15000); 
-    const point = turf.point(event.lngLat);
-    const buffered = turf.buffer(point, 500, { units: 'meters' }); 
+    const point = turf.point([event.lngLat[0], event.lngLat[1]]);
+    const buffered = turf.buffer(point, 80, { units: 'kilometers' }); 
     console.log(buffered)
   };
 
