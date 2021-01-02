@@ -17,7 +17,7 @@ function makeRadius(lngLatArray, radiusInMeters) {
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
   const [marker, setMarker] = useState([])
-  const [routeData, setRouteData] = useState({})
+  const [searchData, setSearchData] = useState({})
   const [isLoaded, setIsLoaded] = useState(false)
   const [distance, setDistance] = useState(0)
   const [selectPoint, setSelectPoint] = useState(null);
@@ -50,8 +50,21 @@ const MapSearch = () => {
   function clickMarker(event) {
     setMarker([event.lngLat[0], event.lngLat[1]]);
     const point = turf.point([event.lngLat[0], event.lngLat[1]]);
-    const buffered = turf.buffer(point, 80, { units: 'kilometers' }); 
-    console.log(buffered)
+    const buffered = turf.buffer(point, 0.5, { units: 'kilometers' });
+    const geojson = {
+        type: 'FeatureCollection', 
+        features: [
+            {
+              type: 'Feature', 
+              geometry: {
+                  type: 'Polygon',
+                  coordinates: buffered.geometry.coordinates,            
+              }
+            }
+        ]
+    }
+    setSearchData(geojson); 
+    setIsLoaded(true);   
   };
 
   //Get geolocation and set marker locations
@@ -80,41 +93,13 @@ return (
           <Pin />
         </Marker>
       }      
-      {/* {isLoaded &&
-        <>
-          {marker.map((marker, i) => {
-            return (
-              <Marker latitude={marker[0]} longitude={marker[1]}>
-                <button
-                  onClick={e => {
-                    e.preventDefault();
-                    setSelectPoint(marker);
-                    setIndex(i);
-                  }}
-                >
-                  <Pin />
-                </button>
-              </Marker>
-            )
-          })}
-
-          {selectPoint ? (
-            <Popup
-              latitude={selectPoint.coordinates[0]}
-              longitude={selectPoint.coordinates[1]}
-              onClose={() => {
-                setSelectPoint(null);
-              }}
-            >
-              <div>
-                {names[index]}
-                                latitude: {selectPoint.coordinates[0]}
-                                longitude: {selectPoint.coordinates[1]}
-              </div>
-            </Popup>
-          ) : null}
-        </>
-      } */}
+      {isLoaded &&
+      <>
+          <Source id="search-data" type="geojson" data={searchData}>
+              <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
+          </Source>
+      </>
+      }
     </ReactMapGL>
   </div>
 )

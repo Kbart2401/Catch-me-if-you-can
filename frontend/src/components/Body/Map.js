@@ -53,7 +53,6 @@ const Map = () => {
             })
                 .send()
                 .then(response => {
-                    console.log(response.body)
                     const route = response.body.routes[0].geometry.coordinates;
                     const dist = response.body.routes[0].distance;
 
