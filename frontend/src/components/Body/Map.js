@@ -111,6 +111,7 @@ const Map = () => {
                 id: user.id,
                 routeCoordinates: markers,
                 name: 'New route',
+                distance
             })
         })
     }
