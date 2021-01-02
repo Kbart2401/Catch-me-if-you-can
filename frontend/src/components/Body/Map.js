@@ -43,7 +43,7 @@ const Map = () => {
         if (markers.length >= 2) {
             const ways = markers.map(marker => {
                 return {
-                    coordinates: [marker[1], marker[0]]
+                    coordinates: [marker[0], marker[1]]
                 }
             });
             directionsClient.getDirections({
@@ -53,7 +53,6 @@ const Map = () => {
             })
                 .send()
                 .then(response => {
-                    console.log(response.body)
                     const route = response.body.routes[0].geometry.coordinates;
                     const dist = response.body.routes[0].distance;
 
@@ -87,7 +86,7 @@ const Map = () => {
     //click event for dropping marker on map
     function clickMarker(event) {
         setMarkers([...markers,
-        [event.lngLat[1], event.lngLat[0]]
+        [event.lngLat[0], event.lngLat[1]]
         ])
     };
 
@@ -132,7 +131,7 @@ const Map = () => {
                 mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
                 onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
                 {markers.length === 1 &&
-                    <Marker latitude={markers[0][0]} longitude={markers[0][1]}>
+                    <Marker latitude={markers[0][1]} longitude={markers[0][0]}>
                         <Pin />
                     </Marker>
                 }
@@ -143,7 +142,7 @@ const Map = () => {
                         </Source>
                         {markers.map((marker, i) => {
                             return (
-                                <Marker latitude={marker[0]} longitude={marker[1]}>
+                                <Marker latitude={marker[1]} longitude={marker[0]}>
                                     <button
                                         onClick={e => {
                                             e.preventDefault();
@@ -159,8 +158,8 @@ const Map = () => {
 
                         {selectPoint ? (
                             <Popup
-                                latitude={selectPoint.coordinates[0]}
-                                longitude={selectPoint.coordinates[1]}
+                                latitude={selectPoint.coordinates[1]}
+                                longitude={selectPoint.coordinates[0]}
                                 onClose={() => {
                                     setSelectPoint(null);
                                 }}
