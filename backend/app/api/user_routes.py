@@ -16,10 +16,8 @@ def users():
 @user_routes.route('/restore')
 @login_required
 def user():
-    print('INSIDE ROUTE!!!!!!!!!!!!!')
     if current_user.is_authenticated:
         user = current_user
-        print('CURRENT USER', current_user)
         # user = User.query.get(id)
         # get total running time
         total_times = RunTime.query.filter_by(user_id=user.id).all()
@@ -37,9 +35,9 @@ def user():
                 return {'first_name': obj.first_name, "last_name": obj.last_name, 
                     "email": obj.email, "gender": obj.gender}
             new_rivals = map(to_obj, rivals)
-            my_rivals = tuple(new_rivals)
+            my_rivals = list(new_rivals)
         else:
-            my_rivals = ''
+            my_rivals = []
         if total_times:
             if isinstance(total_times, list):
                 def run_times(total_time):

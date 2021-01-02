@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
     gender = db.Column(db.String(40))
+    height = db.Column(db.Integer)
+    weight = db.Column(db.Float, nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
     routes = db.relationship('Route', back_populates='user')
     run_times = db.relationship('RunTime', back_populates='user')
@@ -42,7 +44,9 @@ class User(db.Model, UserMixin):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "email": self.email,
-            "gender": self.gender
+            "gender": self.gender,
+            "height": self.height,
+            "weight": self.weight
         }
 
     def __repr__(self):

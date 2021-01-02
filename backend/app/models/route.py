@@ -8,7 +8,8 @@ class Route(db.Model):
   name = db.Column(db.String(40), nullable=False)
   user_creator = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   user = db.relationship('User', back_populates='routes', primaryjoin='User.id==Route.user_creator')
-  route_coordinates = db.Column(db.ARRAY(db.Integer))
+  route_coordinates = db.Column(db.ARRAY(db.Float))
+  distance = db.Column(db.Float, nullable=False)
   date_created = db.Column(db.Date())
   run_times = db.relationship('RunTime', back_populates='route')
 
@@ -18,5 +19,6 @@ class Route(db.Model):
         "name": self.name,
         "user_creator": self.user_creator,
         "route_coordinates": self.route_coordinates,
+        "distance": self.distance,
         "date_created": self.date_created
     }

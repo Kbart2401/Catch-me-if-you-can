@@ -62,6 +62,8 @@ const SignUpForm = (props) => {
   const [lastname, setLastname] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("")
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -70,8 +72,8 @@ const SignUpForm = (props) => {
   const onSignUp = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-      dispatch(sessionActions.signupUser({ firstname, lastname, gender, email, password }))
-      history.push('/home')
+      dispatch(sessionActions.signupUser({ firstname, lastname, gender, email, height, weight, password }))
+      history.push('/dashboard')
     } else {
       setErrors(['Please confirm your inputs are valid'])
     }
@@ -90,6 +92,12 @@ const SignUpForm = (props) => {
         break;
       case 'gender':
         setGender(e.target.value);
+        break;
+      case 'height':
+        setHeight(e.target.value);
+        break;
+      case 'weight':
+        setWeight(e.target.value);
         break;
       case 'password':
         setPassword(e.target.value);
@@ -171,6 +179,30 @@ const SignUpForm = (props) => {
 									</MenuItem>
                 </Select>
               </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                type="text"
+                name="height"
+                onChange={handleChange('height')}
+                value={height}
+                label="Height(cm)"
+                required={true}
+                autoFocus
+                variant="outlined"
+              ></TextField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                type="text"
+                name="weight"
+                onChange={handleChange('weight')}
+                value={weight}
+                label="Weight"
+                required={true}
+                autoFocus
+                variant="outlined"
+              ></TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField

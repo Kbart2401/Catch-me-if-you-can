@@ -1,8 +1,8 @@
-"""empty message
+"""create tables
 
-Revision ID: 9f909dc3e023
+Revision ID: b35043b1d35c
 Revises: 
-Create Date: 2020-12-28 19:41:04.523461
+Create Date: 2020-12-31 19:20:47.598530
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9f909dc3e023'
+revision = 'b35043b1d35c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,8 @@ def upgrade():
     sa.Column('last_name', sa.String(length=40), nullable=False),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('gender', sa.String(length=40), nullable=True),
+    sa.Column('height', sa.Integer(), nullable=True),
+    sa.Column('weight', sa.Float(), nullable=False),
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
@@ -39,7 +41,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=40), nullable=False),
     sa.Column('user_creator', sa.Integer(), nullable=False),
-    sa.Column('route_coordinates', sa.ARRAY(sa.Integer()), nullable=True),
+    sa.Column('route_coordinates', sa.ARRAY(sa.Float()), nullable=True),
+    sa.Column('distance', sa.Float(), nullable=False),
     sa.Column('date_created', sa.Date(), nullable=True),
     sa.ForeignKeyConstraint(['user_creator'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')

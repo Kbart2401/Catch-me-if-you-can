@@ -2,5 +2,7 @@
 __pycache__/
 *.py[cod]
 .venv
+/frontend 
 .vscode/launch.json
+/backend/migrations/versions
 
