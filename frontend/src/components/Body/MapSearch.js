@@ -3,8 +3,16 @@ import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import Pin from './Pin';
 import { useSelector } from 'react-redux';
 import './Map.css';
-const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
-import * as turf from '@turf/turf'
+import * as turf from 'turf'
+const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
+const tilequeryClient = mbxTilesets({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
+
+//create map radius for search area 
+function makeRadius(lngLatArray, radiusInMeters) {
+  const point = turf.point(lngLatArray); 
+  const buffered = turf.buffer(point, radiusInMeters, { units: 'meters' }); 
+  return buffered; 
+}
 
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
@@ -40,8 +48,11 @@ const MapSearch = () => {
   
   //click event for dropping marker on map
   function clickMarker(event) {
-    setMarker([event.lngLat[1], event.lngLat[0]])
-    console.log(marker); 
+    setMarker([event.lngLat[0], event.lngLat[1]]);
+    // const searchRadius = makeRadius([-90.548630, 14.616599], 15000); 
+    const point = turf.point(event.lngLat);
+    const buffered = turf.buffer(point, 500, { units: 'meters' }); 
+    console.log(buffered)
   };
 
   //Get geolocation and set marker locations
@@ -66,7 +77,7 @@ return (
       mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
       onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
       {marker.length === 2 && 
-        <Marker latitude={marker[0]} longitude={marker[1]}>
+        <Marker longitude={marker[0]} latitude={marker[1]}>
           <Pin />
         </Marker>
       }      
