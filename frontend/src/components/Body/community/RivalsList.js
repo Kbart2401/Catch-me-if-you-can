@@ -34,22 +34,26 @@ function RivalsList() {
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
 			.then((data) => {
-				console.log(data.users);
+				console.log("data.users", data.users);
 				const results = data.users.filter((user) => checkSearch(user));
+				// console.log("Results for SetUsers", results)
 				setUsers(results);
 			})
 			.then(setIsLoaded(true));
 	}, [query]);
 
 	const checkSearch = (searchObj) => {
+		// console.log("In checkSearch", searchObj)
+		// console.log("query ", query)
+		// console.log("Object values", Object.values(searchObj))
+		// console.log("Object values", Object.values(searchObj).includes(query))
 		if (query !== "") {
 			return (
-				Object.values(searchObj).includes(query.toLowerCase()) ||
-				Object.values(searchObj).includes(query.toUpperCase())
+				Object.values(searchObj).includes(query)
 			);
 		}
 	};
-
+	console.log("Users before render", users)
 	return (
 		isLoaded && (
 			<>
