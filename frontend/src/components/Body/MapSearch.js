@@ -62,7 +62,7 @@ const MapSearch = () => {
     setNames([]);
     setDistances([]); 
     const point = turf.point([event.lngLat[0], event.lngLat[1]]);
-    const buffered = turf.buffer(point, 80, { units: 'kilometers' });
+    const buffered = turf.buffer(point, radius, { units: 'kilometers' });
     const geojson = {
         type: 'FeatureCollection', 
         features: [
@@ -81,7 +81,8 @@ const MapSearch = () => {
   };
 
   //click event for searching for runs 
-  function findRuns() {
+  function findRuns(e) {
+    e.preventDefault(); 
     let routes = []; 
     if (createdRoutes) {
       createdRoutes.forEach(route => {
@@ -99,8 +100,8 @@ const MapSearch = () => {
       if (turf.inside(point, poly)) {
         results.push(marker); 
       } 
-      setMarkers(results); 
     })
+    setMarkers(results); 
   }
 
   //Get geolocation and set marker locations
@@ -120,6 +121,12 @@ const MapSearch = () => {
 
 return (
   <div className={"map_container"}>
+    <form onSubmit={findRuns}>
+      <label>
+        Distance
+        <input type="number" value={radius} onChange={e => setRadius(e.target.value)} />
+      </label>
+    </form>
     <button onClick={findRuns}>
       Search for Runs
     </button>
@@ -138,8 +145,8 @@ return (
               <button
                 onClick={e => {
                     e.preventDefault();
-                    // setSelectPoint([marker[1], marker[0]]);
-                    // setIndex(i);
+                    setSelectPoint(marker);
+                    setIndex(i);
                 }}
               >
                 <SearchPin />
@@ -149,6 +156,8 @@ return (
         })}
         {selectPoint ? (
             <Popup
+                latitude={selectPoint[1]}
+                longitude={selectPoint[0]}
                 onClose={() => {
                     setSelectPoint(null);
                 }}

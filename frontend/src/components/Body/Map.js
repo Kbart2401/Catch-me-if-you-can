@@ -158,8 +158,8 @@ const Map = () => {
 
                         {selectPoint ? (
                             <Popup
-                                latitude={selectPoint.coordinates[0]}
-                                longitude={selectPoint.coordinates[1]}
+                                latitude={selectPoint.coordinates[1]}
+                                longitude={selectPoint.coordinates[0]}
                                 onClose={() => {
                                     setSelectPoint(null);
                                 }}
