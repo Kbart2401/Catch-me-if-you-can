@@ -14,6 +14,7 @@ function makeRadius(lngLatArray, radiusInMeters) {
   return buffered; 
 }
 
+//ALL MARKER REFERENCES WILL NEED TO BE CHANGED ONCE TABLE DATA MODIFIED
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
   //set circle coordinates
@@ -22,8 +23,6 @@ const MapSearch = () => {
   const [searchData, setSearchData] = useState({});
   //after submission click of search runs
   const [isLoaded, setIsLoaded] = useState(false);
-  //all runs created prior to filtering
-  const [allRoutes, setAllRoutes] = useState([]);
   //markers show runs in your area after filtering
   const [markers, setMarkers] = useState([]);
   //estalish pop-ups for marker selected
@@ -31,8 +30,8 @@ const MapSearch = () => {
   const [index, setIndex] = useState(0);
   //set route details on popup
   const [radius, setRadius] = useState(0); 
-  const [distance, setDistance] = useState(0)
-  const [names, setName] = useState([]);
+  const [distances, setDistances] = useState([]);
+  const [names, setNames] = useState([]);
 
   const user = useSelector((state) => state.session.user)
 
@@ -59,10 +58,11 @@ const MapSearch = () => {
   
   //click event for dropping marker on map && creating radius
   function clickLocation(event) {
-    
-    setMarkers([]); 
+    setMarkers([]);
+    setNames([]);
+    setDistances([]); 
     const point = turf.point([event.lngLat[0], event.lngLat[1]]);
-    const buffered = turf.buffer(point, 1500, { units: 'meters' });
+    const buffered = turf.buffer(point, 80, { units: 'kilometers' });
     const geojson = {
         type: 'FeatureCollection', 
         features: [
@@ -82,15 +82,18 @@ const MapSearch = () => {
 
   //click event for searching for runs 
   function findRuns() {
+    let routes = []; 
     if (createdRoutes) {
-      var routemarkers = createdRoutes.map(route => {
-        return route.route_coordinates[0]
+      createdRoutes.forEach(route => {
+        routes.push(route.route_coordinates[0]);
+        setNames([...names, route.name]); 
+        setDistances([...distances, route.distance]); 
       })
     };
-    
+     
     let results = [];
-    routemarkers.forEach(marker => {
-      const point = turf.point([marker[1], marker[0]]);
+    routes.forEach(marker => {
+      const point = turf.point([marker[0], marker[1]]);
       const poly = turf.polygon(polyCoords); 
     
       if (turf.inside(point, poly)) {
@@ -131,13 +134,14 @@ return (
         </Source>
         {markers.map((marker, i) => {
           return (
-            <Marker latitude={marker[0]} longitude={marker[1]}>
-              <button>
+            <Marker latitude={marker[1]} longitude={marker[0]}>
+              <button
                 onClick={e => {
                     e.preventDefault();
-                    setSelectPoint(marker);
-                    setIndex(i);
+                    // setSelectPoint([marker[1], marker[0]]);
+                    // setIndex(i);
                 }}
+              >
                 <SearchPin />
               </button>
             </Marker>
@@ -145,16 +149,13 @@ return (
         })}
         {selectPoint ? (
             <Popup
-                latitude={selectPoint.coordinates[0]}
-                longitude={selectPoint.coordinates[1]}
                 onClose={() => {
                     setSelectPoint(null);
                 }}
             >
                 <div>
                     {names[index]}
-                latitude: {selectPoint.coordinates[0]}
-                longitude: {selectPoint.coordinates[1]}
+                    {distances[index]}
                 </div>
             </Popup>
         ) : null}
