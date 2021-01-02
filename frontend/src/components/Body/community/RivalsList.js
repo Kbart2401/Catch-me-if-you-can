@@ -42,6 +42,10 @@ function RivalsList() {
 	}, [query]);
 
 	const checkSearch = (searchObj) => {
+		console.log("In checkSearch", searchObj)
+		console.log("query ", query)
+		console.log("Object values", Object.values(searchObj))
+		console.log("Object values", Object.values(searchObj).includes(query))
 		if (query !== "") {
 			return (
 				Object.values(searchObj).includes(query.toLowerCase()) ||
