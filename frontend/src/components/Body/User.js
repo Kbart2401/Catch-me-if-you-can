@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Dashboard from "./Dashboard/Dashboard";
 
 function User() {
   const [user, setUser] = useState({});
@@ -21,18 +22,19 @@ function User() {
   if (!user) {
     return null;
   }
-
+  console.log("user ", user)
   return (
     <ul>
       <li>
         <strong>User Id</strong> {userId}
       </li>
       <li>
-        <strong>Username</strong> {user.username}
+        <strong>Name</strong> {user.first_name} {user.last_name}
       </li>
       <li>
         <strong>Email</strong> {user.email}
       </li>
+      <Dashboard />
     </ul>
   );
 }

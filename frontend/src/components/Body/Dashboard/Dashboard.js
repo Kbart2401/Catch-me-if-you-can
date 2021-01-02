@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 //Components
 import BarGraph from './Graph';
 import Routes from './myRoutes';
+import History from "./History";
 
 //MUI
 import { makeStyles, Typography } from '@material-ui/core';
@@ -12,7 +13,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 
 //Icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import History from './History';
+
 
 const useStyles = makeStyles(() => ({
   root: {
