@@ -166,8 +166,8 @@ const Map = () => {
                             >
                                 <div>
                                     {names[index]}
-                                latitude: {selectPoint.coordinates[0]}
-                                longitude: {selectPoint.coordinates[1]}
+                                latitude: {selectPoint.coordinates[1]}
+                                longitude: {selectPoint.coordinates[0]}
                                 </div>
                             </Popup>
                         ) : null}
