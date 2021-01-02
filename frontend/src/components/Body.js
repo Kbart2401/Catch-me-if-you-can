@@ -7,7 +7,7 @@ import SignUpForm from './Header/SignUpForm';
 import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
 import Splash from './Body/Splash';
-import User from './Body/User';
+import User from './Body/Profile';
 import UsersList from './Body/UsersList';
 import RivalsList from './Body/community/RivalsList';
 import Routes from './Body/Routes';
