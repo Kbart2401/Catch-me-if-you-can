@@ -12,6 +12,12 @@ def users():
     users = User.query.all()
     return {"users": [user.to_dict() for user in users]}
 
+@user_routes.route('/<')
+@login_required
+def users():
+    users = User.query.all()
+    return {"users": [user.to_dict() for user in users]}
+
 # Restore user
 @user_routes.route('/restore')
 @login_required
@@ -33,7 +39,7 @@ def user():
         if rivals:
             def to_obj(obj):
                 return {"id": obj.id, "first_name": obj.first_name, "last_name": obj.last_name, 
-                    "email": obj.email, "gender": obj.gender, "height":obj.height, "weight"}
+                    "email": obj.email, "gender": obj.gender, "height":obj.height, "weight":obj.weight}
             new_rivals = map(to_obj, rivals)
             my_rivals = list(new_rivals)
         else:
