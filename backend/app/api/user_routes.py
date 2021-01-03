@@ -23,9 +23,6 @@ def users():
 def user():
     if current_user.is_authenticated:
         user = current_user
-        # user = User.query.get(id)
-        # get total running time
-        total_times = RunTime.query.filter_by(user_id=user.id).all()
         # get user created routes
         data = Route.query.filter_by(user_creator=user.id).all()
         def route_to_dict(obj):
@@ -43,6 +40,8 @@ def user():
             my_rivals = list(new_rivals)
         else:
             my_rivals = []
+        # get total running time
+        total_times = RunTime.query.filter_by(user_id=user.id).all()
         if total_times:
             if isinstance(total_times, list):
                 def run_times(total_time):
