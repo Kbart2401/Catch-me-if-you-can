@@ -22,6 +22,7 @@ const History = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
+  const id = 10
   const rows = [
     {
       name: 'Apple Hill',
@@ -29,7 +30,7 @@ const History = (props) => {
       time: 50,
       location: 'Somewhere',
       date: '--/--/--',
-      path: '/route'
+      path: `/route/${id}`
     },
     {
       name: 'Banana Hill',
@@ -37,7 +38,7 @@ const History = (props) => {
       time: 50,
       location: 'Wheresome',
       date: '--/--/--',
-      path: '/route'
+      path: `/route/${id}`
     },
     {
       name: 'lol Hill',
@@ -45,7 +46,7 @@ const History = (props) => {
       time: 50,
       location: 'Hitherto',
       date: '--/--/--',
-      path: '/route'
+      path: `/route/${id}`
     },
     {
       name: 'No Hill',
@@ -53,7 +54,7 @@ const History = (props) => {
       time: 50,
       location: 'Hereabouts',
       date: '--/--/--',
-      path: '/route'
+      path: `/route/${id}`
     },
   ]
 

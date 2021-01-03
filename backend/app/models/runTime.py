@@ -1,4 +1,5 @@
 from .db import db
+import datetime
 
 
 class RunTime(db.Model):
@@ -8,7 +9,7 @@ class RunTime(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   route_id = db.Column(db.Integer, db.ForeignKey('routes.id'), nullable=False)
   time = db.Column(db.Integer)
-  date_ran = db.Column(db.DateTime)
+  date_ran = db.Column(db.DateTime, default=datetime.datetime.now())
   user = db.relationship('User', back_populates='run_times')
   route = db.relationship('Route', back_populates='run_times')
 
