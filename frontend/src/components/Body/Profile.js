@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Dashboard from "./Dashboard/Dashboard";
 import * as sessionActions from "../../store/actions/session.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function User() {
   const dispatch = useDispatch();
@@ -11,7 +11,8 @@ function User() {
   // Notice we use useParams here instead of getting the params
   // From props.
   const { userId, email }  = useParams();
-
+  const loadedRivals = useSelector((state) => state.session.rivals);
+  console.log("loaded rivals", loadedRivals)
   // useEffect(() => {
   //     console.log("in async useEffect", userId)
   //    fetch(`/api/users/${userId}`)
