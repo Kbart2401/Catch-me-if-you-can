@@ -18,9 +18,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Routes = (props) => {
+const MyRoutes = (props) => {
   const classes = useStyles();
   const history = useHistory();
+
+  const id = 10
 
   const rows = [
     {
@@ -28,28 +30,28 @@ const Routes = (props) => {
       distance: 5,
       rivals: 50,
       location: 'Somewhere',
-      path: '/route'
+      path: `/route/${id}`
     },
     {
       name: 'Banana Hill',
       distance: 5,
       rivals: 50,
       location: 'Wheresome',
-      path: '/route'
+      path: `/route/${id}`
     },
     {
       name: 'lol Hill',
       distance: 5,
       rivals: 50,
       location: 'Hitherto',
-      path: '/route'
+      path: `/route/${id}`
     },
     {
       name: 'No Hill',
       distance: 5,
       rivals: 50,
       location: 'Hereabouts',
-      path: '/route'
+      path: `/route/${id}`
     },
   ]
 
@@ -89,4 +91,4 @@ const Routes = (props) => {
   )
 }
 
-export default Routes
+export default MyRoutes

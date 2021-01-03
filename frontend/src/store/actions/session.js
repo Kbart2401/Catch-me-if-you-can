@@ -10,7 +10,7 @@ const setUser = (user) => ({ type: SET_USER, payload: user });
 const removeUser = (user) => ({ type: REMOVE_USER });
 const setRivals = (rivals) => ({ type: SET_RIVALS, payload: rivals });
 const setUsers = (users) => ({ type: SET_USERS, payload: users });
-const setCreatedRoutes = routes => ({type: SET_ROUTES, payload: routes})
+const setCreatedRoutes = routes => ({ type: SET_ROUTES, payload: routes })
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
@@ -31,9 +31,6 @@ export const loginUser = (user) => async (dispatch) => {
       const data = await res.json()
       dispatch(setUser(data));
       window.location.replace("/dashboard")
-      //   .catch((res) => {
-			// 	if (res.data && res.data.errors) setErrors(res.data.errors);
-			// });
       return data;
     }
   } catch (e) {
@@ -63,6 +60,8 @@ export const signupUser = (user) => async (dispatch) => {
     if (res.ok) {
       const data = await res.json()
       dispatch(setUser(data))
+      window.location.replace("/dashboard");
+      return data;
     }
   } catch (e) {
     console.error(e)

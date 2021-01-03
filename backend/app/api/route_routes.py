@@ -33,3 +33,10 @@ def remove_route():
     db.session.delete(route)
     db.session.commit()
     return route.to_dict()
+
+# Get all routes
+@route_routes.route('/')
+@login_required
+def get_all_routes():
+    routes = Route.query.all()
+    return {"routes": [route.to_dict() for route in routes]}
