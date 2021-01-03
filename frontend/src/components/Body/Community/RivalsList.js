@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as sessionActions from "../../../store/actions/session.js";
 import { useDispatch } from "react-redux";
-
+import SearchBar from "material-ui-search-bar";
 
 // MUI
 import List from "@material-ui/core/List";
@@ -13,10 +13,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-// import { SearchBar } from "@material-ui/core";
 
 
-function RivalsList() {
+const RivalsList = () => {
   const dispatch = useDispatch();
   const loadedRivals = useSelector((state) => state.session.rivals);
   const user = useSelector((state) => state.session.user);
@@ -35,18 +34,22 @@ function RivalsList() {
   useEffect(() => {
     dispatch(sessionActions.retrieveUsers())
       .then((data) => {
-        console.log(data.users);
+
         const results = data.users.filter((user) => checkSearch(user));
+        // console.log("Results for SetUsers", results)
         setUsers(results);
       })
       .then(setIsLoaded(true));
   }, [query]);
 
   const checkSearch = (searchObj) => {
+    // console.log("In checkSearch", searchObj)
+    // console.log("query ", query)
+    // console.log("Object values", Object.values(searchObj))
+    // console.log("Object values", Object.values(searchObj).includes(query))
     if (query !== "") {
       return (
-        Object.values(searchObj).includes(query.toLowerCase()) ||
-        Object.values(searchObj).includes(query.toUpperCase())
+        Object.values(searchObj).includes(query)
       );
     }
   };
@@ -57,11 +60,11 @@ function RivalsList() {
         <Typography component="h1" variant="h5">
           Search for new rivals:
 				</Typography>
-        {/* <SearchBar
+        <SearchBar
           placeholder="Enter rival's name "
           value={query}
           onChange={(term) => setQuery(term)}
-        /> */}
+        />
         <Typography component="h1" variant="h5">
           Search Results:{" "}
         </Typography>
