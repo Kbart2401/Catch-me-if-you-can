@@ -49,8 +49,8 @@ const MapSearch = () => {
         return route.route_coordinates[0]
       })
       setMarkers(routeMarkers)
-      }
-}, [createdRoutes])
+    }
+  }, [createdRoutes])
 
 
   //api request to the mapbox directions with SDK JS 
@@ -100,55 +100,55 @@ const MapSearch = () => {
   }, [markers]);
 
 
-return (
-  <div className={"map_container"}>
-    <ReactMapGL {...viewport}
-      mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
-      mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-      onViewportChange={viewport => setViewport(viewport)}>
-      {markers.length === 1 &&
-        <Marker latitude={markers[0][0]} longitude={markers[0][1]}>
-          <Pin />
-        </Marker>
-      }
-      {isLoaded &&
-        <>
-          {markers.map((marker, i) => {
-            return (
-              <Marker latitude={marker[0]} longitude={marker[1]}>
-                <button
-                  onClick={e => {
-                    e.preventDefault();
-                    setSelectPoint(marker);
-                    setIndex(i);
-                  }}
-                >
-                  <Pin />
-                </button>
-              </Marker>
-            )
-          })}
+  return (
+    <div className={"map_container"}>
+      <ReactMapGL {...viewport}
+        mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
+        mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
+        onViewportChange={viewport => setViewport(viewport)}>
+        {markers.length === 1 &&
+          <Marker latitude={markers[0][0]} longitude={markers[0][1]}>
+            <Pin />
+          </Marker>
+        }
+        {isLoaded &&
+          <>
+            {markers.map((marker, i) => {
+              return (
+                <Marker latitude={marker[0]} longitude={marker[1]}>
+                  <button
+                    onClick={e => {
+                      e.preventDefault();
+                      setSelectPoint(marker);
+                      setIndex(i);
+                    }}
+                  >
+                    <Pin />
+                  </button>
+                </Marker>
+              )
+            })}
 
-          {selectPoint ? (
-            <Popup
-              latitude={selectPoint.coordinates[0]}
-              longitude={selectPoint.coordinates[1]}
-              onClose={() => {
-                setSelectPoint(null);
-              }}
-            >
-              <div>
-                {names[index]}
+            {selectPoint ? (
+              <Popup
+                latitude={selectPoint.coordinates[0]}
+                longitude={selectPoint.coordinates[1]}
+                onClose={() => {
+                  setSelectPoint(null);
+                }}
+              >
+                <div>
+                  {names[index]}
                                 latitude: {selectPoint.coordinates[0]}
                                 longitude: {selectPoint.coordinates[1]}
-              </div>
-            </Popup>
-          ) : null}
-        </>
-      }
-    </ReactMapGL>
-  </div>
-)
+                </div>
+              </Popup>
+            ) : null}
+          </>
+        }
+      </ReactMapGL>
+    </div>
+  )
 }
 
 export default MapSearch; 

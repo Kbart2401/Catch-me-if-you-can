@@ -34,7 +34,7 @@ function RivalsList() {
   useEffect(() => {
     dispatch(sessionActions.retrieveUsers())
       .then((data) => {
-        console.log("data.users", data.users);
+
         const results = data.users.filter((user) => checkSearch(user));
         // console.log("Results for SetUsers", results)
         setUsers(results);
@@ -53,7 +53,7 @@ function RivalsList() {
       );
     }
   };
-  console.log("Users before render", users)
+
   return (
     isLoaded && (
       <>

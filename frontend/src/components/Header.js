@@ -76,22 +76,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const navs = [
-  {
-    title: 'Dashboard',
-    path: '/dashboard'
-  },
-  {
-    title: 'Routes',
-    path: '/routes'
-  },
-  {
-    title: 'Community',
-    path: '/community',
-  },
-]
-
-
 const Header = (props) => {
   const classes = useStyles();
   const history = useHistory();
@@ -103,8 +87,9 @@ const Header = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenuOpen = async (e) => {
+    // console.log(e.currentTarget)
+    await setAnchorEl(e.currentTarget.id);
   };
 
   const handleMenuClose = () => {
@@ -126,19 +111,40 @@ const Header = (props) => {
     history.push('/')
   }
 
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={() => handleMenuClick('/profile')}>Profile</MenuItem>
-      <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
-    </Menu >
-  );
+  const switchStatement = (id) => {
+    const el = document.getElementById(id)
+    switch (id) {
+      case 'route':
+        return (
+          <Menu
+            anchorEl={el}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={() => handleMenuClick('/dashboard')}><Typography>My Routes</Typography></MenuItem>
+            <MenuItem onClick={() => handleMenuClick('/routes')}><Typography>Create Route</Typography></MenuItem>
+            <MenuItem onClick={() => handleMenuClick('/community')}><Typography>Find Route</Typography></MenuItem>
+          </Menu>
+        )
+      case 'profile':
+        return (
+          <Menu
+            anchorEl={el}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={() => handleMenuClick('/profile')}>Profile</MenuItem>
+            <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
+          </Menu>
+        )
+    }
+  }
 
   useEffect(() => {
     setUser(loadedUser)
@@ -159,9 +165,21 @@ const Header = (props) => {
         {/* MIDDLE */}
         <div className={classes.navBar_middle}>
           <div className={classes.navBar_navContainer}>
-            {navs.map(nav => (
-              <Button key={nav.title} onClick={() => handleNavClick(nav.path)}><Typography>{nav.title}</Typography></Button>
-            ))}
+            <Button onClick={() => handleNavClick('/dashboard')}>
+              <Typography>Dashboard</Typography>
+            </Button>
+            <Button
+              id='route'
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              onClick={handleMenuOpen}
+              color="inherit">
+              <Typography>Routes</Typography>
+            </Button>
+            <Button onClick={() => handleNavClick('/community')}>
+              <Typography>Community</Typography>
+            </Button>
           </div>
         </div>
 
@@ -169,6 +187,7 @@ const Header = (props) => {
         <div className={classes.navBar_right}>
           {user ? (
             <Button
+              id='profile'
               edge="end"
               aria-label="account of current user"
               aria-haspopup="true"
@@ -183,17 +202,9 @@ const Header = (props) => {
             )}
         </div>
       </div >
-      { renderMenu}
+      {switchStatement(anchorEl)}
     </>
   )
 }
-
-// const Header = (props) => {
-//   return (
-//     <>
-//       <NavBar user={props.user} />
-//     </>
-//   )
-// }
 
 export default Header
