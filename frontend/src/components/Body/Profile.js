@@ -13,12 +13,11 @@ function User() {
   const { userId }  = useParams();
 
   useEffect(() => {
-    if (!userId) {
-      return
-    }
     (async () => {
+      console.log("in async useEffect", userId)
       const response = await fetch(`/api/users/${userId}`);
       const user = await response.json();
+      console.log("response user in async", user)
       console.log("User",user)
       setUser(user);
     })();
@@ -28,14 +27,27 @@ function User() {
 		dispatch(sessionActions.retrieveUsers())
 			.then((data) => {
 				console.log("data.users", data.users);
-				// console.log("Results for SetUsers", results)
-				setUsers(data);
+        // setTheUser(data)
+				setUsers(data.users);
 			})
   }, []);
+
+  // const setTheUser = (users) => {
+  //   console.log("Users in setTheUser",users)
+  //         const results = users.filter((user) => checkUser(user));
+  //         setUsers(results);
+  // }
   
+  // const checkUser = (user) => {
+  //   if (userId = user.id) {
+  //      return true 
+  //    }
+  // }
+  // setTheUser()
   if (!user) {
     return null;
   }
+  console.log("User in prof", userId)
   return (
     <ul>
       <li>
