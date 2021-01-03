@@ -6,7 +6,7 @@ import './Map.css';
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
 
-const Map = () => {
+const CreateMap = () => {
     const [viewport, setViewport] = useState({});
     const [markers, setMarkers] = useState([])
     const [routeData, setRouteData] = useState({})
@@ -35,7 +35,7 @@ const Map = () => {
 
     useEffect(()=> {
         navigator.geolocation.getCurrentPosition(success, error);
-    }, [])
+    }, []);
 
 
     //api request to the mapbox directions with SDK JS 
@@ -142,7 +142,7 @@ const Map = () => {
                         </Source>
                         {markers.map((marker, i) => {
                             return (
-                                <Marker latitude={marker[1]} longitude={marker[0]}>
+                                <Marker longitude={marker[0]} latitude={marker[1]} >
                                     <button
                                         onClick={e => {
                                             e.preventDefault();
@@ -158,16 +158,16 @@ const Map = () => {
 
                         {selectPoint ? (
                             <Popup
-                                latitude={selectPoint.coordinates[1]}
-                                longitude={selectPoint.coordinates[0]}
+                                longitude={selectPoint[0]}
+                                latitude={selectPoint[1]}
                                 onClose={() => {
                                     setSelectPoint(null);
                                 }}
                             >
                                 <div>
                                     {names[index]}
-                                latitude: {selectPoint.coordinates[0]}
-                                longitude: {selectPoint.coordinates[1]}
+                                longitude: {selectPoint[0]}
+                                latitude: {selectPoint[1]}
                                 </div>
                             </Popup>
                         ) : null}
@@ -178,4 +178,4 @@ const Map = () => {
     )
 }
 
-export default Map; 
+export default CreateMap; 
