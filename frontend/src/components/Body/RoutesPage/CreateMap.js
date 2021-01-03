@@ -6,7 +6,7 @@ import './Map.css';
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
 
-const Map = () => {
+const CreateMap = () => {
     const [viewport, setViewport] = useState({});
     const [markers, setMarkers] = useState([])
     const [routeData, setRouteData] = useState({})
@@ -178,4 +178,4 @@ const Map = () => {
     )
 }
 
-export default Map; 
+export default CreateMap; 
