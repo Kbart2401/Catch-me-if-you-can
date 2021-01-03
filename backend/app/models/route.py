@@ -1,4 +1,5 @@
 from .db import db
+import datetime
 
 
 class Route(db.Model):
@@ -10,7 +11,7 @@ class Route(db.Model):
   user = db.relationship('User', back_populates='routes', primaryjoin='User.id==Route.user_creator')
   route_coordinates = db.Column(db.ARRAY(db.Float))
   distance = db.Column(db.Float, nullable=False)
-  date_created = db.Column(db.Date())
+  date_created = db.Column(db.Date, default=datetime.datetime.today())
   run_times = db.relationship('RunTime', back_populates='route')
 
   def to_dict(self):
