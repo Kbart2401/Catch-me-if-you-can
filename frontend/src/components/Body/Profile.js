@@ -10,25 +10,26 @@ function User() {
   const [users, setUsers] = useState([])
   // Notice we use useParams here instead of getting the params
   // From props.
-  const { userId }  = useParams();
+  const { userId, email }  = useParams();
 
-  useEffect(() => {
-    (async () => {
-      console.log("in async useEffect", userId)
-      const response = await fetch(`/api/users/${userId}`);
-      const user = await response.json();
-      console.log("response user in async", user)
-      console.log("User",user)
-      setUser(user);
-    })();
-  }, [userId]);
+  // useEffect(() => {
+  //     console.log("in async useEffect", userId)
+  //    fetch(`/api/users/${userId}`)
+	// 			.then((response) => {
+	// 				response.json();
+	// 			})
+	// 			.then((responseJSON) => console.log("RESPONSE", responseJSON))
+  //     console.log("response user in async", user)
+  //     console.log("User",user)
+  //     setUser(user);
+  // }, [userId]);
 
   useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
 			.then((data) => {
-				console.log("data.users", data.users);
+				// console.log("data.users", data.users);
         // setTheUser(data)
-				setUsers(data.users);
+				setUsers(data);
 			})
   }, []);
 
@@ -47,7 +48,7 @@ function User() {
   if (!user) {
     return null;
   }
-  console.log("User in prof", userId)
+  // console.log("User in prof", userId)
   return (
     <ul>
       <li>
@@ -57,7 +58,7 @@ function User() {
         <strong>Name</strong> {user.firstname} {user.lastname}
       </li>
       <li>
-        <strong>Email</strong> {user.email}
+        <strong>Email</strong> {email}
       </li>
       <Dashboard />
     </ul>

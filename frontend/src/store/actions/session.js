@@ -93,13 +93,13 @@ export const restoreUser = () => async dispatch => {
 export const retrieveRivals = (userId) => async dispatch => {
   try {
     const res = await fetch(`/api/users/${userId}`);
-
     if (res.ok) {
+      console.log("**** IN RETRIEVE RIVALS *****")
       const data = await res.json()
       dispatch(setRivals(data.rivals))
       return data;
     }
-
+    
   } catch (e) {
     console.error(e)
   }
