@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
 
-function RivalsList() {
+const RivalsList = () => {
   const dispatch = useDispatch();
   const loadedRivals = useSelector((state) => state.session.rivals);
   const user = useSelector((state) => state.session.user);
