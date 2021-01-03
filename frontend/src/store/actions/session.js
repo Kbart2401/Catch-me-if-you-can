@@ -4,6 +4,8 @@ export const REMOVE_USER = 'Catch_Me_If_You_Can/session/REMOVE_USER';
 export const SET_RIVALS = 'Catch_Me_If_You_Can/session/SET_RIVALS';
 export const SET_USERS = 'Catch_Me_If_You_Can/session/SET_USERS';
 export const SET_ROUTES = 'Catch_Me_If_You_Can/session/SET_ROUTES';
+export const SET_TOTAL_TIME = 'Catch_Me_If_You_Can/session/SET_TOTAL_TIME'
+export const SET_TOTAL_DISTANCE = 'Catch_Me_If_You_Can/session/SET_TOTAL_DISTANCE'
 
 //Store Actions
 const setUser = (user) => ({ type: SET_USER, payload: user });
@@ -11,6 +13,8 @@ const removeUser = (user) => ({ type: REMOVE_USER });
 const setRivals = (rivals) => ({ type: SET_RIVALS, payload: rivals });
 const setUsers = (users) => ({ type: SET_USERS, payload: users });
 const setCreatedRoutes = routes => ({ type: SET_ROUTES, payload: routes })
+const setTotalDistance = distance => ({ type: SET_TOTAL_DISTANCE, payload: distance })
+const setTotalRunTime = time => ({ type: SET_TOTAL_TIME, payload: time })
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
@@ -81,6 +85,8 @@ export const restoreUser = () => async dispatch => {
       dispatch(setUser(data.user))
       dispatch(setRivals(data.rivals))
       dispatch(setCreatedRoutes(data.created_routes))
+      dispatch(setTotalDistance(data.total_distance))
+      dispatch(setTotalRunTime(data.total_time))
       return data
     }
   }

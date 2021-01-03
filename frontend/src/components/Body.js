@@ -12,9 +12,10 @@ import Profile from './Body/Profile'
 import Splash from './Body/Splash';
 import User from './Body/Profile';
 import UsersList from './Body/UsersList';
-import RivalsList from './Body/Community/RivalsList';
+import RivalsList from './Body/community/RivalsList';
 import CreateRoutes from './Body/RoutesPage/CreateRoute';
 import MapSearch from './Body/RoutesPage/MapSearch';
+import CreateMap from './Body/RoutesPage/CreateMap'
 
 
 //MUI
@@ -63,6 +64,7 @@ const Body = (props) => {
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />
           <ProtectedRoute exact user={user} path="/users/:userId" component={User} />
           <ProtectedRoute exact user={user} path="/search" component={MapSearch} />
+          <ProtectedRoute exact user={user} path="/create-route" component={CreateMap} />
           {/* <ProtectedRoute exact user={user} path="/search" component={SavedMaps} /> */}
         </Switch>
       </Paper>
