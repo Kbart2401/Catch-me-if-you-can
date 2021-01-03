@@ -24,36 +24,34 @@ function RivalsList() {
 	const [users, setUsers] = useState([]);
 	const [query, setQuery] = useState("");
 
-	useEffect(() => {
-		if (user) {
-			dispatch(sessionActions.retrieveRivals(user.id))
-				// .then((data) => setRivals(data.rivals))
-				.then(setIsLoaded(true));
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		dispatch(sessionActions.retrieveRivals(user.id))
+	// 			// .then((data) => setRivals(data.rivals))
+	// 			.then(setIsLoaded(true));
+	// 	}
+	// }, [user]);
+
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
 			.then((data) => {
-				console.log("data.users", data.users);
+				// console.log("data.users", data.users);
 				const results = data.users.filter((user) => checkSearch(user));
-				// console.log("Results for SetUsers", results)
 				setUsers(results);
 			})
 			.then(setIsLoaded(true));
 	}, [query]);
 
 	const checkSearch = (searchObj) => {
-		// console.log("In checkSearch", searchObj)
-		// console.log("query ", query)
-		// console.log("Object values", Object.values(searchObj))
-		// console.log("Object values", Object.values(searchObj).includes(query))
 		if (query !== "") {
 			return (
 				Object.values(searchObj).includes(query)
 			);
 		}
 	};
-	console.log("Users before render", users)
+	// console.log("Users before render: ", users)
+	// console.log("Loaded Rivals: ", loadedRivals)
+	// console.log("Rival.id", rivals)
 	return (
 		isLoaded && (
 			<>

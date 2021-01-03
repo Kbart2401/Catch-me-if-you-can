@@ -14,7 +14,6 @@ const sessionReducer = (state = initialState, action) => {
 			newState.user = null;
 			return newState;
 		case SET_RIVALS:
-			console.log("setting rivals");
 			newState = Object.assign({}, state);
 			newState.rivals = [...action.payload];
 			return newState;

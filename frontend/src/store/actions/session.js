@@ -96,6 +96,7 @@ export const retrieveRivals = (userId) => async dispatch => {
 
     if (res.ok) {
       const data = await res.json()
+      console.log("This is in retrieveRivals", data)
       dispatch(setRivals(data.rivals))
       return data;
     }

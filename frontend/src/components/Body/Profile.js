@@ -19,6 +19,7 @@ function User() {
     (async () => {
       const response = await fetch(`/api/users/${userId}`);
       const user = await response.json();
+      console.log("User",user)
       setUser(user);
     })();
   }, [userId]);
@@ -35,14 +36,13 @@ function User() {
   if (!user) {
     return null;
   }
-  console.log("user ", userId)
   return (
     <ul>
       <li>
         <strong>User Id</strong> {userId}
       </li>
       <li>
-        <strong>Name</strong> {user.first_name} {user.last_name}
+        <strong>Name</strong> {user.firstname} {user.lastname}
       </li>
       <li>
         <strong>Email</strong> {user.email}
