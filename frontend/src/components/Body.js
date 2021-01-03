@@ -21,11 +21,16 @@ import MapSearch from './Body/RoutesPage/MapSearch';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 
-const ProtectedRoute = props => {
+const ProtectedRoute = ({ component: Component, user, ...rest }) => {
   return (
-    <Route {...props}>
-      {!props.user && <Redirect to='/login' />}
-    </Route>
+    <Route
+      {...rest}
+      render={props => {
+        return (user)
+          ? (<Component user={user} {...rest} />)
+          : (<Redirect to='/login' />)
+      }}
+    />
   )
 };
 

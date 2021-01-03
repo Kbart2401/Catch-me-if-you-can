@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Components
 import BarGraph from './Graph';
@@ -86,6 +86,10 @@ const Dashboard = (props) => {
   const [recentTime, setRecentTime] = useState(0)
   const [recentDistance, setRecentDistance] = useState(0)
   const [recentCalories, setRecentCalories] = useState(0)
+
+  useEffect(() => {
+
+  }, [props])
 
   return (
     <div className={classes.root}>
