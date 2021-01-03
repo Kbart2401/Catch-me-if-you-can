@@ -58,5 +58,4 @@ def user():
             return {'user': user.to_dict(), "total_time": user_total_run_time, 
                     "total_distance": user_total_distance_ran,
                     "rivals": my_rivals, "created_routes": my_routes}
-    return {'user': user.to_dict(), "total_distance": user_total_distance_ran, 
-            "rivals": my_rivals, "created_routes": my_routes}
+    return {'user': user.to_dict(), "rivals": my_rivals, "created_routes": my_routes}
