@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import ReactMapGL, { Marker, Layer, Source } from 'react-map-gl';
-import SearchPin from './SearchPin'; 
+import StartPin from './StartPin';
+import EndPin from './EndPin';  
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" });
 
@@ -19,7 +20,7 @@ const SavedMap = (props) => {
         setViewport({
             longitude: startMarker[0], 
             latitude: startMarker[1], 
-            zoom: 15, 
+            zoom: 16, 
             width: "65vw", 
             height: "65vh",  
         })
@@ -68,10 +69,10 @@ const SavedMap = (props) => {
                 {isLoaded && 
                 <>
                   <Marker longitude={startMarker[0]} latitude={startMarker[1]}>
-                    <SearchPin />  
+                    <StartPin />  
                   </Marker> 
                   <Marker longitude={endMarker[0]} latitude={endMarker[1]}>
-                    <SearchPin />  
+                    <EndPin />  
                   </Marker> 
                   <Source id="saved-route" type="geojson" data={routeData}>
                     <Layer id="route" type="line" paint={{ 'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75 }} />
