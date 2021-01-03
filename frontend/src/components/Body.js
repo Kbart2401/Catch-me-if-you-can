@@ -4,14 +4,18 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 //Components
 import LoginForm from './Header/LoginForm';
 import SignUpForm from './Header/SignUpForm';
+
+import Routes from './Body/RoutesPage/Route';
+import MyRoutes from './Body/Dashboard/myRoutes';
 import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
 import Splash from './Body/Splash';
 import User from './Body/User';
 import UsersList from './Body/UsersList';
-// import RivalsList from './Body/community/RivalsList';
-import Routes from './Body/Routes';
-import MapSearch from './Body/MapSearch';
+import RivalsList from './Body/Community/RivalsList';
+import CreateRoutes from './Body/RoutesPage/CreateRoute';
+import MapSearch from './Body/RoutesPage/MapSearch';
+
 
 //MUI
 import Paper from '@material-ui/core/Paper';
@@ -28,6 +32,7 @@ const ProtectedRoute = props => {
 const useStyles = makeStyles(() => ({
   paper: {
     backgroundColor: '#e9ecef',
+    padding: '1rem',
   },
 }))
 
@@ -49,8 +54,10 @@ const Body = (props) => {
           <Route exact path="/" render={props => <Splash {...props} />} />
           <Route exact path="/login" render={props => <LoginForm {...props} />} />
           <Route exact path="/signup" render={props => <SignUpForm {...props} />} />
-          <Route exact path='/routes' render={props => <Routes {...props} />} />
-          {/* <ProtectedRoute exact user={user} path='/community' component={RivalsList} /> */}
+          <Route exact path='/create-route' render={props => <CreateRoutes {...props} />} />
+          <Route exact path='/route/:routeid' render={props => <Routes {...props} />} />
+          <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
+          <ProtectedRoute exact user={user} path='/my-routes' component={MyRoutes} />
           <ProtectedRoute exact user={user} path="/dashboard" component={Dashboard} />
           <ProtectedRoute exact user={user} path='/profile' component={Profile} />
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />
