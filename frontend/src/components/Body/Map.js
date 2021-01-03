@@ -142,7 +142,7 @@ const Map = () => {
                         </Source>
                         {markers.map((marker, i) => {
                             return (
-                                <Marker latitude={marker[1]} longitude={marker[0]}>
+                                <Marker longitude={marker[0]} latitude={marker[1]} >
                                     <button
                                         onClick={e => {
                                             e.preventDefault();
@@ -158,16 +158,16 @@ const Map = () => {
 
                         {selectPoint ? (
                             <Popup
-                                latitude={selectPoint.coordinates[1]}
-                                longitude={selectPoint.coordinates[0]}
+                                longitude={selectPoint[0]}
+                                latitude={selectPoint[1]}
                                 onClose={() => {
                                     setSelectPoint(null);
                                 }}
                             >
                                 <div>
                                     {names[index]}
-                                latitude: {selectPoint.coordinates[1]}
-                                longitude: {selectPoint.coordinates[0]}
+                                longitude: {selectPoint[0]}
+                                latitude: {selectPoint[1]}
                                 </div>
                             </Popup>
                         ) : null}
