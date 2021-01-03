@@ -124,7 +124,7 @@ const Header = (props) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={() => handleMenuClick('/dashboard')}><Typography>My Routes</Typography></MenuItem>
+            <MenuItem onClick={() => handleMenuClick('/my-routes')}><Typography>My Routes</Typography></MenuItem>
             <MenuItem onClick={() => handleMenuClick('/routes')}><Typography>Create Route</Typography></MenuItem>
             <MenuItem onClick={() => handleMenuClick('/community')}><Typography>Find Route</Typography></MenuItem>
           </Menu>

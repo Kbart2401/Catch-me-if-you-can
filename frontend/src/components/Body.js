@@ -6,6 +6,7 @@ import LoginForm from './Header/LoginForm';
 import SignUpForm from './Header/SignUpForm';
 
 import Routes from './Body/RoutesPage/Route';
+import MyRoutes from './Body/Dashboard/myRoutes';
 import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
 import Splash from './Body/Splash';
@@ -31,6 +32,7 @@ const ProtectedRoute = props => {
 const useStyles = makeStyles(() => ({
   paper: {
     backgroundColor: '#e9ecef',
+    padding: '1rem',
   },
 }))
 
@@ -55,6 +57,7 @@ const Body = (props) => {
           <Route exact path='/create-route' render={props => <CreateRoutes {...props} />} />
           <Route exact path='/route/:routeid' render={props => <Routes {...props} />} />
           <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
+          <ProtectedRoute exact user={user} path='/my-routes' component={MyRoutes} />
           <ProtectedRoute exact user={user} path="/dashboard" component={Dashboard} />
           <ProtectedRoute exact user={user} path='/profile' component={Profile} />
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />

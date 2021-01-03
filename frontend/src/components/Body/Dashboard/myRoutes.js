@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Routes = (props) => {
+const MyRoutes = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -91,4 +91,4 @@ const Routes = (props) => {
   )
 }
 
-export default Routes
+export default MyRoutes
