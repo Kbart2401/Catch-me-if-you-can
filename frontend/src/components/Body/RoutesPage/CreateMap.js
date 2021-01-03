@@ -119,12 +119,12 @@ const CreateMap = () => {
     return (
         <div className={"map_container"}>
             <div className={"panel"}>
-                {distance}
-                <button onClick={clickReset}>
-                    Reset Route
+                <p className={"panel__distance"}>Distance <span style={{'font-size': 15, 'font-weight':'normal'}}>(meters)</span>: {distance}</p>
+                <button className={'panel__reset'} onClick={clickReset}>
+                    <p>Reset Route</p>
                 </button>
-                <button onClick={clickSubmit}>
-                    Submit Route
+                <button className={'panel__submit'} onClick={clickSubmit}>
+                    <p>Submit Route</p>
                 </button>
             </div>
             <ReactMapGL {...viewport}
@@ -176,6 +176,7 @@ const CreateMap = () => {
                                 onClose={() => {
                                     setSelectPoint(null);
                                 }}
+                                className={"popup__border"}
                             >
                                 <div>
                                     <p className={'popup'}>{names[index] || "Unknown"}</p>
