@@ -98,6 +98,8 @@ const Dashboard = (props) => {
     }
   }, [user])
 
+  console.log(user)
+
   return isLoaded && (
     <div className={classes.root}>
       <div className={classes.title}>
@@ -145,7 +147,7 @@ const Dashboard = (props) => {
             <Typography>My Routes</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Routes />
+            <Routes routes={ } />
           </AccordionDetails>
         </Accordion>
       </div>
