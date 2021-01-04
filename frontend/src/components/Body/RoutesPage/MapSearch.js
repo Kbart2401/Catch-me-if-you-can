@@ -19,7 +19,7 @@ const MapSearch = () => {
   const [selectPoint, setSelectPoint] = useState(null);
   const [index, setIndex] = useState(0);
   //set route details on popup
-  const [radius, setRadius] = useState(0);
+  const [radius, setRadius] = useState(1);
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
 
