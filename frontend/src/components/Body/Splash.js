@@ -32,7 +32,8 @@ const Splash = () => {
             <image src='pictures/bia-andrade-inUID_-1lCU-unsplash.jpg' />
           </div>
           <div className={classes.parallax_content}>
-            <Typography>New to the area and want to explore scenic workout routes?</Typography>
+            <Typography>Too tired. No splash page for you.</Typography>
+            <img src='pictures/giphy.gif' />
           </div>
         </div>
       </div>
