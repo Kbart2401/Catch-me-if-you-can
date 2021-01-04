@@ -27,7 +27,8 @@ def user():
         data = Route.query.filter_by(user_creator=user.id).all()
         def route_to_dict(obj):
             return {"name": obj.name, "user_creator": obj.user_creator, 
-            "route_coordinates": obj.route_coordinates, "date_created": obj.date_created}
+            "route_coordinates": obj.route_coordinates, "date_created": obj.date_created, 
+            "distance": obj.distance}
         created_routes = map(route_to_dict, data)
         my_routes = tuple(created_routes)
         # get user rivals
