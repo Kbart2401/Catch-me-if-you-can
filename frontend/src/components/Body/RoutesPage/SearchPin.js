@@ -9,7 +9,7 @@ const pinStyle = {
     stroke: 'none'
 };
 
-const Pin = () => {
+const SearchPin = () => {
     return (
         <svg height={20} viewBox="0 0 24 24" style={pinStyle}>
             <path d={ICON} />
@@ -17,4 +17,4 @@ const Pin = () => {
     )
 }
 
-export default Pin; 
+export default SearchPin; 
