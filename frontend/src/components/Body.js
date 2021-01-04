@@ -12,7 +12,7 @@ import Profile from './Body/Profile'
 import Splash from './Body/Splash';
 import User from './Body/User';
 import UsersList from './Body/UsersList';
-import RivalsList from './Body/community/RivalsList';
+import RivalsList from './Body/Community/RivalsList';
 import CreateRoutes from './Body/RoutesPage/CreateRoute';
 import MapSearch from './Body/RoutesPage/MapSearch';
 import CreateMap from './Body/RoutesPage/CreateMap'
