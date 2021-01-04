@@ -17,14 +17,13 @@ const User = (props) => {
 	const loadedRivals = useSelector((state) => state.session.rivals);
 	console.log("loaded rivals", loadedRivals);
 
-	// useEffect(() => {
-	//     console.log("in async useEffect", userId)
-	//    fetch(`/api/users/${userId}`)
-	// 			.then((response) => {
-	// 				response.json();
-	// 			})
-	// 			.then((responseJSON) => console.log("RESPONSE", responseJSON))
-	//     console.log("response user in async", user)
+	useEffect(() => {
+	   fetch(`/api/users/${userId}`)
+				.then((response) => {
+					response.json();
+				})
+				.then((responseJSON) => console.log("RESPONSE", responseJSON))
+	    console.log("response user in async", user)
 	//     console.log("User",user)
 	//     setUser(user);
 	// }, [userId]);

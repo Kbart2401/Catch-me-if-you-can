@@ -13,7 +13,9 @@ def users():
     return {"users": [user.to_dict() for user in users]}
 
 # @user_routes.route('/<int:id>')
+# @login_required
 # def rival (id):
+#     id = request.get_json().get('id')
 #     rival = User.query.filter_by(id=id)
 #     return {"rival": [rival.to_dict()]}
 
