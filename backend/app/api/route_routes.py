@@ -1,10 +1,13 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from app.models import User, Route, RunTime, db
+# from sqlalchemy.orm import relationship, sessionmaker, joinedload
 
 route_routes = Blueprint('routes', __name__)
 
 # Add a new route
+
+
 @route_routes.route('/', methods=['POST'])
 @login_required
 def new_route():
@@ -25,6 +28,8 @@ def new_route():
     return route.to_dict()
 
 # Delete a created route
+
+
 @route_routes.route('/', methods=['DELETE'])
 @login_required
 def remove_route():
@@ -35,8 +40,38 @@ def remove_route():
     return route.to_dict()
 
 # Get all routes
+
+
 @route_routes.route('/')
 @login_required
 def get_all_routes():
     routes = Route.query.all()
     return {"routes": [route.to_dict() for route in routes]}
+
+# Get specific route
+
+
+@route_routes.route('/<int:id>')
+def get_specific_route(id):
+    route = Route.query.get(id)
+    routeInfo = route.to_dict()
+
+    user = User.query.get(route.user_creator)
+
+    run_times = RunTime.query.filter(RunTime.route_id == id).order_by(
+        'time').limit(10)
+    runList = [run_time.to_dict() for run_time in run_times]
+
+    runUsers = [(User.query.get(run_time['user_id'])).to_dict()['first_name']
+                for run_time in runList]
+
+    for i in range(len(runList)):
+        runList[i]['user_name'] = runUsers[i]
+
+    print('AAAAAAAAAAAA', runList[0])
+    print('OOOOOOHHHHHHH', runUsers)
+
+    routeInfo['run_times'] = runList
+    routeInfo['runCount'] = RunTime.query.filter_by(route_id=id).count()
+    routeInfo['user'] = user.first_name
+    return routeInfo

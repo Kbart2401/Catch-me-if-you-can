@@ -13,6 +13,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 
 //Icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles(() => ({
@@ -77,6 +78,9 @@ const useStyles = makeStyles(() => ({
 
 const Dashboard = (props) => {
   const classes = useStyles()
+  const user = useSelector(state => state.session.user)
+
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const [totalTime, setTotalTime] = useState(0)
   const [totalDistance, setTotalDistance] = useState(0)
@@ -88,10 +92,12 @@ const Dashboard = (props) => {
   const [recentCalories, setRecentCalories] = useState(0)
 
   useEffect(() => {
+    if (user) {
+      setIsLoaded(true)
+    }
+  }, [user])
 
-  }, [props])
-
-  return (
+  return isLoaded && (
     <div className={classes.root}>
       <div className={classes.title}>
         <Typography variant={'h5'}>DashBoard</Typography>
