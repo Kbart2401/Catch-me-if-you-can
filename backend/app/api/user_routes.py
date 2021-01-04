@@ -14,6 +14,11 @@ def users():
     users = User.query.all()
     return {"users": [user.to_dict() for user in users]}
 
+# @user_routes.route('/<int:id>')
+# def rival (id):
+#     rival = User.query.filter_by(id=id)
+#     return {"rival": [rival.to_dict()]}
+
 # Restore user
 
 
@@ -36,13 +41,24 @@ def user():
         rivals = user.rivals
         if rivals:
             def to_obj(obj):
-                return {'first_name': obj.first_name, "last_name": obj.last_name,
-                        "email": obj.email, "gender": obj.gender}
+                return {"id": obj.id, "first_name": obj.first_name, "last_name": obj.last_name,
+                        "email": obj.email, "gender": obj.gender, "height": obj.height, "weight": obj.weight}
             new_rivals = map(to_obj, rivals)
             my_rivals = list(new_rivals)
         else:
             my_rivals = []
 
+        # get total distance ran
+        total_distance = Route.query.join(RunTime).filter(
+            RunTime.user_id == user.id).all()
+        if total_distance:
+            if isinstance(total_distance, list):
+                def distances(distance):
+                    return distance.distance
+                user_distances = map(distances, total_distance)
+                user_total_distance_ran = sum(user_distances)
+            else:
+                user_total_distance_ran = total_distance.distance
         # get total running time
         total_times = RunTime.query.filter_by(user_id=user.id).all()
         if total_times:
@@ -54,5 +70,6 @@ def user():
             else:
                 user_total_run_time = total_times.time
             return {'user': user.to_dict(), "total_time": user_total_run_time,
+                    "total_distance": user_total_distance_ran,
                     "rivals": my_rivals, "created_routes": my_routes}
     return {'user': user.to_dict(), "rivals": my_rivals, "created_routes": my_routes}

@@ -10,11 +10,12 @@ import MyRoutes from './Body/Dashboard/myRoutes';
 import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
 import Splash from './Body/Splash';
-import User from './Body/User';
+import User from './Body/Profile';
 import UsersList from './Body/UsersList';
 import RivalsList from './Body/Community/RivalsList';
 import CreateRoutes from './Body/RoutesPage/CreateRoute';
 import MapSearch from './Body/RoutesPage/MapSearch';
+import CreateMap from './Body/RoutesPage/CreateMap'
 
 
 //MUI
@@ -59,15 +60,17 @@ const Body = (props) => {
           <Route exact path="/" render={props => <Splash {...props} />} />
           <Route exact path="/login" render={props => <LoginForm {...props} />} />
           <Route exact path="/signup" render={props => <SignUpForm {...props} />} />
-          <Route exact path='/create-route' render={props => <CreateRoutes {...props} />} />
           <Route exact path='/route/:routeid' render={props => <Routes {...props} />} />
+          <ProtectedRoute exact user={user} path='/create-route' component={CreateRoutes} />
           <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
           <ProtectedRoute exact user={user} path='/my-routes' component={MyRoutes} />
           <ProtectedRoute exact user={user} path="/dashboard" component={Dashboard} />
           <ProtectedRoute exact user={user} path='/profile' component={Profile} />
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />
-          <ProtectedRoute exact user={user} path="/users/:userId" component={User} />
+          <ProtectedRoute exact user={user} path="/users/:userId" component={Profile} />
           <ProtectedRoute exact user={user} path="/search" component={MapSearch} />
+          <ProtectedRoute exact user={user} path="/create-route" component={CreateMap} />
+          {/* <ProtectedRoute exact user={user} path="/search" component={SavedMaps} /> */}
         </Switch>
       </Paper>
     </div>

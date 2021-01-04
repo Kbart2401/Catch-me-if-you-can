@@ -68,9 +68,6 @@ def get_specific_route(id):
     for i in range(len(runList)):
         runList[i]['user_name'] = runUsers[i]
 
-    print('AAAAAAAAAAAA', runList[0])
-    print('OOOOOOHHHHHHH', runUsers)
-
     routeInfo['run_times'] = runList
     routeInfo['runCount'] = RunTime.query.filter_by(route_id=id).count()
     routeInfo['user'] = user.first_name
