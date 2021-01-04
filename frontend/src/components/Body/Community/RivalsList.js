@@ -101,7 +101,7 @@ const RivalsList = () => {
   			}
 
   const handleClick = (userId) => {
-    history.push(`/users/${userId}`);
+    history.push(`/dashboard/${userId}`);
   }
 
   // const clickSearch = (user) => {
