@@ -20,7 +20,8 @@ const sessionReducer = (state = initialState, action) => {
       newState.rivals = [...action.payload]
       return newState
     case SET_ROUTES:
-      newState = Object.assign({ ...state }, { created_routes: action.payload })
+      newState = Object.assign({}, state);
+      newState.created_routes = action.payload
       return newState;
     case SET_TOTAL_TIME:
       newState = Object.assign({ ...state }, { total_run_time: action.payload })

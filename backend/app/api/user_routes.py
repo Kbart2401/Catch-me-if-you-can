@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 from app.models import User, Route, RunTime, db, rivals_table
 from sqlalchemy.orm import aliased
+from sqlalchemy import desc
+
 
 user_routes = Blueprint('users', __name__)
 
@@ -14,12 +16,28 @@ def users():
     users = User.query.all()
     return {"users": [user.to_dict() for user in users]}
 
-# @user_routes.route('/<int:id>')
-# def rival (id):
-#     rival = User.query.filter_by(id=id)
-#     return {"rival": [rival.to_dict()]}
-
 # Restore user
+
+
+@user_routes.route('/dashboard/<int:id>')
+def runCount(id):
+    runs = RunTime.query.filter_by(user_id=id).count()
+    recent_run = RunTime.query.filter_by(user_id=id).order_by(
+        desc(RunTime.date_ran)).limit(1).all()
+
+    recent_run = [run.to_dict() for run in recent_run]
+    # recent_run = recent_run[0]
+
+    routes = [Route.query.get(run_time['route_id']).to_dict()
+              for run_time in recent_run]
+
+    print('\n AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', recent_run, '\n')
+
+    for i in range(len(recent_run)):
+        recent_run[i]['route_name'] = routes[i]['name']
+        recent_run[i]['distance'] = routes[i]['distance']
+
+    return{'run_count': runs, 'recent_run': recent_run[0]}
 
 
 @user_routes.route('/restore')
@@ -31,11 +49,12 @@ def user():
         # get user created routes
         data = Route.query.filter_by(user_creator=user.id).all()
 
-        def route_to_dict(obj):
-            return {"name": obj.name, "user_creator": obj.user_creator,
-                    "route_coordinates": obj.route_coordinates, "date_created": obj.date_created}
-        created_routes = map(route_to_dict, data)
-        my_routes = tuple(created_routes)
+        my_routes = [route.to_dict() for route in data]
+        runners = [RunTime.query.filter_by(
+            route_id=route['id']).count() for route in my_routes]
+
+        for i in range(len(my_routes)):
+            my_routes[i]['runners'] = runners[i]
 
         # get user rivals
         rivals = user.rivals
