@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Components
 import BarGraph from './Graph';
@@ -13,6 +13,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 
 //Icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles(() => ({
@@ -77,31 +78,56 @@ const useStyles = makeStyles(() => ({
 
 const Dashboard = (props) => {
   const classes = useStyles()
+  const user = useSelector(state => state.session.user)
 
-  const [totalTime, setTotalTime] = useState(0)
-  const [totalDistance, setTotalDistance] = useState(0)
-  const [totalCalories, setTotalCalories] = useState(0)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  const totalTime = useSelector(state => state.session.total_run_time)
+  const totalDistance = useSelector(state => state.session.total_distance_ran)
   const [totalRuns, setTotalRuns] = useState(0)
+  const [totalHours, setTotalHours] = useState(0)
+  const [recentRun, setRecentRun] = useState({})
 
-  const [recentTime, setRecentTime] = useState(0)
-  const [recentDistance, setRecentDistance] = useState(0)
-  const [recentCalories, setRecentCalories] = useState(0)
+  const calculateTime = (time) => {
+    const hr = Math.trunc(time * (1 / 60))
+    const min = Math.trunc(((time * (1 / 60)) - hr) * 60)
+    const sec = Math.trunc(((((time * (1 / 60)) - hr) * 60) - min) * 60)
+    return `${hr}:${min}:${sec}`
+  }
 
-  return (
+  useEffect(() => {
+    if (user) {
+      try {
+        (async function () {
+          const res = await fetch(`api/users/dashboard/${user.id}`)
+          const data = await res.json()
+
+          setRecentRun(data.recent_run)
+          setTotalRuns(data.run_count)
+
+          setIsLoaded(true)
+        })()
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  }, [user])
+
+  return isLoaded && (
     <div className={classes.root}>
       <div className={classes.title}>
         <Typography variant={'h5'}>DashBoard</Typography>
       </div>
       <div className={classes.dashboard_circle}>
         <div className={classes.dashboard_circle_stat_container}>
-          <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentTime}</Typography></div>
-          <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentDistance} km</Typography></div>
-          <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentCalories} Ca</Typography></div>
+          {/* <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentTime}</Typography></div> */}
+          <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentRun.distance} km</Typography></div>
+          <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{Math.floor((8.5 * recentRun.distance) * Math.trunc(recentRun.time * (1 / 60)))} Ca</Typography></div>
         </div>
       </div>
       <div className={classes.dashboard_totalStat_container}>
         <div className={classes.dashboard_totalStat_stats}>
-          <Typography variant={'h4'}>{totalTime}</Typography>
+          <Typography variant={'h4'}>{calculateTime(totalTime)}</Typography>
           <Typography>Total Time</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
@@ -113,7 +139,7 @@ const Dashboard = (props) => {
           <Typography>Total km</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
-          <Typography variant={'h4'}>{totalCalories}</Typography>
+          <Typography variant={'h4'}>{`${Math.floor((8.5 * totalDistance) * Math.trunc(totalTime * (1 / 60)))}`}</Typography>
           <Typography>Total Ca</Typography>
         </div>
       </div>
@@ -126,7 +152,7 @@ const Dashboard = (props) => {
             <Typography>History</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <History />
+            <History user={user} />
           </AccordionDetails>
         </Accordion>
         <Accordion>

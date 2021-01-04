@@ -144,6 +144,8 @@ const Header = (props) => {
             <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
           </Menu>
         )
+      default:
+        return
     }
   }
 

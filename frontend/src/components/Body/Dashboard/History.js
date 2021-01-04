@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 //MUI
@@ -22,47 +22,44 @@ const History = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const id = 10
-  const rows = [
-    {
-      name: 'Apple Hill',
-      distance: 5,
-      time: 50,
-      location: 'Somewhere',
-      date: '--/--/--',
-      path: `/route/${id}`
-    },
-    {
-      name: 'Banana Hill',
-      distance: 5,
-      time: 50,
-      location: 'Wheresome',
-      date: '--/--/--',
-      path: `/route/${id}`
-    },
-    {
-      name: 'lol Hill',
-      distance: 5,
-      time: 50,
-      location: 'Hitherto',
-      date: '--/--/--',
-      path: `/route/${id}`
-    },
-    {
-      name: 'No Hill',
-      distance: 5,
-      time: 50,
-      location: 'Hereabouts',
-      date: '--/--/--',
-      path: `/route/${id}`
-    },
-  ]
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [user] = useState(props.user)
+  const [runs, setRuns] = useState();
 
   const handleClick = (path) => {
     history.push(path)
   }
 
-  return (
+  const calculateTime = (time) => {
+    const minutes = (time >= 60) ? Math.floor(time) - 60 : Math.floor(time)
+    const seconds = (time % 1).toFixed(2) * 60
+    const hours = Math.floor(time - minutes) / 60;
+    const result = `${(hours < 10) ? 0 : ''}${hours}:${(minutes < 10) ? 0 : ''}${minutes}:${(seconds < 10) ? 0 : ''}${seconds}`
+    return result
+  }
+
+  const calculateDate = (date) => {
+    const newDate = new Date(date)
+    const [month, day, year] = newDate.toLocaleDateString("en-US").split("/")
+    const formattedDate = `${month}/${day}/${year}`
+
+    return formattedDate
+  }
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const res = await fetch(`/api/runtimes/users/${user.id}`)
+        const { run_times } = await res.json()
+        setRuns(run_times)
+        setIsLoaded(true)
+      } catch (e) {
+        console.error(e)
+      }
+    })();
+  }, [])
+
+  return isLoaded && (
     <>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -71,22 +68,22 @@ const History = (props) => {
               <TableCell>Route</TableCell>
               <TableCell align="right">Distance (KM)</TableCell>
               <TableCell align="right">Time</TableCell>
-              <TableCell align="right">Location</TableCell>
+              {/* <TableCell align="right">Location</TableCell> */}
               <TableCell align="right">Date</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {runs.map((run) => (
+              <TableRow key={run.time}>
                 <TableCell component="th" scope="row">
-                  <Typography><Button onClick={() => handleClick(row.path)}>
-                    {row.name}
+                  <Typography><Button onClick={() => handleClick(`/route/${run.route_id}`)}>
+                    {run.route_name}
                   </Button></Typography>
                 </TableCell>
-                <TableCell align="right">{row.distance}</TableCell>
-                <TableCell align="right">{row.time}</TableCell>
-                <TableCell align="right">{row.location}</TableCell>
-                <TableCell align="right">{row.date}</TableCell>
+                <TableCell align="right">{run.distance}</TableCell>
+                <TableCell align="right">{`${calculateTime(run.time)}`}</TableCell>
+                {/* <TableCell align="right">{row.location}</TableCell> */}
+                <TableCell align="right">{`${calculateDate(run.date_ran)}`}</TableCell>
               </TableRow>
             ))}
           </TableBody>

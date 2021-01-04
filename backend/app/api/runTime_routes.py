@@ -1,10 +1,13 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import User, Route, RunTime, db
+from sqlalchemy import desc
 
 runTime_routes = Blueprint('runtimes', __name__)
 
 # Add new run time to route
+
+
 @runTime_routes.route('/', methods=['POST'])
 @login_required
 def add_runtime():
@@ -21,6 +24,8 @@ def add_runtime():
     return run_time.to_dict()
 
 # Search for all runTimes associated with specific route
+
+
 @runTime_routes.route('/routes/<int:route_id>')
 @login_required
 def get_runtimes_for_route(route_id):
@@ -28,11 +33,21 @@ def get_runtimes_for_route(route_id):
     return {"run_times": [run_time.to_dict() for run_time in run_times]}
 
 # Search for all runTimes associated with user
+
+
 @runTime_routes.route('/users/<int:id>')
 @login_required
 def get_runtimes_for_user(id):
-    run_times = RunTime.query.filter_by(user_id=id).all()
-    run_times.sort(key=lambda x: x.date_ran, reverse=False)
-    if len(run_times) >= 10:
-        run_times = run_times[:10]
-    return {"run_times": [run_time.to_dict() for run_time in run_times]}
+    run_times = RunTime.query.filter_by(user_id=id).order_by(
+        desc(RunTime.date_ran)).limit(10).all()
+
+    run_times = [run_time.to_dict() for run_time in run_times]
+
+    routes = [Route.query.get(run_time['route_id']).to_dict()
+              for run_time in run_times]
+
+    for i in range(len(run_times)):
+        run_times[i]['route_name'] = routes[i]['name']
+        run_times[i]['distance'] = routes[i]['distance']
+
+    return {"run_times": run_times, }

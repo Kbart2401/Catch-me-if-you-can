@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import * as sessionActions from '../../../store/actions/session'
 
 //MUI
 import { Button, makeStyles, Typography } from '@material-ui/core';
@@ -56,8 +58,15 @@ const calculateTime = (time) => {
   const seconds = (time % 1).toFixed(2) * 60
   const hours = Math.floor(time - minutes) / 60;
   const result = `${(hours < 10) ? 0 : ''}${hours}:${(minutes < 10) ? 0 : ''}${minutes}:${(seconds < 10) ? 0 : ''}${seconds}`
-  console.log(result)
   return result
+}
+
+const calculateDate = (date) => {
+  const newDate = new Date(date)
+  const [month, day, year] = newDate.toLocaleDateString("en-US").split("/")
+  const formattedDate = `${month}/${day}/${year}`
+
+  return formattedDate
 }
 
 const arrSum = function (arr) {
@@ -76,69 +85,31 @@ const routeInfo = {
   userPath: `/users/1`,
 }
 
-const rivals = [
-  {
-    position: 1,
-    name: 'user1',
-    path: `/users/1`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 2,
-    name: 'user2',
-    path: `/users/2`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 3,
-    name: 'user3',
-    path: `/users/3`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 4,
-    name: 'user4',
-    path: `/users/4`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 5,
-    name: 'user5',
-    path: `/users/5`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-]
-
 //Component
 const Routes = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const routeId = useParams();
+  const dispatch = useDispatch();
+  const { routeid } = useParams();
 
-  const [runUserId, setRunUserId] = useState() //AUTO POPULATED FROM PROPS or REDUX STORE
-  const [runUser, setRunUser] = useState('') //AUTO POPULATED FROM PROPS or REDUX STORE
-  const [runTime, setRunTime] = useState('')
-  const [runDate, setRunDate] = useState(new Date())
+  const user = useSelector(state => state.session.user)
+  const [route, setRoute] = useState({})
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [runnerName, setRunnerName] = useState(null)
+  const [runTime, setRunTime] = useState(60)
 
   const [open, setOpen] = useState(false);
 
   const handleChange = (prop) => (e) => {
     switch (prop) {
       case 'user':
-        setRunUser(e.target.value)
+        setRunnerName(e.target.value)
         break;
       case 'time':
         setRunTime(e.target.value)
         break;
-      case 'date':
-        setRunUser(e.target.value)
+      default:
         break;
-
     }
   }
 
@@ -154,7 +125,90 @@ const Routes = (props) => {
     history.push(path)
   }
 
-  return (
+  const handleDelete = async () => {
+    const res = await fetch(`/api/routes`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    history.push('/my-routes')
+  }
+
+  const handleSubmit = async () => {
+    handleClose();
+
+    try {
+      const res = await fetch('/api/runtimes/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: parseInt(user.id),
+          routeId: parseInt(routeid),
+          time: parseInt(runTime),
+        })
+      });
+      const data = await res.json();
+      // await setRoute(data)
+      console.log('Run data receieved: ', data)
+    }
+    catch (e) {
+      console.error(e)
+    }
+  }
+
+
+
+  //Get Route info
+  useEffect(() => {
+    (async function () {
+      const res = await fetch(`/api/routes/${routeid}`)
+      const data = await res.json()
+
+      setRoute(data)
+    })();
+    setIsLoaded(true)
+  }, [])
+
+  //Update user info
+  useEffect(() => {
+    if (user) {
+      setRunnerName(user.first_name)
+    }
+  }, [user])
+
+  const LeaderBoardTable = () => (
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Position</TableCell>
+            <TableCell align="right">Rival</TableCell>
+            <TableCell align="right">Time</TableCell>
+            <TableCell align="right">Date</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {route.run_times.map((run, index) => (
+            <TableRow key={run.name}>
+              <TableCell align="right">#{index + 1}</TableCell>
+              <TableCell component="th" scope="row">
+                <Typography><Button onClick={() => handleClick(`/users/${run.user_id}`)}>
+                  {run.user_name}
+                </Button></Typography>
+              </TableCell>
+              <TableCell align="right">{calculateTime(run.time)}</TableCell>
+              <TableCell align="right">{calculateDate(run.date_ran)}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
+
+  return isLoaded && (
     <div className={classes.root}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
 
@@ -167,12 +221,12 @@ const Routes = (props) => {
           {/* Basic Information */}
           <div className={classes.route_stat_container}>
             <div className={classes.route_stats}>
-              <Typography variant='h5' style={{ padding: '6px 8px' }}>{routeInfo.name}</Typography>
+              <Typography variant='h5' style={{ padding: '6px 8px' }}>{route.name}</Typography>
               <ul>
-                <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(routeInfo.userPath)}>{routeInfo.user}</Button></Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>Length: {routeInfo.distance} km</Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>{routeInfo.runs} Rivals Posted</Typography></li>
+                <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
+                {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
+                <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance} km</Typography></li>
+                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} Rivals Posted</Typography></li>
               </ul>
             </div>
             <div className={classes.postrun_container}>
@@ -183,32 +237,14 @@ const Routes = (props) => {
           {/* LeaderBoard */}
           <div className={classes.route_information_leaderboard}>
             <Typography>LeaderBoard</Typography>
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Position</TableCell>
-                    <TableCell align="right">Rival</TableCell>
-                    <TableCell align="right">Time</TableCell>
-                    <TableCell align="right">Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rivals.map((rival, index) => (
-                    <TableRow key={rival.name}>
-                      <TableCell align="right">#{rival.position}</TableCell>
-                      <TableCell component="th" scope="row">
-                        <Typography><Button onClick={() => handleClick(rival.path)}>
-                          {rival.name}
-                        </Button></Typography>
-                      </TableCell>
-                      <TableCell align="right">{rival.bestTime}</TableCell>
-                      <TableCell align="right">{rival.date}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            {
+              (route.run_times)
+                ? <LeaderBoardTable />
+                : <Typography>No Run Data</Typography>
+            }
+          </div>
+          <div>
+            <Button onClick={() => handleDelete()}><Typography>Delete Route</Typography></Button>
           </div>
         </div>
 
@@ -218,7 +254,7 @@ const Routes = (props) => {
           <DialogContent>
             <DialogContentText>
               To submit a run, please fill out this short form.
-          </DialogContentText>
+            </DialogContentText>
             <div className={classes.inputFields}>
               <TextField
                 autoFocus
@@ -226,23 +262,24 @@ const Routes = (props) => {
                 id="name"
                 label="Name"
                 type="string"
+                defaultValue={runnerName}
+                onChange={handleChange('user')}
                 fullWidth
               />
-              <DatePicker
-                value={runDate}
-                onChange={handleChange('date')}
-              />
               <TextField
+                required
                 id="time"
-                label="Alarm clock"
-                type="time"
-                defaultValue="07:30"
+                label="Time (in minutes)"
+                type="number"
+                defaultValue={runTime}
+                value={runTime}
                 className={classes.textField}
+                onChange={handleChange('time')}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 inputProps={{
-                  step: 300, // 5 min
+                  step: 5, // 5 min
                 }}
               />
             </div>
@@ -251,7 +288,7 @@ const Routes = (props) => {
             <Button onClick={handleClose} color="primary">
               Cancel
           </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleSubmit} color="primary">
               Submit Run
           </Button>
           </DialogActions>
