@@ -1,6 +1,8 @@
 //Store Action Types
 export const SET_USER = 'Catch_Me_If_You_Can/session/SET_USER';
 export const REMOVE_USER = 'Catch_Me_If_You_Can/session/REMOVE_USER';
+
+export const SET_RUNS = 'Catch_Me_If_You_Can/session/SET_RUNS';
 export const SET_RIVALS = 'Catch_Me_If_You_Can/session/SET_RIVALS';
 export const SET_USERS = 'Catch_Me_If_You_Can/session/SET_USERS';
 export const SET_ROUTES = 'Catch_Me_If_You_Can/session/SET_ROUTES';
@@ -10,6 +12,8 @@ export const SET_TOTAL_DISTANCE = 'Catch_Me_If_You_Can/session/SET_TOTAL_DISTANC
 //Store Actions
 const setUser = (user) => ({ type: SET_USER, payload: user });
 const removeUser = (user) => ({ type: REMOVE_USER });
+
+const setRuns = (runs) => ({ type: SET_RUNS, payload: runs })
 const setRivals = (rivals) => ({ type: SET_RIVALS, payload: rivals });
 const setUsers = (users) => ({ type: SET_USERS, payload: users });
 const setCreatedRoutes = routes => ({ type: SET_ROUTES, payload: routes })
@@ -98,8 +102,8 @@ export const restoreUser = () => async dispatch => {
 export const retrieveRivals = (userId) => async dispatch => {
   try {
     const res = await fetch(`/api/users/${userId}`);
-
     if (res.ok) {
+      console.log("**** IN RETRIEVE RIVALS *****")
       const data = await res.json()
       dispatch(setRivals(data.rivals))
       return data;

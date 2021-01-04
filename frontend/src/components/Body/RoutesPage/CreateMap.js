@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import EndPin from './EndPin';
-import StartPin from './StartPin'; 
+import StartPin from './StartPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
+import { useHistory } from "react-router-dom";
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
 
@@ -18,88 +19,89 @@ const CreateMap = () => {
     const [index, setIndex] = useState(null);
     const [routeName, setRouteName] = useState(""); 
     const user = useSelector((state) => state.session.user)
+    const history = useHistory();
 
-    //establish viewport coordinates based on user location
-    function success(pos) {
-        const crd = pos.coords;
-        setViewport({
-            latitude: crd.latitude,
-            longitude: crd.longitude,
-            zoom: 16,
-            width: "65vw",
-            height: "65vh",
-        })
-    };
+  //establish viewport coordinates based on user location
+  function success(pos) {
+    const crd = pos.coords;
+    setViewport({
+      latitude: crd.latitude,
+      longitude: crd.longitude,
+      zoom: 16,
+      width: "65vw",
+      height: "65vh",
+    })
+  };
 
-    function error(err) {
-        alert(`ERROR(${err.code}): ${err.message}`);
-    };
+  function error(err) {
+    alert(`ERROR(${err.code}): ${err.message}`);
+  };
 
-    useEffect(()=> {
-        navigator.geolocation.getCurrentPosition(success, error);
-    }, []);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success, error);
+  }, []);
 
 
-    //api request to the mapbox directions with SDK JS 
-    useEffect(() => {
-        if (markers.length >= 2) {
-            const ways = markers.map(marker => {
-                return {
-                    coordinates: [marker[0], marker[1]]
-                }
-            });
-            directionsClient.getDirections({
-                profile: 'walking',
-                geometries: 'geojson',
-                waypoints: ways
-            })
-                .send()
-                .then(response => {
-                    const route = response.body.routes[0].geometry.coordinates;
-                    const dist = response.body.routes[0].distance;
-
-                    const waypoints = response.body.waypoints;
-                    let nameArr = [];
-                    for (let i = 0; i < waypoints.length; i++) {
-                        let name = waypoints[i].name;
-                        nameArr.push(name);
-                    }
-
-                    const geojson = {
-                        type: 'FeatureCollection',
-                        features: [
-                            {
-                                type: 'Feature',
-                                geometry: {
-                                    type: 'LineString',
-                                    coordinates: route,
-                                },
-                            }
-                        ]
-                    };
-                    setName(nameArr);
-                    setDistance(dist);
-                    setRouteData({ ...geojson });
-                    setIsLoaded(true);
-                });
+  //api request to the mapbox directions with SDK JS 
+  useEffect(() => {
+    if (markers.length >= 2) {
+      const ways = markers.map(marker => {
+        return {
+          coordinates: [marker[0], marker[1]]
         }
-    }, [markers]);
+      });
+      directionsClient.getDirections({
+        profile: 'walking',
+        geometries: 'geojson',
+        waypoints: ways
+      })
+        .send()
+        .then(response => {
+          const route = response.body.routes[0].geometry.coordinates;
+          const dist = response.body.routes[0].distance;
 
-    //click event for dropping marker on map
-    function clickMarker(event) {
-        setMarkers([...markers,
-        [event.lngLat[0], event.lngLat[1]]
-        ]);
-    };
+          const waypoints = response.body.waypoints;
+          let nameArr = [];
+          for (let i = 0; i < waypoints.length; i++) {
+            let name = waypoints[i].name;
+            nameArr.push(name);
+          }
 
-    //click event for resetting routes
-    function clickReset() {
-        setMarkers([]);
-        setRouteData({});
-        setIsLoaded(false);
-        setDistance(0);
-        setName([]);
-    };
+          const geojson = {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: {
+                  type: 'LineString',
+                  coordinates: route,
+                },
+              }
+            ]
+          };
+          setName(nameArr);
+          setDistance(dist);
+          setRouteData({ ...geojson });
+          setIsLoaded(true);
+        });
+    }
+  }, [markers]);
+
+  //click event for dropping marker on map
+  function clickMarker(event) {
+    setMarkers([...markers,
+    [event.lngLat[0], event.lngLat[1]]
+    ]);
+  };
+
+  //click event for resetting routes
+  function clickReset() {
+    setMarkers([]);
+    setRouteData({});
+    setIsLoaded(false);
+    setDistance(0);
+    setName([]);
+  };
 
     //submit for saving route to database 
     async function clickSubmit() {
@@ -115,6 +117,7 @@ const CreateMap = () => {
                 distance
             })
         })
+        history.push('/my-routes');
     };
 
     return (
@@ -174,26 +177,26 @@ const CreateMap = () => {
                             } 
                         })}
 
-                        {selectPoint ? (
-                            <Popup
-                                longitude={selectPoint[0]}
-                                latitude={selectPoint[1]}
-                                onClose={() => {
-                                    setSelectPoint(null);
-                                }}
-                            >
-                                <div>
-                                    <p className={'popup'}>{names[index] || "Unknown"}</p>
-                                    <p className={'popup'}>Longitude: {selectPoint[0]}</p>
-                                    <p className={'popup'}>Latitude: {selectPoint[1]}</p>
-                                </div>
-                            </Popup>
-                        ) : null}
-                    </>
-                }
-            </ReactMapGL>
-        </div>
-    )
+            {selectPoint ? (
+              <Popup
+                longitude={selectPoint[0]}
+                latitude={selectPoint[1]}
+                onClose={() => {
+                  setSelectPoint(null);
+                }}
+              >
+                <div>
+                  <p className={'popup'}>{names[index] || "Unknown"}</p>
+                  <p className={'popup'}>Longitude: {selectPoint[0]}</p>
+                  <p className={'popup'}>Latitude: {selectPoint[1]}</p>
+                </div>
+              </Popup>
+            ) : null}
+          </>
+        }
+      </ReactMapGL>
+    </div>
+  )
 }
 
 export default CreateMap; 
