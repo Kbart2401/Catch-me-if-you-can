@@ -22,11 +22,16 @@ import CreateMap from './Body/RoutesPage/CreateMap'
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 
-const ProtectedRoute = props => {
+const ProtectedRoute = ({ component: Component, user, ...rest }) => {
   return (
-    <Route {...props}>
-      {!props.user && <Redirect to='/login' />}
-    </Route>
+    <Route
+      {...rest}
+      render={props => {
+        return (user)
+          ? (<Component user={user} {...rest} />)
+          : (<Redirect to='/login' />)
+      }}
+    />
   )
 };
 
@@ -55,8 +60,8 @@ const Body = (props) => {
           <Route exact path="/" render={props => <Splash {...props} />} />
           <Route exact path="/login" render={props => <LoginForm {...props} />} />
           <Route exact path="/signup" render={props => <SignUpForm {...props} />} />
-          <Route exact path='/create-route' render={props => <CreateRoutes {...props} />} />
           <Route exact path='/route/:routeid' render={props => <Routes {...props} />} />
+          <ProtectedRoute exact user={user} path='/create-route' component={CreateRoutes} />
           <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
           <ProtectedRoute exact user={user} path='/my-routes' component={MyRoutes} />
           <ProtectedRoute exact user={user} path="/dashboard" component={Dashboard} />
