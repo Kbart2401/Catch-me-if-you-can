@@ -57,57 +57,57 @@ const RivalsList = () => {
 				// .then((data) => setRivals(data.rivals))
 				.then(setIsLoaded(true));
 		}
-	}, [user]);
+  }, [user]);
+  
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
 			.then((data) => {
 				const results = data.users.filter((user) => checkSearch(user));
-				// console.log("Results for SetUsers", results)
 				setUsers(results);
 			})
 			.then(setIsLoaded(true));
 	}, [query]);
 
 	const checkSearch = (searchObj) => {
-		// console.log("In checkSearch", searchObj)
-		// console.log("query ", query)
-		// console.log("Object values", Object.values(searchObj))
-		// console.log("Object values", Object.values(searchObj).includes(query))
 		if (query !== "") {
 			return Object.values(searchObj).includes(query);
 		}
 	};
 
-	//  function addRival() {
-	// 				fetch("/api/rivals/", {
-	// 					method: "POST",
-	// 					headers: {
-	// 						"Content-Type": "application/json",
-	// 					},
-	// 					body: JSON.stringify({
-	// 						id: user.id,
-	// 					}),
-	// 				});
-	// 			}
-	//  function removeRival() {
-	// 				fetch("/api/rivals/", {
-	// 					method: "DELETE",
-	// 					headers: {
-	// 						"Content-Type": "application/json",
-	// 					},
-	// 					body: JSON.stringify({
-	// 						id: user.id,
-	// 					}),
-	// 				});
-	// 			}
-	// to={`/users/${rival.id}`
-	// 	{/* <IconButton edge="end">
-	// 	/* <ClearIcon onClick={addRival()} /> */
-	// 	<ClearIcon />
-  // </IconButton> */}
+	 function addRival(rival) {
+					fetch("/api/rivals/", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+              id: user.id,
+              rival_id: rival.id
+						}),
+          });
+          // setRivals([...rivals, rival])
+				}
+	 function removeRival(rivalId) {
+					fetch("/api/rivals/", {
+						method: "DELETE",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+              id: user.id,
+              rival_id: rivalId
+						}),
+					});
+  			}
+
   const handleClick = (userId) => {
     history.push(`/users/${userId}`);
   }
+
+  // const clickSearch = (user) => {
+  //     setRivals(user)
+  // }
+  
 	return (
 		isLoaded && (
 			<TableContainer component={Paper}>
@@ -123,21 +123,29 @@ const RivalsList = () => {
 					<Typography component="h1" variant="h5">
 						Search Results:{" "}
 					</Typography>
-					<List>
+					<TableBody>
 						{users.map((user) => (
 							<ListItem key={user.id}>
 								<Typography>
 									<Button
 										onClick={() => {
-											handleClick(user.id);
+                      handleClick(user.id);
+                      // clickSearch(user)
 										}}
 									>
 										{user.first_name}
 									</Button>
+									<Button align="right">
+										<AddIcon
+											onClick={
+												addRival(user)
+											}
+										/>
+									</Button>
 								</Typography>
 							</ListItem>
 						))}
-					</List>
+					</TableBody>
 					<Typography component="h1" variant="h5">
 						Current rivals:{" "}
 					</Typography>
@@ -152,6 +160,13 @@ const RivalsList = () => {
 											}}
 										>
 											{rival.first_name}
+										</Button>
+										<Button align="right">
+											<ClearIcon
+												onClick={() => {
+													removeRival(rival.id);
+												}}
+											/>
 										</Button>
 									</Typography>
 								</TableRow>
