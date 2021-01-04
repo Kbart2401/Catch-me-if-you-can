@@ -45,8 +45,8 @@ const MapSearch = () => {
       latitude: crd.latitude,
       longitude: crd.longitude,
       zoom: 13,
-      width: "65vw",
-      height: "65vh",
+      width: "50vw",
+      height: "80vh",
     })
   };
 
