@@ -22,11 +22,23 @@ const MapSearch = () => {
   const [radius, setRadius] = useState(1);
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
+  const [createdRoutes, setCreatedRoutes] = useState('')
+  // const [routes, setRoutes] = useState([])
 
   const user = useSelector((state) => state.session.user)
 
   //DELETE ME - we will fetch from backend not from redux
-  const createdRoutes = useSelector((state) => state.session.created_routes)
+  // const createdRoutes = useSelector((state) => state.session.created_routes)
+
+  useEffect(() => {
+    async function getRoutes() {
+      const res = await fetch('api/routes/')
+      const routes = await res.json()
+      setCreatedRoutes(routes)
+
+    }
+    getRoutes()
+  }, [])
 
   //establish viewport coordinates based on user location
   function success(pos) {
@@ -73,13 +85,17 @@ const MapSearch = () => {
   //click event for searching for runs 
   function findRuns(e) {
     e.preventDefault();
-    let routes = [];
+    let routes = []
     if (createdRoutes) {
-      createdRoutes.forEach(route => {
+      let n = [];
+      let d = [];
+      createdRoutes.routes.forEach(route => {
         routes.push(route.route_coordinates[0]);
-        setNames([...names, route.name]);
-        setDistances([...distances, route.distance]);
+        n.push(route.name)
+        d.push(route.distance)
       })
+      setNames([...n]);
+      setDistances([...d]);
     };
 
     let results = [];
