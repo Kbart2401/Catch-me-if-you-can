@@ -16,6 +16,7 @@ const CreateMap = () => {
     const [selectPoint, setSelectPoint] = useState(null);
     const [names, setName] = useState([]);
     const [index, setIndex] = useState(null);
+    const [routeName, setRouteName] = useState(""); 
     const user = useSelector((state) => state.session.user)
 
     //establish viewport coordinates based on user location
@@ -110,7 +111,7 @@ const CreateMap = () => {
             body: JSON.stringify({
                 id: user.id,
                 routeCoordinates: markers,
-                name: 'New route',
+                name: routeName,
                 distance
             })
         })
@@ -119,6 +120,10 @@ const CreateMap = () => {
     return (
         <div className={"map_container"}>
             <div className={"panel"}>
+                <label className={"panel__distance"}>
+                    Route Name: 
+                    <input type="text" value={routeName} onChange={(e) => setRouteName(e.target.value)} style={{width: '100px', 'margin-left': '5px'}}/>
+                </label>
                 <p className={"panel__distance"}>Distance <span style={{'font-size': 15, 'font-weight':'normal'}}>(meters)</span>: {distance}</p>
                 <button className={'panel__reset'} onClick={clickReset}>
                     <p>Reset Route</p>
