@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import User, Route, RunTime, db
+from sqlalchemy import desc
 
 runTime_routes = Blueprint('runtimes', __name__)
 
@@ -37,8 +38,16 @@ def get_runtimes_for_route(route_id):
 @runTime_routes.route('/users/<int:id>')
 @login_required
 def get_runtimes_for_user(id):
-    run_times = RunTime.query.filter_by(user_id=id).all()
-    run_times.sort(key=lambda x: x.date_ran, reverse=False)
-    if len(run_times) >= 10:
-        run_times = run_times[:10]
-    return {"run_times": [run_time.to_dict() for run_time in run_times]}
+    run_times = RunTime.query.filter_by(user_id=id).order_by(
+        desc(RunTime.date_ran)).limit(10).all()
+
+    run_times = [run_time.to_dict() for run_time in run_times]
+
+    routes = [Route.query.get(run_time['route_id']).to_dict()
+              for run_time in run_times]
+
+    for i in range(len(run_times)):
+        run_times[i]['route_name'] = routes[i]['name']
+        run_times[i]['distance'] = routes[i]['distance']
+
+    return {"run_times": run_times, }

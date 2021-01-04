@@ -61,6 +61,14 @@ const calculateTime = (time) => {
   return result
 }
 
+const calculateDate = (date) => {
+  const newDate = new Date(date)
+  const [month, day, year] = newDate.toLocaleDateString("en-US").split("/")
+  const formattedDate = `${month}/${day}/${year}`
+
+  return formattedDate
+}
+
 const arrSum = function (arr) {
   const num = arr.reduce(function (a, b) {
     return a + parseFloat(b)
@@ -76,44 +84,6 @@ const routeInfo = {
   location: 'Somewhere',
   userPath: `/users/1`,
 }
-
-const rivals = [
-  {
-    position: 1,
-    name: 'user1',
-    path: `/users/1`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 2,
-    name: 'user2',
-    path: `/users/2`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 3,
-    name: 'user3',
-    path: `/users/3`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 4,
-    name: 'user4',
-    path: `/users/4`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-  {
-    position: 5,
-    name: 'user5',
-    path: `/users/5`,
-    bestTime: `${calculateTime(time)}`,
-    date: `${date}`,
-  },
-]
 
 //Component
 const Routes = (props) => {
@@ -229,8 +199,8 @@ const Routes = (props) => {
                   {run.user_name}
                 </Button></Typography>
               </TableCell>
-              <TableCell align="right">{run.time}</TableCell>
-              <TableCell align="right">{run.date_ran}</TableCell>
+              <TableCell align="right">{calculateTime(run.time)}</TableCell>
+              <TableCell align="right">{calculateDate(run.date_ran)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
