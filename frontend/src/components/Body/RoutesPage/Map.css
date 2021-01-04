@@ -74,3 +74,22 @@
 .popup__border { 
   border: "solid black"; 
 }
+
+.panel__search {
+  width: 120px;
+  margin-top: 10px; 
+  margin-left: 10px;
+  margin-right: 10px;  
+  border-radius: 3px; 
+  border: none; 
+  background-color: rgb(126, 209, 247);;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  transition: background-color 0.5s; 
+  height:40px; 
+}
+
+.panel__search:hover {
+  background-color: rgb(35, 104, 252); 
+}

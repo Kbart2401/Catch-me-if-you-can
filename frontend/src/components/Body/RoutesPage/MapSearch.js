@@ -4,17 +4,7 @@ import SearchPin from './SearchPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
 import * as turf from '@turf/turf'
-const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
-const tilequeryClient = mbxTilesets({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
 
-//create map radius for search area 
-function makeRadius(lngLatArray, radiusInMeters) {
-  const point = turf.point(lngLatArray);
-  const buffered = turf.buffer(point, radiusInMeters, { units: 'meters' });
-  return buffered;
-}
-
-//ALL MARKER REFERENCES WILL NEED TO BE CHANGED ONCE TABLE DATA MODIFIED
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
   //set circle coordinates
@@ -121,15 +111,15 @@ const MapSearch = () => {
 
   return (
     <div className={"map_container"}>
-      <form onSubmit={findRuns}>
-        <label>
-          Distance
-        <input type="number" value={radius} onChange={e => setRadius(e.target.value)} />
+      <form className={"panel"} onSubmit={findRuns}>
+        <label className={"panel__distance"}>
+          Search Radius <span style={{'font-size': 15, 'font-weight':'normal'}}>(km)</span>
+        <input type="number" style={{width: '30px', 'margin-left': '5px'}} value={radius} onChange={e => setRadius(e.target.value)} />
         </label>
+        <button className={'panel__search'} onClick={findRuns}>
+          Search for Runs
+        </button>
       </form>
-      <button onClick={findRuns}>
-        Search for Runs
-    </button>
       <ReactMapGL {...viewport}
         mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
         mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
