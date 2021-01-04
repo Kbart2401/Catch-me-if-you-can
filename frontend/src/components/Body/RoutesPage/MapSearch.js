@@ -131,8 +131,8 @@ const MapSearch = () => {
             </Source>
             {markers.map((marker, i) => {
               return (
-                <Marker latitude={marker[1]} longitude={marker[0]}>
-                  <button
+                <Marker longitude={marker[0]} latitude={marker[1]} >
+                  <button className={"marker__button"}
                     onClick={e => {
                       e.preventDefault();
                       setSelectPoint(marker);
@@ -153,8 +153,8 @@ const MapSearch = () => {
                 }}
               >
                 <div>
-                  {names[index]}
-                  {distances[index]}
+                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Route name:</span> {names[index]}</p>
+                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span>{distances[index]}</p>
                 </div>
               </Popup>
             ) : null}

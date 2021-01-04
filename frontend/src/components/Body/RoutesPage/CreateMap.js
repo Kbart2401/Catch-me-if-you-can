@@ -176,7 +176,6 @@ const CreateMap = () => {
                                 onClose={() => {
                                     setSelectPoint(null);
                                 }}
-                                className={"popup__border"}
                             >
                                 <div>
                                     <p className={'popup'}>{names[index] || "Unknown"}</p>
