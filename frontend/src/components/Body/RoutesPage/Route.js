@@ -209,10 +209,6 @@ const Routes = (props) => {
     }
   }, [user])
 
-  console.log('Route data: ', route)
-  console.log('Run data: ', route.run_times)
-
-
   const LeaderBoardTable = () => (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">

@@ -93,6 +93,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (user) {
+
       setIsLoaded(true)
     }
   }, [user])
