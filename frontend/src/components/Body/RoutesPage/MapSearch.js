@@ -4,17 +4,7 @@ import SearchPin from './SearchPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
 import * as turf from '@turf/turf'
-const mbxTilesets = require('@mapbox/mapbox-sdk/services/tilesets');
-const tilequeryClient = mbxTilesets({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
 
-//create map radius for search area 
-function makeRadius(lngLatArray, radiusInMeters) {
-  const point = turf.point(lngLatArray);
-  const buffered = turf.buffer(point, radiusInMeters, { units: 'meters' });
-  return buffered;
-}
-
-//ALL MARKER REFERENCES WILL NEED TO BE CHANGED ONCE TABLE DATA MODIFIED
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
   //set circle coordinates
@@ -29,7 +19,7 @@ const MapSearch = () => {
   const [selectPoint, setSelectPoint] = useState(null);
   const [index, setIndex] = useState(0);
   //set route details on popup
-  const [radius, setRadius] = useState(0);
+  const [radius, setRadius] = useState(1);
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
 
@@ -45,8 +35,8 @@ const MapSearch = () => {
       latitude: crd.latitude,
       longitude: crd.longitude,
       zoom: 13,
-      width: "65vw",
-      height: "65vh",
+      width: "50vw",
+      height: "80vh",
     })
   };
 
@@ -121,15 +111,15 @@ const MapSearch = () => {
 
   return (
     <div className={"map_container"}>
-      <form onSubmit={findRuns}>
-        <label>
-          Distance
-        <input type="number" value={radius} onChange={e => setRadius(e.target.value)} />
+      <form className={"panel"} onSubmit={findRuns}>
+        <label className={"panel__distance"}>
+          Search Radius <span style={{'font-size': 15, 'font-weight':'normal'}}>(km)</span>
+        <input type="number" style={{width: '30px', 'margin-left': '5px'}} value={radius} onChange={e => setRadius(e.target.value)} />
         </label>
+        <button className={'panel__search'} onClick={findRuns}>
+          Search for Runs
+        </button>
       </form>
-      <button onClick={findRuns}>
-        Search for Runs
-    </button>
       <ReactMapGL {...viewport}
         mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
         mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
@@ -141,8 +131,8 @@ const MapSearch = () => {
             </Source>
             {markers.map((marker, i) => {
               return (
-                <Marker latitude={marker[1]} longitude={marker[0]}>
-                  <button
+                <Marker longitude={marker[0]} latitude={marker[1]} >
+                  <button className={"marker__button"}
                     onClick={e => {
                       e.preventDefault();
                       setSelectPoint(marker);
@@ -163,8 +153,8 @@ const MapSearch = () => {
                 }}
               >
                 <div>
-                  {names[index]}
-                  {distances[index]}
+                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Route name:</span> {names[index]}</p>
+                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span>{distances[index]}</p>
                 </div>
               </Popup>
             ) : null}

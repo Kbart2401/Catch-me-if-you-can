@@ -1,21 +1,87 @@
-/* .map_container {
-  position: absolute; 
-  left: 250px; 
-  bottom: -200px; 
-  width: 200px; 
-} */
+.map_container {
+  position: relative; 
+}
 
 .panel {
     position: absolute;
     margin: 20px;
-    width: 25%;
+    width: 15%;
     top: 0;
-    bottom: 20%;
-    padding: 20px;
+    padding: 10px;
     background-color: rgba(255, 255, 255, 0.9);
-    overflow-y: scroll;
     font-family: sans-serif;
     font-size: 0.8em;
     line-height: 2em;
     z-index: 1;
+    border: solid black; 
+}
+
+.panel__distance {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: large;
+}
+
+.panel__reset {
+  width: 120px;
+  margin: 15px 10px; 
+  border-radius: 3px; 
+  border: none; 
+  background-color: rgb(247, 180, 126);;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  transition: background-color 0.5s; 
+}
+
+.panel__reset:hover {
+  background-color: rgb(252, 82, 70); 
+}
+
+.panel__submit {
+  width: 120px;
+  margin: 0px 10px; 
+  border-radius: 3px; 
+  border: none; 
+  background-color: rgb(126, 209, 247);;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  transition: background-color 0.5s; 
+}
+
+.panel__submit:hover {
+  background-color: rgb(35, 104, 252); 
+}
+
+.marker__button {
+  border: none; 
+  background: none;
+  height: 100%; 
+  width: 100%; 
+  outline: none; 
+}
+
+.popup {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+}
+
+.panel__search {
+  width: 120px;
+  margin-top: 10px; 
+  margin-left: 10px;
+  margin-right: 10px;  
+  border-radius: 3px; 
+  border: none; 
+  background-color: rgb(126, 209, 247);;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  transition: background-color 0.5s; 
+  height:40px; 
+}
+
+.panel__search:hover {
+  background-color: rgb(35, 104, 252); 
 }
