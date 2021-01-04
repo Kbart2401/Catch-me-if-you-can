@@ -15,6 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   navBar_root: {
+    // maxWidth: '1000px',
     display: 'grid',
     gridAutoFlow: 'column',
     gridTemplateAreas: '\'left middle right\'',
