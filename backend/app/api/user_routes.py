@@ -31,8 +31,6 @@ def runCount(id):
     routes = [Route.query.get(run_time['route_id']).to_dict()
               for run_time in recent_run]
 
-    print('\n AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', recent_run, '\n')
-
     for i in range(len(recent_run)):
         recent_run[i]['route_name'] = routes[i]['name']
         recent_run[i]['distance'] = routes[i]['distance']
