@@ -5,6 +5,8 @@ from app.models import User, Route, RunTime, db
 runTime_routes = Blueprint('runtimes', __name__)
 
 # Add new run time to route
+
+
 @runTime_routes.route('/', methods=['POST'])
 @login_required
 def add_runtime():
@@ -21,6 +23,8 @@ def add_runtime():
     return run_time.to_dict()
 
 # Search for all runTimes associated with specific route
+
+
 @runTime_routes.route('/routes/<int:route_id>')
 @login_required
 def get_runtimes_for_route(route_id):
@@ -28,6 +32,8 @@ def get_runtimes_for_route(route_id):
     return {"run_times": [run_time.to_dict() for run_time in run_times]}
 
 # Search for all runTimes associated with user
+
+
 @runTime_routes.route('/users/<int:id>')
 @login_required
 def get_runtimes_for_user(id):

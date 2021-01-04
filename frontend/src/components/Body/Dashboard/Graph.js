@@ -1,25 +1,7 @@
 import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 
-//MUI
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    height: '5rem',
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-}));
-
 export const BarGraph = (props) => {
-  const classes = useStyles();
   const [data, setData] = useState([10, 20, 30, 40, 50, 60, 70])
 
   const incomingData = {
@@ -31,7 +13,6 @@ export const BarGraph = (props) => {
       barThickness: 20,
       borderWidth: 1,
       backgroundColor: '#90e0ef',
-      // maxBarThickness: 8,
       minBarLength: 1,
       data: data,
     }]
