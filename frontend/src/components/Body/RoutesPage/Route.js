@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/actions/session'
+import SavedMap from './SavedMaps';
 
 //MUI
 import { Button, makeStyles, Typography } from '@material-ui/core';
@@ -244,7 +245,7 @@ const Routes = (props) => {
 
         {/* Map Component */}
         <Paper className={classes.route_map_container}>
-          <Typography>Map Here</Typography>
+          <SavedMap route={route.route_coordinates} />
         </Paper>
         <div className={classes.route_information_container}>
 
