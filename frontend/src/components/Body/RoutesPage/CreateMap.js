@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
-import Pin from './Pin';
+import EndPin from './EndPin';
+import StartPin from './StartPin'; 
 import { useSelector } from 'react-redux';
 import './Map.css';
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
@@ -23,7 +24,7 @@ const CreateMap = () => {
         setViewport({
             latitude: crd.latitude,
             longitude: crd.longitude,
-            zoom: 13,
+            zoom: 16,
             width: "65vw",
             height: "65vh",
         })
@@ -87,7 +88,7 @@ const CreateMap = () => {
     function clickMarker(event) {
         setMarkers([...markers,
         [event.lngLat[0], event.lngLat[1]]
-        ])
+        ]);
     };
 
     //click event for resetting routes
@@ -97,7 +98,7 @@ const CreateMap = () => {
         setIsLoaded(false);
         setDistance(0);
         setName([]);
-    }
+    };
 
     //submit for saving route to database 
     async function clickSubmit() {
@@ -113,17 +114,17 @@ const CreateMap = () => {
                 distance
             })
         })
-    }
+    };
 
     return (
         <div className={"map_container"}>
             <div className={"panel"}>
-                {distance}
-                <button onClick={clickReset}>
-                    Reset Route
+                <p className={"panel__distance"}>Distance <span style={{'font-size': 15, 'font-weight':'normal'}}>(meters)</span>: {distance}</p>
+                <button className={'panel__reset'} onClick={clickReset}>
+                    <p>Reset Route</p>
                 </button>
-                <button onClick={clickSubmit}>
-                    Submit Route
+                <button className={'panel__submit'} onClick={clickSubmit}>
+                    <p>Submit Route</p>
                 </button>
             </div>
             <ReactMapGL {...viewport}
@@ -131,8 +132,8 @@ const CreateMap = () => {
                 mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
                 onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
                 {markers.length === 1 &&
-                    <Marker latitude={markers[0][1]} longitude={markers[0][0]}>
-                        <Pin />
+                    <Marker longitude={markers[0][0]} latitude={markers[0][1]}>
+                        <StartPin />
                     </Marker>
                 }
                 {isLoaded &&
@@ -141,19 +142,31 @@ const CreateMap = () => {
                             <Layer id="route" type="line" paint={{ 'line-color': '#3887be', 'line-width': 5, 'line-opacity': 0.75 }} />
                         </Source>
                         {markers.map((marker, i) => {
-                            return (
-                                <Marker longitude={marker[0]} latitude={marker[1]} >
-                                    <button
-                                        onClick={e => {
-                                            e.preventDefault();
-                                            setSelectPoint(marker);
-                                            setIndex(i);
-                                        }}
-                                    >
-                                        <Pin />
-                                    </button>
-                                </Marker>
-                            )
+                            if (i === 0 ) {
+                                return (
+                                    <Marker longitude={marker[0]} latitude={marker[1]} >
+                                        <button className={"marker__button"} onClick={(e) => {
+                                             e.preventDefault();
+                                             setSelectPoint(marker);
+                                             setIndex(i);
+                                        }}>
+                                            <StartPin />
+                                        </button>
+                                    </Marker>
+                                )
+                            } else if (i === markers.length - 1) {
+                                return (
+                                    <Marker longitude={marker[0]} latitude={marker[1]} >
+                                        <button className={"marker__button"} onClick={(e) => {
+                                             e.preventDefault();
+                                             setSelectPoint(marker);
+                                             setIndex(i);
+                                        }}>
+                                            <EndPin />
+                                        </button>
+                                    </Marker>
+                                )
+                            } 
                         })}
 
                         {selectPoint ? (
@@ -165,9 +178,9 @@ const CreateMap = () => {
                                 }}
                             >
                                 <div>
-                                    {names[index]}
-                                longitude: {selectPoint[0]}
-                                latitude: {selectPoint[1]}
+                                    <p className={'popup'}>{names[index] || "Unknown"}</p>
+                                    <p className={'popup'}>Longitude: {selectPoint[0]}</p>
+                                    <p className={'popup'}>Latitude: {selectPoint[1]}</p>
                                 </div>
                             </Popup>
                         ) : null}
