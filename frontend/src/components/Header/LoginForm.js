@@ -49,8 +49,9 @@ const LoginForm = (props) => {
   const onLogin = (e) => {
     e.preventDefault();
     dispatch(sessionActions.loginUser({ email, password }))
-    .catch(res => {
-      if (res.errors) return setErrors(res.errors)})
+      .catch(res => {
+        if (res.errors) return setErrors(res.errors)
+      })
   };
 
   const handleChange = (prop) => (e) => {
@@ -74,7 +75,7 @@ const LoginForm = (props) => {
           Log In
 				</Typography>
         <div>
-          <ul>
+          <ul style={{ color: 'red', listStyleType: 'none' }}>
             {errors.map(error => (
               <li key={error}>
                 <Typography >{error}</Typography>

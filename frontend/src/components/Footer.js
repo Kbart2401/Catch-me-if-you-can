@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgb(30, 33, 30)',
     display: 'flex',
     justifyContent: 'center',
-    height: '125px'
+    height: '135px'
   },
   footer_root: {
     display: 'grid',
@@ -90,16 +90,22 @@ const useStyles = makeStyles((theme) => ({
   },
   contact: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
   contactContainer: {
     display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
     height: '80px',
-    width: '250px',
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: '350px',
+    justifyContent: 'center',
+    borderTop: '1px solid white',
+    paddingTop: '5px'
+  },
+
+  contactColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%'
   }
 }));
 
@@ -119,36 +125,40 @@ const Footer = () => {
           <span>About Us</span>
           <Typography className={classes.text}>Creators</Typography>
           <div className={classes.contactContainer}>
-            <div className={classes.contact}>
-              <a className={classes.linkText} href='https://www.linkedin.com/in/aaron-hanson-brb/'>Aaron Hanson</a> &nbsp;
-            <a className={classes.linkText} href='https://github.com/Kbart2401/Catch-me-if-you-can' target='_blank'>
-                <GitHubIcon />
-              </a>
+            <div className={classes.contactColumn}>
+              <div className={classes.contact}>
+                <a className={classes.linkText} href='https://www.linkedin.com/in/aaron-hanson-brb/' target='_blank'>Aaron Hanson</a> &nbsp;
+            <a className={classes.linkText} href='https://github.com/ahan8927' target='_blank'>
+                  <GitHubIcon />
+                </a>
+              </div>
+              <div className={classes.contact}>
+                <a className={classes.linkText} href='https://www.linkedin.com/in/kyle-barthelmes-a5120b51/' target='_blank'>Kyle Barthelmes</a> &nbsp;
+            <a className={classes.linkText} href='https://github.com/Kbart2401' target='_blank'>
+                  <GitHubIcon />
+                </a>
+              </div>
             </div>
-            <div className={classes.contact}>
-              <a className={classes.linkText} href='https://www.linkedin.com/in/kyle-barthelmes-a5120b51/'>Kyle Barthelmes</a> &nbsp;
-            <a className={classes.linkText} href='https://github.com/Kbart2401/Catch-me-if-you-can' target='_blank'>
-                <GitHubIcon />
-              </a>
-            </div>
-            <div className={classes.contact}>
-              <a className={classes.linkText} href='https://www.linkedin.com/in/nicholas-richard-77a9a066/'>Nick Richard</a> &nbsp;
-            <a className={classes.linkText} href='https://github.com/Kbart2401/Catch-me-if-you-can' target='_blank'>
-                <GitHubIcon />
-              </a>
-            </div>
-            <div className={classes.contact}>
-              <a className={classes.linkText} href='https://www.linkedin.com/in/kyle-barthelmes-a5120b51/'>Rhys Previte</a> &nbsp;
-            <a className={classes.linkText} href='https://github.com/Kbart2401/Catch-me-if-you-can' target='_blank'>
-                <GitHubIcon />
-              </a>
+            <div className={classes.contactColumn}>
+              <div className={classes.contact}>
+                <a className={classes.linkText} href='https://www.linkedin.com/in/nicholas-richard-77a9a066/' target='_blank'>Nick Richard</a> &nbsp;
+            <a className={classes.linkText} href='https://github.com/rickynich' target='_blank'>
+                  <GitHubIcon />
+                </a>
+              </div>
+              <div className={classes.contact}>
+                <a className={classes.linkText} href='https://www.linkedin.com/in/rhysprevite/' target='_blank'>Rhys Previte</a> &nbsp;
+            <a className={classes.linkText} href='https://github.com/Preezey24' target='_blank'>
+                  <GitHubIcon />
+                </a>
+              </div>
             </div>
           </div>
         </div>
         <div className={classes.footer_right}>
           <span>Inspired By</span>
-          <div className={classes.contactContainer}>
-          <a className={classes.linkText} href='https://www.mapmyrun.com/'>MapMyRun</a>
+          <div>
+            <a className={classes.linkText} href='https://www.mapmyrun.com/' target='_blank'>MapMyRun</a>
           </div>
         </div>
       </div>
