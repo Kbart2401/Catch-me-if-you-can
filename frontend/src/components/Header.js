@@ -69,8 +69,6 @@ const useStyles = makeStyles((theme) => ({
       padding: '.5rem'
     }
   },
-
-
   dialog: {
     width: 'auto',
     height: 'auto',
@@ -161,7 +159,8 @@ const Header = (props) => {
         {/* LEFT */}
         <div className={classes.navBar_left}>
           <Button onClick={() => handleMenuClick('/dashboard')}>
-            <Typography color='primary' >Catch Me If You Can</Typography>
+            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)' }} />
+            {/* <Typography color='primary' >Catch Me If You Can</Typography> */}
           </Button>
         </div>
 

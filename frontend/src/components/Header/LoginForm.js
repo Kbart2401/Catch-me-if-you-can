@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  input: {
+    paddingBottom: '10px'
+  }
 }));
 
 const LoginForm = (props) => {
@@ -86,6 +89,7 @@ const LoginForm = (props) => {
         <form className={classes.form} onSubmit={onLogin}>
           <Grid container spacing={2}>
             <TextField
+            className={classes.input}
               fullWidth
               label="email"
               name="email"
