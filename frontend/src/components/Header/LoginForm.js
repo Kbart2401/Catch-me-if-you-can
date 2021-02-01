@@ -48,8 +48,9 @@ const LoginForm = (props) => {
 
   const onLogin = (e) => {
     e.preventDefault();
-    setErrors([]);
     dispatch(sessionActions.loginUser({ email, password }))
+    .catch(res => {
+      if (res.errors) return setErrors(res.errors)})
   };
 
   const handleChange = (prop) => (e) => {
@@ -76,7 +77,7 @@ const LoginForm = (props) => {
           <ul>
             {errors.map(error => (
               <li key={error}>
-                <Typography>{error}</Typography>
+                <Typography >{error}</Typography>
               </li>
             ))}
           </ul>
