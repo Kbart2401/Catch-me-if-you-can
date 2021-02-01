@@ -5,8 +5,11 @@ import StartPin from './StartPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
 import { useHistory } from "react-router-dom";
+const mapboxAPI = process.env.REACT_APP_MAPBOX
+const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE
+
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
-const directionsClient = mbxDirections({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" })
+const directionsClient = mbxDirections({ accessToken: mapboxAPI })
 
 const CreateMap = () => {
     const [viewport, setViewport] = useState({});
@@ -80,7 +83,7 @@ const CreateMap = () => {
             ]
           };
           setName(nameArr);
-          setDistance(dist);
+          setDistance(dist.toFixed(2));
           setRouteData({ ...geojson });
           setIsLoaded(true);
         });
@@ -119,7 +122,7 @@ const CreateMap = () => {
         })
         history.push('/my-routes');
     };
-
+    
     return (
         <div className={"map_container"}>
             <div className={"panel"}>
@@ -136,8 +139,8 @@ const CreateMap = () => {
                 </button>
             </div>
             <ReactMapGL {...viewport}
-                mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
-                mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
+                mapboxApiAccessToken={mapboxAPI}
+                mapStyle={mapboxSTYLE}
                 onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
                 {markers.length === 1 &&
                     <Marker longitude={markers[0][0]} latitude={markers[0][1]}>
