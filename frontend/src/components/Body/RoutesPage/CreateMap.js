@@ -83,7 +83,7 @@ const CreateMap = () => {
             ]
           };
           setName(nameArr);
-          setDistance(dist);
+          setDistance(dist.toFixed(2));
           setRouteData({ ...geojson });
           setIsLoaded(true);
         });
