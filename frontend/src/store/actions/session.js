@@ -21,8 +21,7 @@ const setTotalRunTime = time => ({ type: SET_TOTAL_TIME, payload: time })
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
   const { email, password } = user;
-  try {
-    const res = await fetch('/api/auth/login', {
+    let res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -37,11 +36,11 @@ export const loginUser = (user) => async (dispatch) => {
       const data = await res.json()
       dispatch(setUser(data));
       window.location.replace("/dashboard")
-      return data;
+    } else {
+      res = await res.json()
+      throw res;
     }
-  } catch (e) {
-    console.error(e)
-  }
+    return res
 }
 
 export const signupUser = (user) => async (dispatch) => {
