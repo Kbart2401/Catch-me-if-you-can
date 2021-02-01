@@ -31,6 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 0),
+    backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)',
+    color: 'white',
+    '&:hover': {
+      bottom: '8px',
+      backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
+    }
   },
   formControl: {
     margin: theme.spacing(1),
@@ -40,7 +46,13 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '10px'
   },
   demo: {
-    margin: '20px 0'
+    margin: '20px 0',
+    backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)',
+    color: 'white',
+    '&:hover': {
+      bottom: '8px',
+      backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)'
+    }
   }
 }));
 
