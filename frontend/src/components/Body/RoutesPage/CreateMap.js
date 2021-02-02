@@ -155,7 +155,7 @@ const CreateMap = () => {
                 mapStyle={mapboxSTYLE}
                 onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
                 {markers.length === 1 &&
-                    <Marker longitude={markers[0][0]} latitude={markers[0][1]} offsetTop={-8}>
+                    <Marker longitude={markers[0][0]} latitude={markers[0][1]} offsetTop={-20} offsetLeft={-5}>
                         <StartPin />
                     </Marker>
                 }
@@ -169,7 +169,8 @@ const CreateMap = () => {
                                 return (
                                     <Marker longitude={marker[0]} 
                                             latitude={marker[1]} 
-                                            offsetTop={-8}    
+                                            offsetTop={-20}  
+                                            offsetLeft={-5}    
                                     >
                                         <button className={"marker__button"} onClick={(e) => {
                                              e.preventDefault();
@@ -184,7 +185,8 @@ const CreateMap = () => {
                                 return (
                                     <Marker longitude={marker[0]} 
                                             latitude={marker[1]}
-                                            offsetTop={-8}   
+                                            offsetTop={-20}  
+                                            offsetLeft={-5} 
                                     >
                                         <button className={"marker__button"} onClick={(e) => {
                                              e.preventDefault();
