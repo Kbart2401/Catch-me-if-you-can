@@ -74,16 +74,7 @@ const RivalsList = () => {
 	};
 
 	function addRival(rival) {
-		fetch("/api/rivals/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				id: user.id,
-				rival_id: rival.id,
-			}),
-		});
+		dispatch(sessionActions.addRival(user, rival))
 		// setRivals([...rivals, rival])
 	}
 	function removeRival(rivalId) {
