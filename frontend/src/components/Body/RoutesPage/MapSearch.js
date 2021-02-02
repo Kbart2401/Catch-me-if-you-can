@@ -59,6 +59,7 @@ const MapSearch = () => {
 
   //click event for dropping marker on map && creating radius
   function clickLocation(event) {
+    setSelectPoint(null)
     setMarkers([]);
     setNames([]);
     setDistances([]);
@@ -109,6 +110,7 @@ const MapSearch = () => {
   //click event for searching for runs 
   function findRuns(e) {
     e.preventDefault();
+    if (point.length === 0) return; 
     let routes = []
     if (createdRoutes) {
       let n = [];
@@ -188,9 +190,12 @@ const MapSearch = () => {
               <Popup
                 latitude={selectPoint[1]}
                 longitude={selectPoint[0]}
+                tipSize={8}
+                offsetLeft={6}
                 onClose={() => {
                   setSelectPoint(null);
                 }}
+                closeOnClick={true}
               >
                 <div>
                   <p className={'popup'}><span style={{'font-weight':'bold'}}>Route name:</span> {names[index]}</p>
