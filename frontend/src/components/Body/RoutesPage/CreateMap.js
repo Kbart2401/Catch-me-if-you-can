@@ -82,9 +82,6 @@ const CreateMap = () => {
               }
             ]
           };
-          setName(nameArr);
-          setDistance(dist.toFixed(2));
-          setRouteData({ ...geojson });
           //get marker set to route
           let arr = geojson.features[0].geometry.coordinates;
           let lonStart = arr[0][0];
@@ -97,10 +94,13 @@ const CreateMap = () => {
           markers[0][1] = latStart; 
           markers[markers.length-1][0] = lonEnd;
           markers[markers.length-1][1] = latEnd;
+          setName(nameArr);
+          setDistance(dist.toFixed(2));
+          setRouteData({ ...geojson });
           setIsLoaded(true);
         });
     }
-  }, [markers]);
+  }, [markers, distance]);
 
   //click event for dropping marker on map
   function clickMarker(event) {
