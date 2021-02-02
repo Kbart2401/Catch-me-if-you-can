@@ -1,77 +1,92 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useRef } from 'react'; 
 import ReactMapGL, { Marker, Layer, Source } from 'react-map-gl';
 import StartPin from './StartPin';
-import EndPin from './EndPin';  
+import EndPin from './EndPin'; 
+const mapboxAPI = process.env.REACT_APP_MAPBOX;
+const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
+
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
-const directionsClient = mbxDirections({ accessToken: "pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2pjMDUzYnozMzVhMzBucDAzcXBhdXdjIn0.kEXpfO6zDjp9J4QXnwzVcA" });
+const directionsClient = mbxDirections({ accessToken: mapboxAPI });
 
 const SavedMap = (props) => {
     const [viewport, setViewport] = useState({}); 
     const [startMarker, setStartMarker] = useState([]);
     const [endMarker, setEndMarker] = useState([]); 
+    const wayPoints = useRef([])
     const [routeData, setRouteData] = useState({});
-    const [isLoaded, setIsLoaded] = useState(false);  
+    const [isLoaded, setIsLoaded] = useState(false); 
 
-    setStartMarker(props.route_coordinates[0]);
-    setEndMarker(props.route_coordinates[route_coordinates.length-1]);
+    useEffect(() => {
+        setStartMarker(props.routeCoordinates[0]);
+        setEndMarker(props.routeCoordinates[props.routeCoordinates.length-1]);     
+        wayPoints.current = props.routeCoordinates.map(point => {
+            return {
+                coordinates: [point[0], point[1]]
+            }
+        });  
+        console.log(wayPoints.current); 
+    });
 
-    //establish viewport coordinates based on start marker
-    function success() {
+    useEffect(()=> {
         setViewport({
             longitude: startMarker[0], 
             latitude: startMarker[1], 
-            zoom: 16, 
+            zoom: 14, 
             width: "65vw", 
-            height: "65vh",  
-        })
-    };
-
-    function error(err) {
-        alert(`ERROR(${err.code}): ${err.message}`);
-    };
-
-    useEffect(()=> {
-        navigator.geolocation.getCurrentPosition(success, error);
-    }, []);
+            height: "65vh",
+        });
+    }, [startMarker]);
 
     //api request to mapbox to get route directions per given coordinates
-    directionsClient.getDirections({
-        profile: 'walking', 
-        geometries: 'geojson', 
-        waypoints: props.route_coordinates 
-    })
-        .send()
-        .then(response => {
-            const route = response.body.routes[0].geometry.coordinates; 
-         
-
-        const geojson = {
-            type: 'FeatureCollection', 
-            features: [
-                {
-                    type: 'Feature', 
-                    geometry: {
-                        type: 'LineString', 
-                        coordinates: route, 
+    useEffect(() => {
+        console.log("HELLOOOO")
+        directionsClient.getDirections({
+            profile: 'walking', 
+            geometries: 'geojson', 
+            waypoints: wayPoints.current, 
+        })
+            .send()
+            .then(response => {
+                console.log(response); 
+                const route = response.body.routes[0].geometry.coordinates; 
+             
+    
+            const geojson = {
+                type: 'FeatureCollection', 
+                features: [
+                    {
+                        type: 'Feature', 
+                        geometry: {
+                            type: 'LineString', 
+                            coordinates: route, 
+                        }
                     }
-                }
-            ]
-        };
-        setRouteData({...geojson}); 
-        setIsLoaded(true); 
-    });
+                ]
+            };
+            setRouteData({...geojson}); 
+            setIsLoaded(true); 
+        });
+    }, [wayPoints.current]);
 
     return (
         <ReactMapGL {...viewport}
-            mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
-            mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-            onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
+            mapboxApiAccessToken={mapboxAPI}
+            mapStyle={mapboxSTYLE}
+            onViewportChange={viewport => setViewport(viewport)}>
                 {isLoaded && 
                 <>
-                  <Marker longitude={startMarker[0]} latitude={startMarker[1]}>
+                  <Marker   longitude={startMarker[0]} 
+                            latitude={startMarker[1]}
+                            offsetTop={-20}  
+                            offsetLeft={-5}
+                    >
                     <StartPin />  
                   </Marker> 
-                  <Marker longitude={endMarker[0]} latitude={endMarker[1]}>
+                  <Marker   longitude={endMarker[0]} 
+                            latitude={endMarker[1]}
+                            offsetTop={-20}  
+                            offsetLeft={-5}
+                    >
                     <EndPin />  
                   </Marker> 
                   <Source id="saved-route" type="geojson" data={routeData}>

@@ -53,6 +53,7 @@ const CreateMap = () => {
           coordinates: [marker[0], marker[1]]
         }
       });
+      console.log(ways); 
       directionsClient.getDirections({
         profile: 'walking',
         geometries: 'geojson',
