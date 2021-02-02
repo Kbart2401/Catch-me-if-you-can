@@ -68,7 +68,6 @@ const Body = (props) => {
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />
           <ProtectedRoute exact user={user} path="/users/:userId" component={Profile} />
           <ProtectedRoute exact user={user} path="/search" component={MapSearch} />
-          {/* <ProtectedRoute exact user={user} path="/search" component={SavedMaps} /> */}
         </Switch>
       </Paper>
     </div>
