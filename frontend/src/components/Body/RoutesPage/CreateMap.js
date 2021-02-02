@@ -87,12 +87,16 @@ const CreateMap = () => {
           setRouteData({ ...geojson });
           //get marker set to route
           let arr = geojson.features[0].geometry.coordinates;
-          let lon = arr[arr.length-1][0]; 
-          let lat = arr[arr.length-1][1]; 
+          let lonStart = arr[0][0];
+          let latStart = arr[0][1];
+          let lonEnd = arr[arr.length-1][0]; 
+          let latEnd = arr[arr.length-1][1]; 
           
           // setMarkers([...markers.slice(0, markers.length-1), [lon, lat]])
-          markers[markers.length-1][0] = lon;
-          markers[markers.length-1][1] = lat;
+          markers[0][0] = lonStart; 
+          markers[0][1] = latStart; 
+          markers[markers.length-1][0] = lonEnd;
+          markers[markers.length-1][1] = latEnd;
           setIsLoaded(true);
         });
     }
@@ -151,7 +155,7 @@ const CreateMap = () => {
                 mapStyle={mapboxSTYLE}
                 onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
                 {markers.length === 1 &&
-                    <Marker longitude={markers[0][0]} latitude={markers[0][1]}>
+                    <Marker longitude={markers[0][0]} latitude={markers[0][1]} offsetTop={-8}>
                         <StartPin />
                     </Marker>
                 }
@@ -164,7 +168,8 @@ const CreateMap = () => {
                             if (i === 0 ) {
                                 return (
                                     <Marker longitude={marker[0]} 
-                                            latitude={marker[1]}     
+                                            latitude={marker[1]} 
+                                            offsetTop={-8}    
                                     >
                                         <button className={"marker__button"} onClick={(e) => {
                                              e.preventDefault();
