@@ -3,11 +3,14 @@ import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import SearchPin from './SearchPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
-import * as turf from '@turf/turf'
+import * as turf from '@turf/turf';
+const mapboxAPI = process.env.REACT_APP_MAPBOX;
+const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
   //set circle coordinates
+  const [point, setPoint] = useState([])
   const [polyCoords, setPolyCoords] = useState([]);
   //create source with circle radius layer
   const [searchData, setSearchData] = useState({});
@@ -23,12 +26,8 @@ const MapSearch = () => {
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
   const [createdRoutes, setCreatedRoutes] = useState('')
-  // const [routes, setRoutes] = useState([])
 
   const user = useSelector((state) => state.session.user)
-
-  //DELETE ME - we will fetch from backend not from redux
-  // const createdRoutes = useSelector((state) => state.session.created_routes)
 
   useEffect(() => {
     async function getRoutes() {
@@ -46,7 +45,7 @@ const MapSearch = () => {
     setViewport({
       latitude: crd.latitude,
       longitude: crd.longitude,
-      zoom: 13,
+      zoom: 11,
       width: "50vw",
       height: "80vh",
     })
@@ -63,8 +62,9 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    const point = turf.point([event.lngLat[0], event.lngLat[1]]);
-    const buffered = turf.buffer(point, radius, { units: 'kilometers' });
+    const newPoint = turf.point([event.lngLat[0], event.lngLat[1]]);
+    setPoint(newPoint);
+    const buffered = turf.buffer(newPoint, radius, { units: 'kilometers' });
     const geojson = {
       type: 'FeatureCollection',
       features: [
@@ -81,6 +81,30 @@ const MapSearch = () => {
     setSearchData(geojson);
     setIsLoaded(true);
   };
+
+  //re-creating the radius size of the search when changing the number 
+  useEffect(() => {
+    if (point.length === 0) return; 
+    setMarkers([]);
+    setNames([]);
+    setDistances([]);
+    const buffered = turf.buffer(point, radius, { units: 'kilometers' });
+    const geojson = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: buffered.geometry.coordinates,
+          }
+        }
+      ]
+    }
+    setPolyCoords(buffered.geometry.coordinates);
+    setSearchData(geojson);
+    setIsLoaded(true);
+  }, [radius])
 
   //click event for searching for runs 
   function findRuns(e) {
@@ -130,15 +154,15 @@ const MapSearch = () => {
       <form className={"panel"} onSubmit={findRuns}>
         <label className={"panel__distance"}>
           Search Radius <span style={{'font-size': 15, 'font-weight':'normal'}}>(km)</span>
-        <input type="number" style={{width: '30px', 'margin-left': '5px'}} value={radius} onChange={e => setRadius(e.target.value)} />
+        <input type="number" min="1" max="15" style={{width: '30px', 'margin-left': '5px'}} value={radius} onChange={e => setRadius(e.target.value)} />
         </label>
         <button className={'panel__search'} onClick={findRuns}>
           Search for Runs
         </button>
       </form>
       <ReactMapGL {...viewport}
-        mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
-        mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
+        mapboxApiAccessToken={mapboxAPI}
+        mapStyle={mapboxSTYLE}
         onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
         {isLoaded &&
           <>

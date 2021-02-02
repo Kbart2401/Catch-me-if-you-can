@@ -5,8 +5,8 @@ import StartPin from './StartPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
 import { useHistory } from "react-router-dom";
-const mapboxAPI = process.env.REACT_APP_MAPBOX
-const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE
+const mapboxAPI = process.env.REACT_APP_MAPBOX;
+const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
 const mbxDirections = require('@mapbox/mapbox-sdk/services/directions');
 const directionsClient = mbxDirections({ accessToken: mapboxAPI })
