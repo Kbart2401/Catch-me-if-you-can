@@ -7,6 +7,7 @@ import StartPin from './StartPin';
 import { css } from '@emotion/core';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import './Map.css';
+import { de } from "date-fns/locale";
 const mapboxAPI = process.env.REACT_APP_MAPBOX
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE
 
@@ -38,6 +39,7 @@ const CreateMap = () => {
       height: "65vh",
     })
     setMapLoad(true)
+
   };
 
   function error(err) {
@@ -86,13 +88,25 @@ const CreateMap = () => {
               }
             ]
           };
+          //get marker set to route
+          let arr = geojson.features[0].geometry.coordinates;
+          let lonStart = arr[0][0];
+          let latStart = arr[0][1];
+          let lonEnd = arr[arr.length - 1][0];
+          let latEnd = arr[arr.length - 1][1];
+
+          // setMarkers([...markers.slice(0, markers.length-1), [lon, lat]])
+          markers[0][0] = lonStart;
+          markers[0][1] = latStart;
+          markers[markers.length - 1][0] = lonEnd;
+          markers[markers.length - 1][1] = latEnd;
           setName(nameArr);
           setDistance(dist.toFixed(2));
           setRouteData({ ...geojson });
           setIsLoaded(true);
         });
     }
-  }, [markers]);
+  }, [markers, distance]);
 
   //click event for dropping marker on map
   function clickMarker(event) {
@@ -131,10 +145,12 @@ const CreateMap = () => {
     <>
       {!mapLoad &&
         <>
-          {/* <div style={{display: 'flex', height: '200px', width: '200px'}}> */}
+          <div style={{
+            display: 'flex', backgroundColor: 'white', position: 'absolute',
+            top: '50%', right: '50%', marginRight: '-50px'
+          }}>
             <ClimbingBoxLoader size='50px' color='#3f51b5' />
-            {/* <div>Loading</div>
-          </div> */}
+          </div>
         </>}
       { mapLoad &&
         <>
@@ -158,7 +174,7 @@ const CreateMap = () => {
               mapStyle={mapboxSTYLE}
               onViewportChange={viewport => setViewport(viewport)} onClick={clickMarker}>
               {markers.length === 1 &&
-                <Marker longitude={markers[0][0]} latitude={markers[0][1]}>
+                <Marker longitude={markers[0][0]} latitude={markers[0][1]} offsetTop={-20} offsetLeft={-5}>
                   <StartPin />
                 </Marker>
               }
@@ -170,7 +186,11 @@ const CreateMap = () => {
                   {markers.map((marker, i) => {
                     if (i === 0) {
                       return (
-                        <Marker longitude={marker[0]} latitude={marker[1]} >
+                        <Marker longitude={marker[0]}
+                          latitude={marker[1]}
+                          offsetTop={-20}
+                          offsetLeft={-5}
+                        >
                           <button className={"marker__button"} onClick={(e) => {
                             e.preventDefault();
                             setSelectPoint(marker);
@@ -182,7 +202,11 @@ const CreateMap = () => {
                       )
                     } else if (i === markers.length - 1) {
                       return (
-                        <Marker longitude={marker[0]} latitude={marker[1]} >
+                        <Marker longitude={marker[0]}
+                          latitude={marker[1]}
+                          offsetTop={-20}
+                          offsetLeft={-5}
+                        >
                           <button className={"marker__button"} onClick={(e) => {
                             e.preventDefault();
                             setSelectPoint(marker);

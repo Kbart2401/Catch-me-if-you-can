@@ -11,7 +11,7 @@ const pinStyle = {
 
 const SearchPin = () => {
     return (
-        <svg height={20} viewBox="0 0 24 24" style={pinStyle}>
+        <svg height={15} viewBox="0 0 24 24" style={pinStyle}>
             <path d={ICON} />
         </svg>
     )

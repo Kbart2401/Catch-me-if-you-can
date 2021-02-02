@@ -3,11 +3,15 @@ import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import SearchPin from './SearchPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
-import * as turf from '@turf/turf'
+import * as turf from '@turf/turf';
+import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+const mapboxAPI = process.env.REACT_APP_MAPBOX;
+const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
 const MapSearch = () => {
   const [viewport, setViewport] = useState({});
   //set circle coordinates
+  const [point, setPoint] = useState([])
   const [polyCoords, setPolyCoords] = useState([]);
   //create source with circle radius layer
   const [searchData, setSearchData] = useState({});
@@ -23,12 +27,9 @@ const MapSearch = () => {
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
   const [createdRoutes, setCreatedRoutes] = useState('')
-  // const [routes, setRoutes] = useState([])
+  const [mapLoad, setMapLoad] = useState(false)
 
   const user = useSelector((state) => state.session.user)
-
-  //DELETE ME - we will fetch from backend not from redux
-  // const createdRoutes = useSelector((state) => state.session.created_routes)
 
   useEffect(() => {
     async function getRoutes() {
@@ -46,10 +47,11 @@ const MapSearch = () => {
     setViewport({
       latitude: crd.latitude,
       longitude: crd.longitude,
-      zoom: 13,
+      zoom: 11,
       width: "50vw",
       height: "80vh",
     })
+    setMapLoad(true)
   };
 
   function error(err) {
@@ -60,11 +62,13 @@ const MapSearch = () => {
 
   //click event for dropping marker on map && creating radius
   function clickLocation(event) {
+    setSelectPoint(null)
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    const point = turf.point([event.lngLat[0], event.lngLat[1]]);
-    const buffered = turf.buffer(point, radius, { units: 'kilometers' });
+    const newPoint = turf.point([event.lngLat[0], event.lngLat[1]]);
+    setPoint(newPoint);
+    const buffered = turf.buffer(newPoint, radius, { units: 'kilometers' });
     const geojson = {
       type: 'FeatureCollection',
       features: [
@@ -82,9 +86,34 @@ const MapSearch = () => {
     setIsLoaded(true);
   };
 
+  //re-creating the radius size of the search when changing the number 
+  useEffect(() => {
+    if (point.length === 0) return;
+    setMarkers([]);
+    setNames([]);
+    setDistances([]);
+    const buffered = turf.buffer(point, radius, { units: 'kilometers' });
+    const geojson = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: buffered.geometry.coordinates,
+          }
+        }
+      ]
+    }
+    setPolyCoords(buffered.geometry.coordinates);
+    setSearchData(geojson);
+    setIsLoaded(true);
+  }, [radius])
+
   //click event for searching for runs 
   function findRuns(e) {
     e.preventDefault();
+    if (point.length === 0) return;
     let routes = []
     if (createdRoutes) {
       let n = [];
@@ -126,58 +155,74 @@ const MapSearch = () => {
   // }, [createdRoutes])
 
   return (
-    <div className={"map_container"}>
-      <form className={"panel"} onSubmit={findRuns}>
-        <label className={"panel__distance"}>
-          Search Radius <span style={{'font-size': 15, 'font-weight':'normal'}}>(km)</span>
-        <input type="number" style={{width: '30px', 'margin-left': '5px'}} value={radius} onChange={e => setRadius(e.target.value)} />
-        </label>
-        <button className={'panel__search'} onClick={findRuns}>
-          Search for Runs
+    <>
+      {!mapLoad &&
+        <>
+          <div style={{
+            display: 'flex', backgroundColor: 'white', position: 'absolute',
+            top: '50%', right: '50%', marginRight: '-50px'
+          }}>
+            <ClimbingBoxLoader size='50px' color='#3f51b5' />
+          </div>
+        </>}
+      { mapLoad &&
+        <div className={"map_container"}>
+          <form className={"panel"} onSubmit={findRuns}>
+            <label className={"panel__distance"}>
+              Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
+              <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
+            </label>
+            <button className={'panel__search'} onClick={findRuns}>
+              Search for Runs
         </button>
-      </form>
-      <ReactMapGL {...viewport}
-        mapboxApiAccessToken={"pk.eyJ1Ijoicmh5c3A4OCIsImEiOiJja2o5Yjc2M3kyY21iMnhwZGc2YXVudHVpIn0.c6TOaQ-C4NsdK9uZJABS_g"}
-        mapStyle={"mapbox://styles/rhysp88/ckj950pju3y8l1aqhpb58my9d/draft"}
-        onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
-        {isLoaded &&
-          <>
-            <Source id="search-data" type="geojson" data={searchData}>
-              <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
-            </Source>
-            {markers.map((marker, i) => {
-              return (
-                <Marker longitude={marker[0]} latitude={marker[1]} >
-                  <button className={"marker__button"}
-                    onClick={e => {
-                      e.preventDefault();
-                      setSelectPoint(marker);
-                      setIndex(i);
+          </form>
+          <ReactMapGL {...viewport}
+            mapboxApiAccessToken={mapboxAPI}
+            mapStyle={mapboxSTYLE}
+            onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
+            {isLoaded &&
+              <>
+                <Source id="search-data" type="geojson" data={searchData}>
+                  <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
+                </Source>
+                {markers.map((marker, i) => {
+                  return (
+                    <Marker longitude={marker[0]} latitude={marker[1]} >
+                      <button className={"marker__button"}
+                        onClick={e => {
+                          e.preventDefault();
+                          setSelectPoint(marker);
+                          setIndex(i);
+                        }}
+                      >
+                        <SearchPin />
+                      </button>
+                    </Marker>
+                  )
+                })}
+                {selectPoint ? (
+                  <Popup
+                    latitude={selectPoint[1]}
+                    longitude={selectPoint[0]}
+                    tipSize={8}
+                    offsetLeft={6}
+                    onClose={() => {
+                      setSelectPoint(null);
                     }}
+                    closeOnClick={true}
                   >
-                    <SearchPin />
-                  </button>
-                </Marker>
-              )
-            })}
-            {selectPoint ? (
-              <Popup
-                latitude={selectPoint[1]}
-                longitude={selectPoint[0]}
-                onClose={() => {
-                  setSelectPoint(null);
-                }}
-              >
-                <div>
-                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Route name:</span> {names[index]}</p>
-                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span>{distances[index]}</p>
-                </div>
-              </Popup>
-            ) : null}
-          </>
-        }
-      </ReactMapGL>
-    </div>
+                    <div>
+                      <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Route name:</span> {names[index]}</p>
+                      <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Distance:</span>{distances[index]}</p>
+                    </div>
+                  </Popup>
+                ) : null}
+              </>
+            }
+          </ReactMapGL>
+        </div>
+      }
+    </>
   )
 }
 
