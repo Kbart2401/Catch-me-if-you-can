@@ -13,7 +13,6 @@ import Splash from './Body/Splash';
 import User from './Body/Profile';
 import UsersList from './Body/UsersList';
 import RivalsList from './Body/Community/RivalsList';
-import CreateRoutes from './Body/RoutesPage/CreateRoute';
 import MapSearch from './Body/RoutesPage/MapSearch';
 import CreateMap from './Body/RoutesPage/CreateMap'
 
@@ -61,7 +60,7 @@ const Body = (props) => {
           <Route exact path="/login" render={props => <LoginForm {...props} />} />
           <Route exact path="/signup" render={props => <SignUpForm {...props} />} />
           <Route exact path='/route/:routeid' render={props => <Routes {...props} />} />
-          <ProtectedRoute exact user={user} path='/create-route' component={CreateRoutes} />
+          <ProtectedRoute exact user={user} path="/create-route" component={CreateMap} />
           <ProtectedRoute exact user={user} path='/community' component={RivalsList} />
           <ProtectedRoute exact user={user} path='/my-routes' component={MyRoutes} />
           <ProtectedRoute exact user={user} path="/dashboard" component={Dashboard} />
@@ -69,7 +68,6 @@ const Body = (props) => {
           <ProtectedRoute exact user={user} path="/users" component={UsersList} />
           <ProtectedRoute exact user={user} path="/users/:userId" component={Profile} />
           <ProtectedRoute exact user={user} path="/search" component={MapSearch} />
-          <ProtectedRoute exact user={user} path="/create-route" component={CreateMap} />
           {/* <ProtectedRoute exact user={user} path="/search" component={SavedMaps} /> */}
         </Switch>
       </Paper>
