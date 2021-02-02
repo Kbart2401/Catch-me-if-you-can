@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RivalsList = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+	const dispatch = useDispatch();
+	const history = useHistory();
 	const loadedRivals = useSelector((state) => state.session.rivals);
 	const user = useSelector((state) => state.session.user);
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -48,8 +48,7 @@ const RivalsList = () => {
 	const [users, setUsers] = useState([]);
 	const [query, setQuery] = useState("");
 	const classes = useStyles();
-  const [checked, setChecked] = React.useState([0]);
-  
+	const [checked, setChecked] = React.useState([0]);
 
 	useEffect(() => {
 		if (user) {
@@ -57,8 +56,8 @@ const RivalsList = () => {
 				// .then((data) => setRivals(data.rivals))
 				.then(setIsLoaded(true));
 		}
-  }, [user]);
-  
+	}, [user]);
+
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
 			.then((data) => {
@@ -74,40 +73,40 @@ const RivalsList = () => {
 		}
 	};
 
-	 function addRival(rival) {
-					fetch("/api/rivals/", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-              id: user.id,
-              rival_id: rival.id
-						}),
-          });
-          // setRivals([...rivals, rival])
-				}
-	 function removeRival(rivalId) {
-					fetch("/api/rivals/", {
-						method: "DELETE",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-              id: user.id,
-              rival_id: rivalId
-						}),
-					});
-  			}
+	function addRival(rival) {
+		fetch("/api/rivals/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: user.id,
+				rival_id: rival.id,
+			}),
+		});
+		// setRivals([...rivals, rival])
+	}
+	function removeRival(rivalId) {
+		fetch("/api/rivals/", {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				id: user.id,
+				rival_id: rivalId,
+			}),
+		});
+	}
 
-  const handleClick = (userId) => {
-    history.push(`/dashboard/${userId}`);
-  }
+	const handleClick = (userId) => {
+		history.push(`/users/${userId}`);
+	};
 
-  // const clickSearch = (user) => {
-  //     setRivals(user)
-  // }
-  
+	// const clickSearch = (user) => {
+	//     setRivals(user)
+	// }
+
 	return (
 		isLoaded && (
 			<TableContainer component={Paper}>
@@ -129,18 +128,14 @@ const RivalsList = () => {
 								<Typography>
 									<Button
 										onClick={() => {
-                      handleClick(user.id);
-                      // clickSearch(user)
+											handleClick(user.id);
+											// clickSearch(user)
 										}}
 									>
 										{user.first_name}
 									</Button>
 									<Button align="right">
-										<AddIcon
-											onClick={
-												addRival(user)
-											}
-										/>
+										<AddIcon onClick={addRival(user)} />
 									</Button>
 								</Typography>
 							</ListItem>
