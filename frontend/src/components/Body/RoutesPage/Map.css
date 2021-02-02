@@ -57,9 +57,12 @@
 .marker__button {
   border: none; 
   background: none;
-  height: 100%; 
-  width: 100%; 
   outline: none; 
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin: auto; 
+  height: 20px;
 }
 
 .popup {
