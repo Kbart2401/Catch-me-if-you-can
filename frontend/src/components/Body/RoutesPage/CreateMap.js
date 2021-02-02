@@ -85,6 +85,14 @@ const CreateMap = () => {
           setName(nameArr);
           setDistance(dist.toFixed(2));
           setRouteData({ ...geojson });
+          //get marker set to route
+          let arr = geojson.features[0].geometry.coordinates;
+          let lon = arr[arr.length-1][0]; 
+          let lat = arr[arr.length-1][1]; 
+          
+          // setMarkers([...markers.slice(0, markers.length-1), [lon, lat]])
+          markers[markers.length-1][0] = lon;
+          markers[markers.length-1][1] = lat;
           setIsLoaded(true);
         });
     }
@@ -155,7 +163,9 @@ const CreateMap = () => {
                         {markers.map((marker, i) => {
                             if (i === 0 ) {
                                 return (
-                                    <Marker longitude={marker[0]} latitude={marker[1]} >
+                                    <Marker longitude={marker[0]} 
+                                            latitude={marker[1]}     
+                                    >
                                         <button className={"marker__button"} onClick={(e) => {
                                              e.preventDefault();
                                              setSelectPoint(marker);
@@ -167,7 +177,10 @@ const CreateMap = () => {
                                 )
                             } else if (i === markers.length - 1) {
                                 return (
-                                    <Marker longitude={marker[0]} latitude={marker[1]} >
+                                    <Marker longitude={marker[0]} 
+                                            latitude={marker[1]}
+                                            offsetTop={-8}   
+                                    >
                                         <button className={"marker__button"} onClick={(e) => {
                                              e.preventDefault();
                                              setSelectPoint(marker);
