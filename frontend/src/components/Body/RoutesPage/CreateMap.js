@@ -39,7 +39,6 @@ const CreateMap = () => {
       height: "65vh",
     })
     setMapLoad(true)
-
   };
 
   function error(err) {
@@ -58,8 +57,7 @@ const CreateMap = () => {
         return {
           coordinates: [marker[0], marker[1]]
         }
-      });
-      console.log(ways); 
+      }); 
       directionsClient.getDirections({
         profile: 'walking',
         geometries: 'geojson',
@@ -127,19 +125,22 @@ const CreateMap = () => {
 
   //submit for saving route to database 
   async function clickSubmit() {
-    await fetch('/api/routes/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        id: user.id,
-        routeCoordinates: markers,
-        name: routeName,
-        distance
+      const res = await fetch('/api/routes/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: user.id,
+            routeCoordinates: markers,
+            name: routeName,
+            distance
+        })
       })
-    })
-    history.push('/my-routes');
+      const data = await res.json(); 
+      if (data) {
+        history.push({pathname: '/my-routes', state: data});
+      }
   };
 
   return (
