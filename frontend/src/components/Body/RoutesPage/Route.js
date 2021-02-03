@@ -229,7 +229,7 @@ const Routes = (props) => {
                 <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
                 <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance.toFixed(0)} meters</Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} Rivals Posted</Typography></li>
+                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} Times Set for this Route</Typography></li>
               </ul>
             </div>
             <div className={classes.postrun_container}>
