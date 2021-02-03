@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 export const BarGraph = (props) => {
-  const [data, setData] = useState([10, 20, 30, 40, 50, 60, 70])
+  // const [data, setData] = useState([10, 20, 30, 40, 50, 60, 70])
+  const [data, setData] = useState(props.weekData);
 
   const incomingData = {
     display: true,
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     datasets: [{
       label: '# of km ran',
       barPercentage: 0.5,

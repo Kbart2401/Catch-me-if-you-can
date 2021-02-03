@@ -3,41 +3,49 @@ import React, { useEffect, useState } from 'react';
 //MUI
 import { makeStyles, Typography } from '@material-ui/core';
 
+const useStyles = makeStyles(() => ({
+  root: {
+    minWidth: '50%',
+  },
+
+  title: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: 'pictures/topography.jpg',
+
+    color: 'white',
+    width: '100rem',
+  },
+  title_text: {
+    color: 'rgba(255, 0, 0, 0.1)',
+    textAlign: 'center',
+    fontSize: '6rem',
+    fontFamily: 'poppins',
+    textTransform: 'uppercase',
+    fontWeight: '1000',
+
+    // background: '/pictures/wave.mp4',
+    backgroundSize: 'cover',
+    WebkitTextFillColor: 'transparent',
+    WebkitBackgroundClip: 'text',
+
+    height: '10rem',
+  },
+}));
+
 const Splash = () => {
-  const [offsetY, setOffsetY] = useState(0)
-
-  const handleScroll = () => setOffsetY(window.pageYOffset)
-
-  const useStyles = () => makeStyles(() => ({
-    root: {
-      minWidth: '50%',
-    },
-    parallax: {
-      transform: `translateY(${offsetY * 0.5}px)`,
-    },
-  }));
-  const classes = useStyles()
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-
-    return () => window.removeEventListener('scrol;', handleScroll)
-  })
+  const classes = useStyles();
 
   return (
-    <>
-      <div className={classes.root}>
-        <div className={classes.parallax}>
-          <div className={classes.parallax_background}>
-            <image src='pictures/bia-andrade-inUID_-1lCU-unsplash.jpg' />
-          </div>
-          <div className={classes.parallax_content}>
-            <Typography>Too tired. No splash page for you.</Typography>
-            <img src='pictures/giphy.gif' />
-          </div>
-        </div>
+    <div className={classes.root}>
+      <div className={classes.title}>
+        <Typography className={classes.title_text}>
+          Catch Me
+          If You Can
+          </Typography>
       </div>
-    </>
+    </div>
   )
 }
 

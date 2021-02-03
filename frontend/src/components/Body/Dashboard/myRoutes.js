@@ -20,12 +20,37 @@ const useStyles = makeStyles({
   },
 });
 
+const RouteTables = ({ routes }) => {
+  const history = useHistory();
+
+  const handleClick = (path) => {
+    history.push(path)
+  }
+
+  return (
+    <TableBody>
+      {
+        Object.keys(routes).map((key) => (
+          <TableRow key={routes[key].id}>
+            <TableCell component="th" scope="row">
+              <Typography><Button onClick={() => handleClick(`/route/${routes[key].id}`)}>
+                {routes[key].name}
+              </Button></Typography>
+            </TableCell>
+            <TableCell align="right">{routes[key].distance}</TableCell>
+            <TableCell align="right">{routes[key].runners}</TableCell>
+          </TableRow>
+        ))
+      }
+    </TableBody>
+  )
+}
+
 const MyRoutes = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch(); 
-
-  const routes = useSelector(state => state.session.created_routes);
-  const [isLoaded, setIsLoaded] = useState(false); 
+  const routes = useSelector(state => state.session.created_routes)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
@@ -37,33 +62,6 @@ const MyRoutes = (props) => {
       dispatch(sessionActions.addRoute(props.location.state));   
     }
   }, []);
-
-
-  const RouteTables = ({ routes }) => {
-    const history = useHistory();
-  
-    const handleClick = (path) => {
-      history.push(path)
-    }
-  
-    return (
-      <TableBody>
-        {
-          Object.keys(routes).map((key) => (
-            <TableRow key={routes[key].id}>
-              <TableCell component="th" scope="row">
-                <Typography><Button onClick={() => handleClick(`/route/${routes[key].id}`)}>
-                  {routes[key].name}
-                </Button></Typography>
-              </TableCell>
-              <TableCell align="right">{routes[key].distance}</TableCell>
-              <TableCell align="right">{routes[key].runners}</TableCell>
-            </TableRow>
-          ))
-        }
-      </TableBody>
-    )
-  }
 
   return isLoaded && (
     <>

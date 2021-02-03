@@ -59,36 +59,43 @@ const History = (props) => {
     })();
   }, [])
 
+
   return isLoaded && (
     <>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Route</TableCell>
-              <TableCell align="right">Distance (KM)</TableCell>
-              <TableCell align="right">Time</TableCell>
-              {/* <TableCell align="right">Location</TableCell> */}
-              <TableCell align="right">Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {runs.map((run) => (
-              <TableRow key={run.time}>
-                <TableCell component="th" scope="row">
-                  <Typography><Button onClick={() => handleClick(`/route/${run.route_id}`)}>
-                    {run.route_name}
-                  </Button></Typography>
-                </TableCell>
-                <TableCell align="right">{run.distance}</TableCell>
-                <TableCell align="right">{`${calculateTime(run.time)}`}</TableCell>
-                {/* <TableCell align="right">{row.location}</TableCell> */}
-                <TableCell align="right">{`${calculateDate(run.date_ran)}`}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {
+        (runs && runs.length > 0)
+          ? (
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Route</TableCell>
+                    <TableCell align="right">Distance (KM)</TableCell>
+                    <TableCell align="right">Time</TableCell>
+                    {/* <TableCell align="right">Location</TableCell> */}
+                    <TableCell align="right">Date</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {runs.map((run, idx) => (
+                    <TableRow key={idx}>
+                      <TableCell component="th" scope="row">
+                        <Typography><Button onClick={() => handleClick(`/route/${run.route_id}`)}>
+                          {run.route_name}
+                        </Button></Typography>
+                      </TableCell>
+                      <TableCell align="right">{run.distance}</TableCell>
+                      <TableCell align="right">{`${calculateTime(run.time)}`}</TableCell>
+                      {/* <TableCell align="right">{row.location}</TableCell> */}
+                      <TableCell align="right">{`${calculateDate(run.date_ran)}`}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )
+          : <Typography>You have not recorded any Runs.</Typography>
+      }
     </>
   )
 }
