@@ -94,10 +94,11 @@ const Routes = (props) => {
   const { routeid } = useParams();
 
   const user = useSelector(state => state.session.user)
-  const [route, setRoute] = useState({})
+  const [route, setRoute] = useState({});
+  const [leaderRuns, setLeaderRuns] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false)
   const [runnerName, setRunnerName] = useState(null)
-  const [runTime, setRunTime] = useState(60)
+  const [runTime, setRunTime] = useState(0)
 
   const [open, setOpen] = useState(false);
 
@@ -156,24 +157,22 @@ const Routes = (props) => {
         })
       });
       const data = await res.json();
-      // await setRoute(data)
-      console.log('Run data receieved: ', data)
+      console.log(data); 
+      setLeaderRuns([...leaderRuns, data]);
     }
     catch (e) {
       console.error(e)
     }
   }
 
-
-
   //Get Route info
   useEffect(() => {
     (async function () {
       const res = await fetch(`/api/routes/${routeid}`)
       const data = await res.json()
-
       setRoute(data)
-      setIsLoaded(true)
+      setLeaderRuns(data.run_times); 
+      setIsLoaded(true); 
     })();
   }, [])
 
@@ -196,12 +195,13 @@ const Routes = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {route.run_times.map((run, index) => (
-            <TableRow key={run.name}>
+          {leaderRuns?.map((run, index) => (
+            <TableRow key={run.route_id}>
+              {console.log(run)}
               <TableCell align="right">#{index + 1}</TableCell>
               <TableCell component="th" scope="row">
                 <Typography><Button onClick={() => handleClick(`/users/${run.user_id}`)}>
-                  {run.user_name}
+                  {user.first_name.toUpperCase()}
                 </Button></Typography>
               </TableCell>
               <TableCell align="right">{calculateTime(run.time)}</TableCell>
@@ -277,6 +277,7 @@ const Routes = (props) => {
                 id="time"
                 label="Time (in minutes)"
                 type="number"
+                min="0"
                 defaultValue={runTime}
                 value={runTime}
                 className={classes.textField}
@@ -285,7 +286,7 @@ const Routes = (props) => {
                   shrink: true,
                 }}
                 inputProps={{
-                  step: 1, // 5 min
+                  step: 1, // 1 min
                 }}
               />
             </div>
