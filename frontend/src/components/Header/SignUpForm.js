@@ -40,7 +40,14 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 0),
+    backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)',
+    color: 'white',
+    marginBottom: '20px',
+    '&:hover': {
+      bottom: '8px',
+      backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
+    }
   },
   formControl: {
     margin: theme.spacing(1),

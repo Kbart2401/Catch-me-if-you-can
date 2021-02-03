@@ -30,7 +30,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 0),
+    backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)',
+    color: 'white',
+    '&:hover': {
+      bottom: '8px',
+      backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
+    }
   },
   formControl: {
     margin: theme.spacing(1),
@@ -38,6 +44,15 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     paddingBottom: '10px'
+  },
+  demo: {
+    margin: '20px 0',
+    backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)',
+    color: 'white',
+    '&:hover': {
+      bottom: '8px',
+      backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)'
+    }
   }
 }));
 
@@ -52,6 +67,14 @@ const LoginForm = (props) => {
   const onLogin = (e) => {
     e.preventDefault();
     dispatch(sessionActions.loginUser({ email, password }))
+      .catch(res => {
+        if (res.errors) return setErrors(res.errors)
+      })
+  };
+
+  const demoLogin = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.loginUser({ email: 'demo@aa.io', password: 'password' }))
       .catch(res => {
         if (res.errors) return setErrors(res.errors)
       })
@@ -89,7 +112,7 @@ const LoginForm = (props) => {
         <form className={classes.form} onSubmit={onLogin}>
           <Grid container spacing={2}>
             <TextField
-            className={classes.input}
+              className={classes.input}
               fullWidth
               label="email"
               name="email"
@@ -118,6 +141,14 @@ const LoginForm = (props) => {
               className={classes.submit}
             >
               Login
+						</Button>
+            <Button
+              variant="contained"
+              fullWidth
+              className={classes.demo}
+              onClick={demoLogin}
+            >
+              Demo
 						</Button>
             <Grid container justify="flex-end">
               <Grid item>
