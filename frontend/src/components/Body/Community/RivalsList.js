@@ -74,6 +74,8 @@ const RivalsList = () => {
 	};
 
 	function addRivalButton(rival) {
+		console.log("user", user)
+		console.log("rival", rival)
 		dispatch(sessionActions.addRival(user, rival))
 		// setRivals([...rivals, rival])
 	}

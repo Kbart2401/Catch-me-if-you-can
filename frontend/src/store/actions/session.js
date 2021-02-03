@@ -153,7 +153,10 @@ export const addRival = (user, rival) => async (dispatch) => {
 			rival_id: rival.id,
 		}),
 	});
-	debugger
-	const data = await res.json();
-	dispatch(setRival(data));
+	// console.log("User in addRival thunk", user)
+	// console.log("Rival in addRival thunk", rival)
+	// const data = await res.json();
+	// console.log("Data", data)
+	// debugger
+	dispatch(setRival(rival));
 };
