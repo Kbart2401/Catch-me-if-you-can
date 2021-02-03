@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app.models import User, Route, RunTime, db, rivals_table
 from sqlalchemy.orm import aliased
 from sqlalchemy import desc
+from datetime import datetime
 
 
 user_routes = Blueprint('users', __name__)
@@ -29,20 +30,41 @@ def users():
 @user_routes.route('/dashboard/<int:id>')
 def runCount(id):
     runs = RunTime.query.filter_by(user_id=id).count()
-    recent_run = RunTime.query.filter_by(user_id=id).order_by(
-        desc(RunTime.date_ran)).limit(1).all()
+    recent_runs = RunTime.query.filter_by(user_id=id).order_by(
+        desc(RunTime.date_ran)).all()
+    user = User.query.get(id).to_dict()
+    # userName = userName.to_dict()
 
-    recent_run = [run.to_dict() for run in recent_run]
-    # recent_run = recent_run[0]
+    recent_runs = [run.to_dict() for run in recent_runs]
+    recent_runs = [run for run in recent_runs if (
+        (datetime.today() - run['date_ran']).days <= 7)]
+
+    weekData = {
+        'Mon': [],
+        'Tue': [],
+        'Wed': [],
+        'Thu': [],
+        'Fri': [],
+        'Sat': [],
+        'Sun': [],
+    }
+
+    for i in range(len(recent_runs)):
+        currentDay = recent_runs[i]['date_ran'].weekday()
+        currentDay = list(weekData.keys())[currentDay]
+        weekData[currentDay].append(recent_runs[i])
 
     routes = [Route.query.get(run_time['route_id']).to_dict()
-              for run_time in recent_run]
+              for run_time in recent_runs]
 
-    for i in range(len(recent_run)):
-        recent_run[i]['route_name'] = routes[i]['name']
-        recent_run[i]['distance'] = routes[i]['distance']
+    for i in range(len(recent_runs)):
+        recent_runs[i]['route_name'] = routes[i]['name']
+        recent_runs[i]['distance'] = routes[i]['distance']
 
-    return{'run_count': runs, 'recent_run': recent_run[0]}
+    obj = {'run_count': runs, 'recent_run': recent_runs if (recent_runs) else None,
+           'first_name': user['first_name'], 'last_name': user['last_name'], 'week_data': weekData, }
+
+    return obj
 
 
 @user_routes.route('/restore')

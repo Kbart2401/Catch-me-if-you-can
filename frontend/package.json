@@ -11,8 +11,8 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "chart.js": "^2.9.4",
     "@turf/turf": "^5.1.6",
+    "chart.js": "^2.9.4",
     "date-fns": "^2.8.1",
     "dotenv": "^8.2.0",
     "http-proxy-middleware": "^1.0.5",
@@ -24,6 +24,7 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-spinners": "^0.10.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
