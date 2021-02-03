@@ -80,7 +80,7 @@ const SignUpForm = (props) => {
     e.preventDefault();
     if (password === confirmPassword) {
       dispatch(sessionActions.signupUser({ firstname, lastname, gender, email, height, weight, password }))
-      history.push('/dashboard')
+      history.push('/')
     } else {
       setErrors(['Please confirm your inputs are valid'])
     }

@@ -35,7 +35,7 @@ export const loginUser = (user) => async (dispatch) => {
     if (res.ok) {
       const data = await res.json()
       dispatch(setUser(data));
-      window.location.replace("/dashboard")
+      window.location.replace("/")
     } else {
       res = await res.json()
       throw res;
@@ -65,7 +65,7 @@ export const signupUser = (user) => async (dispatch) => {
     if (res.ok) {
       const data = await res.json()
       dispatch(setUser(data))
-      window.location.replace("/dashboard");
+      window.location.replace("/");
       return data;
     }
   } catch (e) {

@@ -160,7 +160,7 @@ const Header = (props) => {
         {/* LEFT */}
         <div className={classes.navBar_left}>
           <Button onClick={() => handleMenuClick('/')}>
-            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)' }} />
+            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)', boxShadow: '0px 0px 5px grey', borderRadius: '5%'}} />
             {/* <Typography color='primary' >Catch Me If You Can</Typography> */}
           </Button>
         </div>

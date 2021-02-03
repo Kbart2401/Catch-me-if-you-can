@@ -177,7 +177,7 @@ const Dashboard = (props) => {
   return isLoaded && (
     <div className={classes.root}>
       <div className={classes.title}>
-        <Typography variant={'h5'}>DashBoard</Typography>
+        <Typography variant={'h5'} className='header-font'>DashBoard</Typography>
         <Typography>{username}</Typography>
         {
           (user.id !== userId) && <Button variant="outlined"><Typography>Make Rival</Typography></Button>
