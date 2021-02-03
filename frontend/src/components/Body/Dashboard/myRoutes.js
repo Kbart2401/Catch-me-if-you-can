@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,48 +19,63 @@ const useStyles = makeStyles({
   },
 });
 
-const MyRoutes = (props) => {
-  const classes = useStyles();
+const RouteTables = ({ routes }) => {
   const history = useHistory();
-
-  const routes = useSelector(state => state.session.created_routes)
-  const [isLoaded, setIsLoaded] = useState(false)
 
   const handleClick = (path) => {
     history.push(path)
   }
 
+  return (
+    <TableBody>
+      {
+        routes.map((row) => (
+          <TableRow key={row.id}>
+            <TableCell component="th" scope="row">
+              <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
+                {row.name}
+              </Button></Typography>
+            </TableCell>
+            <TableCell align="right">{row.distance}</TableCell>
+            <TableCell align="right">{row.runners}</TableCell>
+          </TableRow>
+        ))
+      }
+    </TableBody>
+  )
+}
+
+const MyRoutes = (props) => {
+  const classes = useStyles();
+
+  const routes = useSelector(state => state.session.created_routes)
+  const [isLoaded, setIsLoaded] = useState(false)
+
   useEffect(() => {
-    setIsLoaded(true)
+    (routes !== undefined) && setIsLoaded(true)
+    console.log('rerendering', routes)
   }, [routes])
 
   return isLoaded && (
     <>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Route</TableCell>
-              <TableCell align="right">Distance (KM)</TableCell>
-              <TableCell align="right">Runs</TableCell>
-              {/* <TableCell align="right">Location</TableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {routes.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
-                    {row.name}
-                  </Button></Typography>
-                </TableCell>
-                <TableCell align="right">{row.distance}</TableCell>
-                <TableCell align="right">{row.runners}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {
+        (routes && routes.length > 0)
+          ? (<TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Route</TableCell>
+                  <TableCell align="right">Distance (KM)</TableCell>
+                  <TableCell align="right">Runs</TableCell>
+                  {/* <TableCell align="right">Location</TableCell> */}
+                </TableRow>
+              </TableHead>
+              <RouteTables routes={routes} />
+            </Table>
+          </TableContainer>
+          )
+          : <Typography>No Routes to show. Please create a route first.</Typography>
+      }
     </>
   )
 }
