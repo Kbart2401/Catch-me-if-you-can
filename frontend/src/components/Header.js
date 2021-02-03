@@ -158,7 +158,7 @@ const Header = (props) => {
 
         {/* LEFT */}
         <div className={classes.navBar_left}>
-          <Button onClick={() => handleMenuClick('/dashboard')}>
+          <Button onClick={() => handleMenuClick('/')}>
             <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)' }} />
             {/* <Typography color='primary' >Catch Me If You Can</Typography> */}
           </Button>
@@ -167,7 +167,7 @@ const Header = (props) => {
         {/* MIDDLE */}
         <div className={classes.navBar_middle}>
           <div className={classes.navBar_navContainer}>
-            <Button onClick={() => handleNavClick('/dashboard')}>
+            <Button onClick={() => handleNavClick(`/dashboard/${user.id}`)}>
               <Typography>Dashboard</Typography>
             </Button>
             <Button
