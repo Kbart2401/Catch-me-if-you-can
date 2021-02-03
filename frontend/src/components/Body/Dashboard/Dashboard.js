@@ -186,6 +186,7 @@ const Dashboard = (props) => {
 
       <div className={classes.dashboard_circle}>
         <div className={classes.dashboard_circle_stat_container}>
+          <div className={classes.dashboard_circle_stat} > <Typography variant={'h5'}>Weekly Stats</Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>
             {recentRuns ? calcRecentDistance() : 0} km
             </Typography></div>
