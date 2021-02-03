@@ -95,7 +95,7 @@ const Routes = (props) => {
 
   const user = useSelector(state => state.session.user)
   const [route, setRoute] = useState({});
-  const [leaderRuns, setLeaderRuns] = useState([]);
+  const [newTime, setNewTime] = useState(false); 
   const [isLoaded, setIsLoaded] = useState(false)
   const [runnerName, setRunnerName] = useState(null)
   const [runTime, setRunTime] = useState(0)
@@ -145,7 +145,7 @@ const Routes = (props) => {
     handleClose();
 
     try {
-      const res = await fetch('/api/runtimes/', {
+      await fetch('/api/runtimes/', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,9 +156,7 @@ const Routes = (props) => {
           time: parseInt(runTime),
         })
       });
-      const data = await res.json();
-      console.log(data); 
-      setLeaderRuns([...leaderRuns, data]);
+      setNewTime(true); 
     }
     catch (e) {
       console.error(e)
@@ -171,10 +169,10 @@ const Routes = (props) => {
       const res = await fetch(`/api/routes/${routeid}`)
       const data = await res.json()
       setRoute(data)
-      setLeaderRuns(data.run_times); 
       setIsLoaded(true); 
+      setNewTime(false); 
     })();
-  }, [])
+  }, [newTime])
 
   //Update user info
   useEffect(() => {
@@ -195,13 +193,12 @@ const Routes = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {leaderRuns?.map((run, index) => (
-            <TableRow key={run.route_id}>
-              {console.log(run)}
+        {route.run_times.map((run, index) => (
+            <TableRow key={run.name}>
               <TableCell align="right">#{index + 1}</TableCell>
               <TableCell component="th" scope="row">
                 <Typography><Button onClick={() => handleClick(`/users/${run.user_id}`)}>
-                  {user.first_name.toUpperCase()}
+                  {run.user_name}
                 </Button></Typography>
               </TableCell>
               <TableCell align="right">{calculateTime(run.time)}</TableCell>
