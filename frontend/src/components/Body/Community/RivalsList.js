@@ -50,6 +50,8 @@ const RivalsList = () => {
 	const classes = useStyles();
 	const [checked, setChecked] = React.useState([0]);
 	console.log("Loaded Rivals", loadedRivals)
+	const loadedRivals2 = loadedRivals[0]
+	console.log("Loaded Rivals2", loadedRivals2);
 	// useEffect(() => {
 	// 	if (user) {
 	// 		dispatch(sessionActions.retrieveRivals(user.id))
