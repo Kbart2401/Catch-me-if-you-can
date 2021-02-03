@@ -45,7 +45,7 @@ def remove_route(id):
 @login_required
 def get_all_routes():
     routes = Route.query.all()
-    keys = [id for route.id in routes]
+    keys = [route.id for route in routes]
     values = [route.to_dict() for route in routes]
     routes = dict(zip(keys, values))
     return {"routes": routes}

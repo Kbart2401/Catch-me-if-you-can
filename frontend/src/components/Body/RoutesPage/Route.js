@@ -135,7 +135,8 @@ const Routes = (props) => {
     })
     const data = await res.json(); 
     if (data) {
-      history.push({pathname: '/my-routes', state: data})
+      dispatch(sessionActions.deleteRoute(data));
+      history.push('/my-routes');
     }
   };
 

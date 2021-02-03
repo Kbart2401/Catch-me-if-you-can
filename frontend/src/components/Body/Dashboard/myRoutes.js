@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as sessionActions from '../../../store/actions/session'; 
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,15 +22,10 @@ const useStyles = makeStyles({
 
 const MyRoutes = (props) => {
   const classes = useStyles();
-  const history = useHistory();
+  const dispatch = useDispatch(); 
 
   const routes = useSelector(state => state.session.created_routes);
   const [isLoaded, setIsLoaded] = useState(false); 
-
-  // const handleClick = (path) => { 
-  //   setIsLoaded(false); 
-  //   history.push(path)
-  // }
 
   useEffect(() => {
     setIsLoaded(true)
@@ -38,8 +34,7 @@ const MyRoutes = (props) => {
   useEffect(() => {
     if (!props.location) return; 
     if (props.location.state) {
-      console.log("HEY EVERYBODY");
-      console.log(props.location.state);   
+      dispatch(sessionActions.addRoute(props.location.state));   
     }
   }, []);
 
