@@ -49,7 +49,7 @@ const RivalsList = () => {
 	const [query, setQuery] = useState("");
 	const classes = useStyles();
 	const [checked, setChecked] = React.useState([0]);
-
+	console.log("Loaded Rivals", loadedRivals)
 	// useEffect(() => {
 	// 	if (user) {
 	// 		dispatch(sessionActions.retrieveRivals(user.id))
