@@ -15,7 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   navBar_root: {
-    // maxWidth: '1000px',
+    width: '1200px',
     display: 'grid',
     gridAutoFlow: 'column',
     gridTemplateAreas: '\'left middle right\'',
@@ -28,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '25rem',
   },
   navBar_middle: {
-    // display: 'grid',
     display: 'flex',
     gridArea: 'middle',
+    width: '400px',
   },
   navBar_right: {
     display: 'flex',
@@ -43,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
   navBar_navContainer: {
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between'
   },
 
 

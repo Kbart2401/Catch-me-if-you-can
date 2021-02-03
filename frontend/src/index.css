@@ -1,4 +1,10 @@
-/* TODO Add site wide styles */
 body {
   border: 0px 0px
+}
+
+.outer-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

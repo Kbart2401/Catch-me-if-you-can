@@ -14,14 +14,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: '1000px',
+    width: '1200px',
     display: 'grid',
     gridAutoFlow: 'row',
     alignItems: 'center',
     minHeight: '96vh',
     padding: '2rem',
     gap: '2rem',
-    width: '100%',
     gridTemplateRows: 'auto 1fr auto',
   },
   rootContainer: {
@@ -37,7 +36,7 @@ const App = (props) => {
   const classes = useStyles()
   return (
     <>
-      <div className={classes.rootContainer}>
+      <div className={classes.rootContainer} >
         <div className={classes.root}>
           <BrowserRouter>
             <Header user={props.user} />
