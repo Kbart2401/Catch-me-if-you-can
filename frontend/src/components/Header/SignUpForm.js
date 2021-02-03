@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     marginBottom: '20px',
     '&:hover': {
-      bottom: '8px',
+      bottom: '3px',
       backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
     }
   },

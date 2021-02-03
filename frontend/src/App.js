@@ -44,7 +44,7 @@ const App = (props) => {
             <Body user={props.user} />
           </BrowserRouter>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </>
   );
