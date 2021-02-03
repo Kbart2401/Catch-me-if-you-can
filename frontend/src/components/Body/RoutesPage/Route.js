@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
     alignContent: 'center',
   },
   route_map_container: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     minWidth: '20rem',
     margin: '1rem',
     borderRadius: '.5rem',

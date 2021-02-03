@@ -1,5 +1,5 @@
 @import url(//db.onlinewebfonts.com/c/bb086e91f19974889fbf7cbed115a360?family=GalaW01-CondensedMedium);
-body {
+body.body {
   border: 0px 0px;
   background-color: #EBF8FF;
 }
@@ -8,4 +8,10 @@ h5.header-font, h1.header-font {
   font-family: "GalaW01-CondensedMedium";
   font-size: 48px;
   color: #3f51b5
+}
+
+.dashboard-username.font {
+  color: #63B3ED;
+  text-shadow: 0px 0px 2px #3f51b5;
+  font-size: 40px;
 }

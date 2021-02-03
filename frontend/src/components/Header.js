@@ -20,7 +20,14 @@ const useStyles = makeStyles((theme) => ({
     gridAutoFlow: 'column',
     gridTemplateAreas: '\'left middle right\'',
     justifyContent: 'space-between',
-    padding: '0.5rem'
+    padding: '0.5rem',
+    borderBottom: '3px solid #e9ecef',
+    backgroundColor: '#63B3ED',
+    color: 'white',
+    '& p': {
+      color: 'white',
+      textShadow: '2px 2px #3f51b5',
+    },
   },
   navBar_left: {
     display: 'flex',
@@ -36,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     gridArea: 'right',
-    // maxWidth: '25rem',
   },
 
 
