@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
+import { useHistory } from 'react-router-dom';
 import SearchPin from './SearchPin';
 import { useSelector } from 'react-redux';
 import './Map.css';
@@ -25,8 +26,9 @@ const MapSearch = () => {
   const [radius, setRadius] = useState(1);
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
+  const [ids, setIds] = useState([]); 
   const [createdRoutes, setCreatedRoutes] = useState('')
-
+  const history = useHistory(); 
   const user = useSelector((state) => state.session.user)
 
   useEffect(() => {
@@ -63,6 +65,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
+    setIds([]); 
     const newPoint = turf.point([event.lngLat[0], event.lngLat[1]]);
     setPoint(newPoint);
     const buffered = turf.buffer(newPoint, radius, { units: 'kilometers' });
@@ -89,6 +92,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
+    setIds([]); 
     const buffered = turf.buffer(point, radius, { units: 'kilometers' });
     const geojson = {
       type: 'FeatureCollection',
@@ -115,13 +119,16 @@ const MapSearch = () => {
     if (createdRoutes) {
       let n = [];
       let d = [];
+      let i = []; 
       createdRoutes.routes.forEach(route => {
         routes.push(route.route_coordinates[0]);
         n.push(route.name)
         d.push(route.distance)
+        i.push(route.id); 
       })
       setNames([...n]);
       setDistances([...d]);
+      setIds([...i]); 
     };
 
     let results = [];
@@ -136,20 +143,11 @@ const MapSearch = () => {
     setMarkers(results);
   }
 
-  //Get geolocation and set marker locations
-  // useEffect(() => {
-  //   // async function getmarker() {
-  //   //   const res = await fetch('/api/routes')
-  //   //   const data = await res.json()
-  //   //   setMarker(data)
-  //   // }
-  //   if (createdRoutes) {
-  //     const routemarker = createdRoutes.map(route => {
-  //       return route.route_coordinates[0]
-  //     })
-  //     setMarker(routemarker)
-  //     }
-  // }, [createdRoutes])
+  //click event for going to route page
+  const handleClick = (path) => {
+    console.log("HELLLLO")
+    history.push(path)
+  }
 
   return (
     <div className={"map_container"}>
@@ -199,7 +197,10 @@ const MapSearch = () => {
               >
                 <div>
                   <p className={'popup'}><span style={{'font-weight':'bold'}}>Route name:</span> {names[index]}</p>
-                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span>{distances[index]}</p>
+                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span>{distances[index].toFixed(0)} m</p>
+                  <button className={'popup_button'} onClick={() => handleClick(`/route/${ids[index]}`)}>
+                    <span style={{'font-weight':'bold'}}>Click here to check out this run</span>
+                  </button>
                 </div>
               </Popup>
             ) : null}
