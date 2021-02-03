@@ -49,8 +49,8 @@ const RivalsList = () => {
 	const [query, setQuery] = useState("");
 	const classes = useStyles();
 	const [checked, setChecked] = React.useState([0]);
-	console.log("Loaded Rivals", loadedRivals)
-	const loadedRivals2 = loadedRivals[0]
+	console.log("Loaded Rivals", loadedRivals);
+	const loadedRivals2 = loadedRivals[0];
 	console.log("Loaded Rivals2", loadedRivals2);
 	// useEffect(() => {
 	// 	if (user) {
@@ -76,11 +76,23 @@ const RivalsList = () => {
 	};
 
 	function addRivalButton(rival) {
-		console.log("user", user)
-		console.log("rival", rival)
+		// console.log("user", user);
+		// console.log("rival", rival);
 		dispatch(sessionActions.addRival(user, rival))
-		// setRivals([...rivals, rival])
 	}
+	// function addRival(rival) {
+	// 	fetch("/api/rivals/", {
+	// 		method: "POST",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify({
+	// 			id: user.id,
+	// 			rival_id: rival.id,
+	// 		}),
+	// 	});
+	// 	// setRivals([...rivals, rival])
+	// }
 	function removeRival(rivalId) {
 		fetch("/api/rivals/", {
 			method: "DELETE",
@@ -140,7 +152,29 @@ const RivalsList = () => {
 						Current rivals:{" "}
 					</Typography>
 					<TableBody>
-						{loadedRivals.map((rival) => (
+						{loadedRivals && loadedRivals.map((rival) => (
+							<>
+								<TableRow key={rival.id} dense button>
+									<Typography>
+										<Button
+											onClick={() => {
+												handleClick(rival.id);
+											}}
+										>
+											{rival.first_name}
+										</Button>
+										<Button align="right">
+											<ClearIcon
+												onClick={() => {
+													removeRival(rival.id);
+												}}
+											/>
+										</Button>
+									</Typography>
+								</TableRow>
+							</>
+						))}
+						{loadedRivals2 && loadedRivals2.map((rival) => (
 							<>
 								<TableRow key={rival.id} dense button>
 									<Typography>
