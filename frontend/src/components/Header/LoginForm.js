@@ -97,7 +97,7 @@ const LoginForm = (props) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography className='header-font' component="h1" variant="h5">
           Log In
 				</Typography>
         <div>

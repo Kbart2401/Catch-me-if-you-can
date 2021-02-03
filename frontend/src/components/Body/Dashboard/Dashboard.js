@@ -178,14 +178,14 @@ const Dashboard = (props) => {
     <div className={classes.root}>
       <div className={classes.title}>
         <Typography variant={'h5'} className='header-font'>DashBoard</Typography>
-        <Typography className='dashboard-username font'>{username}</Typography>
+        <Typography className='dashboard-font username'>{username}</Typography>
         {
           (user.id !== userId) && <Button variant="outlined"><Typography>Make Rival</Typography></Button>
         }
       </div>
 
       <div className={classes.dashboard_circle}>
-        <div className={classes.dashboard_circle_stat_container}>
+        <div className={classes.dashboard_circle_stat_container} className='dashboard-font' >
           <div className={classes.dashboard_circle_stat} > <Typography variant={'h5'}>Weekly Stats</Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>
             {recentRuns ? calcRecentDistance() : 0} m
