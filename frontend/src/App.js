@@ -58,7 +58,7 @@ const AppContainer = (props) => {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(data => setUser(data))
     setIsLoaded(true)
-  }, [dispatch]);
+  }, []);
 
   return isLoaded && (
     <div style={{ display: 'flex', justifyContent: 'center' }}>

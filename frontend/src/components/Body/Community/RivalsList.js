@@ -50,8 +50,8 @@ const RivalsList = () => {
 	const classes = useStyles();
 	const [checked, setChecked] = React.useState([0]);
 	console.log("Loaded Rivals", loadedRivals);
-	const loadedRivals2 = loadedRivals[0];
-	console.log("Loaded Rivals2", loadedRivals2);
+	// const loadedRivals2 = loadedRivals[0];
+	// console.log("Loaded Rivals2", loadedRivals2);
 	// useEffect(() => {
 	// 	if (user) {
 	// 		dispatch(sessionActions.retrieveRivals(user.id))
@@ -76,9 +76,7 @@ const RivalsList = () => {
 	};
 
 	function addRivalButton(rival) {
-		// console.log("user", user);
-		// console.log("rival", rival);
-		dispatch(sessionActions.addRival(user, rival))
+		dispatch(sessionActions.addRival(user, rival));
 	}
 	// function addRival(rival) {
 	// 	fetch("/api/rivals/", {
@@ -93,17 +91,20 @@ const RivalsList = () => {
 	// 	});
 	// 	// setRivals([...rivals, rival])
 	// }
-	function removeRival(rivalId) {
-		fetch("/api/rivals/", {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				id: user.id,
-				rival_id: rivalId,
-			}),
-		});
+	// function removeRival(rivalId) {
+	// 	fetch("/api/rivals/", {
+	// 		method: "DELETE",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify({
+	// 			id: user.id,
+	// 			rival_id: rivalId,
+	// 		}),
+	// 	});
+	// }
+	function removeRival(rival) {
+		dispatch(sessionActions.deleteRival(user, rival));
 	}
 
 	const handleClick = (userId) => {
@@ -142,7 +143,7 @@ const RivalsList = () => {
 										{user.first_name}
 									</Button>
 									<Button align="right">
-										<AddIcon onClick={()=> addRivalButton(user)} />
+										<AddIcon onClick={() => addRivalButton(user)} />
 									</Button>
 								</Typography>
 							</ListItem>
@@ -152,50 +153,52 @@ const RivalsList = () => {
 						Current rivals:{" "}
 					</Typography>
 					<TableBody>
-						{loadedRivals && loadedRivals.map((rival) => (
-							<>
-								<TableRow key={rival.id} dense button>
-									<Typography>
-										<Button
-											onClick={() => {
-												handleClick(rival.id);
-											}}
-										>
-											{rival.first_name}
-										</Button>
-										<Button align="right">
-											<ClearIcon
+						{loadedRivals &&
+							loadedRivals.map((rival) => (
+								<>
+									<TableRow key={rival.id} dense button>
+										<Typography>
+											<Button
 												onClick={() => {
-													removeRival(rival.id);
+													handleClick(rival.id);
 												}}
-											/>
-										</Button>
-									</Typography>
-								</TableRow>
-							</>
-						))}
-						{loadedRivals2 && loadedRivals2.map((rival) => (
-							<>
-								<TableRow key={rival.id} dense button>
-									<Typography>
-										<Button
-											onClick={() => {
-												handleClick(rival.id);
-											}}
-										>
-											{rival.first_name}
-										</Button>
-										<Button align="right">
-											<ClearIcon
+											>
+												{rival.first_name}
+											</Button>
+											<Button align="right">
+												<ClearIcon
+													onClick={() => {
+														removeRival(rival);
+													}}
+												/>
+											</Button>
+										</Typography>
+									</TableRow>
+								</>
+							))}
+						{/* {loadedRivals2 &&
+							loadedRivals2.map((rival) => (
+								<>
+									<TableRow key={rival.id} dense button>
+										<Typography>
+											<Button
 												onClick={() => {
-													removeRival(rival.id);
+													handleClick(rival.id);
 												}}
-											/>
-										</Button>
-									</Typography>
-								</TableRow>
-							</>
-						))}
+											>
+												{rival.first_name}
+											</Button>
+											<Button align="right">
+												<ClearIcon
+													onClick={() => {
+														removeRival(rival.id);
+													}}
+												/>
+											</Button>
+										</Typography>
+									</TableRow>
+								</>
+							))} */}
 					</TableBody>
 				</Table>
 			</TableContainer>

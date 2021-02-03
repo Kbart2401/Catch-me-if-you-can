@@ -2,6 +2,7 @@
 export const SET_USER = "Catch_Me_If_You_Can/session/SET_USER";
 export const REMOVE_USER = "Catch_Me_If_You_Can/session/REMOVE_USER";
 export const SET_RIVAL = "Catch_Me_If_You_Can/session/SET_RIVAL";
+export const REMOVE_RIVAL = "Catch_Me_If_You_Can/session/REMOVE_RIVAL";
 export const SET_RIVALS = "Catch_Me_If_You_Can/session/SET_RIVALS";
 export const SET_USERS = "Catch_Me_If_You_Can/session/SET_USERS";
 export const SET_ROUTES = "Catch_Me_If_You_Can/session/SET_ROUTES";
@@ -22,6 +23,7 @@ const setTotalDistance = (distance) => ({
 });
 const setTotalRunTime = (time) => ({ type: SET_TOTAL_TIME, payload: time });
 const setRival = (rival) => ({ type: SET_RIVAL, payload: rival });
+const removeRival = (rival) => ({ type: REMOVE_RIVAL, payload: rival });
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
@@ -88,6 +90,7 @@ export const restoreUser = () => async (dispatch) => {
 
 		if (res.ok) {
 			const data = await res.json();
+			console.log("data.rivals", data.rivals)
 			dispatch(setUser(data.user));
 			dispatch(setRivals(data.rivals));
 			dispatch(setCreatedRoutes(data.created_routes));
@@ -159,4 +162,19 @@ export const addRival = (user, rival) => async (dispatch) => {
 	// console.log("Data", data)
 	// debugger
 	dispatch(setRival(rival));
+};
+export const deleteRival = (user, rival) => async (dispatch) => {
+	const res = await fetch("/api/rivals/", {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			id: user.id,
+			rival_id: rival.id,
+		}),
+	});
+	console.log("res", res.json())
+	console.log("rival", rival)
+	dispatch(removeRival(rival));
 };
