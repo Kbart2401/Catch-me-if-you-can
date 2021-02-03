@@ -100,9 +100,9 @@ export const restoreUser = () => async (dispatch) => {
 	}
 };
 
+//THIS IS USELESS:
 export const retrieveRivals = (userId) => async (dispatch) => {
 	try {
-		debugger
 		const res = await fetch(`/api/users/${userId}`);
 		if (res.ok) {
 			// console.log("**** IN RETRIEVE RIVALS *****");
@@ -153,6 +153,7 @@ export const addRival = (user, rival) => async (dispatch) => {
 			rival_id: rival.id,
 		}),
 	});
+	debugger
 	const data = await res.json();
 	dispatch(setRival(data));
 };

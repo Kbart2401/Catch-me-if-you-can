@@ -50,13 +50,13 @@ const RivalsList = () => {
 	const classes = useStyles();
 	const [checked, setChecked] = React.useState([0]);
 
-	useEffect(() => {
-		if (user) {
-			dispatch(sessionActions.retrieveRivals(user.id))
-				// .then((data) => setRivals(data.rivals))
-				.then(setIsLoaded(true));
-		}
-	}, [user]);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		dispatch(sessionActions.retrieveRivals(user.id))
+	// 			// .then((data) => setRivals(data.rivals))
+	// 			.then(setIsLoaded(true));
+	// 	}
+	// }, [user]);
 
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
@@ -73,7 +73,7 @@ const RivalsList = () => {
 		}
 	};
 
-	function addRival(rival) {
+	function addRivalButton(rival) {
 		dispatch(sessionActions.addRival(user, rival))
 		// setRivals([...rivals, rival])
 	}
@@ -126,7 +126,7 @@ const RivalsList = () => {
 										{user.first_name}
 									</Button>
 									<Button align="right">
-										<AddIcon onClick={addRival(user)} />
+										<AddIcon onClick={()=> addRivalButton(user)} />
 									</Button>
 								</Typography>
 							</ListItem>
