@@ -27,9 +27,9 @@ const MapSearch = () => {
   const [radius, setRadius] = useState(1);
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
-  const [ids, setIds] = useState([]); 
+  const [ids, setIds] = useState([]);
   const [createdRoutes, setCreatedRoutes] = useState('')
-  const history = useHistory(); 
+  const history = useHistory();
   const [mapLoad, setMapLoad] = useState(false)
 
   const user = useSelector((state) => state.session.user)
@@ -69,7 +69,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    setIds([]); 
+    setIds([]);
     const newPoint = turf.point([event.lngLat[0], event.lngLat[1]]);
     setPoint(newPoint);
     const buffered = turf.buffer(newPoint, radius, { units: 'kilometers' });
@@ -96,7 +96,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    setIds([]); 
+    setIds([]);
     const buffered = turf.buffer(point, radius, { units: 'kilometers' });
     const geojson = {
       type: 'FeatureCollection',
@@ -123,16 +123,16 @@ const MapSearch = () => {
     if (createdRoutes) {
       let n = [];
       let d = [];
-      let i = []; 
+      let i = [];
       createdRoutes.routes.forEach(route => {
         routes.push(route.route_coordinates[0]);
         n.push(route.name)
         d.push(route.distance)
-        i.push(route.id); 
+        i.push(route.id);
       })
       setNames([...n]);
       setDistances([...d]);
-      setIds([...i]); 
+      setIds([...i]);
     };
 
     let results = [];
@@ -152,7 +152,7 @@ const MapSearch = () => {
       {!mapLoad &&
         <>
           <div style={{
-            display: 'flex', backgroundColor: 'white', position: 'absolute',
+            display: 'flex', backgroundColor: '#EBF8FF', position: 'absolute',
             top: '50%', right: '50%', marginRight: '-50px'
           }}>
             <ClimbingBoxLoader size='50px' color='#3f51b5' />
@@ -204,23 +204,24 @@ const MapSearch = () => {
                     }}
                     closeOnClick={false}
                   >
-                <div>
-                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Route name:</span> {names[index]}</p>
-                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span> {distances[index].toFixed(0)} m</p>
-                  <p className={'popup'}>
-                    <a href={`/route/${ids[index]}`} style={{'font-weight':'bold','textDecoration':'none', 'color':'black'}}>
-                      Click here to check out this run
+                    <div>
+                      <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Route name:</span> {names[index]}</p>
+                      <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Distance:</span> {distances[index].toFixed(0)} m</p>
+                      <p className={'popup'}>
+                        <a href={`/route/${ids[index]}`} style={{ 'font-weight': 'bold', 'textDecoration': 'none', 'color': 'black' }}>
+                          Click here to check out this run
                     </a>
-                  </p>
-                </div>
-              </Popup>
-            ) : null}
-          </>
-        }
-      </ReactMapGL>
-    </div>
-  }
-  </>
-)}
+                      </p>
+                    </div>
+                  </Popup>
+                ) : null}
+              </>
+            }
+          </ReactMapGL>
+        </div>
+      }
+    </>
+  )
+}
 
 export default MapSearch; 

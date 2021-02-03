@@ -48,14 +48,14 @@ const useStyles = makeStyles(() => ({
     width: '20rem',
     margin: '1rem',
   },
-  dashboard_circle_stat_container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // margin: '5rem 0',
-    minHeight: '50%'
-  },
+  // dashboard_circle_stat_container: {
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   // margin: '5rem 0',
+  //   minHeight: '50%'
+  // },
   dashboard_circle_stat: {
     margin: '.5rem 0',
   },
@@ -220,7 +220,7 @@ const Dashboard = (props) => {
       <div className={classes.dashboard_accordian_container}>
         <Accordion className={classes.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>History</Typography>
+            <Typography style={{ color: '#3f51b5', fontWeight: '550'}}>History</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <History user={user} />
@@ -228,7 +228,7 @@ const Dashboard = (props) => {
         </Accordion>
         <Accordion className={classes.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>My Routes</Typography>
+            <Typography style={{ color: '#3f51b5', fontWeight: '550' }}>My Routes</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Routes />
