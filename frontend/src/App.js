@@ -37,14 +37,14 @@ const App = (props) => {
   const classes = useStyles()
   return (
     <>
-    <div className={classes.rootContainer}>
-      <div className={classes.root}>
-        <BrowserRouter>
-          <Header user={props.user} />
-          <Body user={props.user} />
-      </BrowserRouter>
-      </div>
-          <Footer />
+      <div className={classes.rootContainer}>
+        <div className={classes.root}>
+          <BrowserRouter>
+            <Header user={props.user} />
+            <Body user={props.user} />
+          </BrowserRouter>
+        </div>
+        {/* <Footer /> */}
       </div>
     </>
   );
