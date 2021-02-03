@@ -87,7 +87,6 @@ const Header = (props) => {
   const isMenuOpen = Boolean(anchorEl);
 
   const handleMenuOpen = async (e) => {
-    // console.log(e.currentTarget)
     await setAnchorEl(e.currentTarget.id);
   };
 
