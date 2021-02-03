@@ -54,7 +54,11 @@ def user():
         # get user created routes
         data = Route.query.filter_by(user_creator=user.id).all()
 
+        #added extra code here for turning created routes into a dict for easier access  
+        keys = [route.id for route in data]
         my_routes = [route.to_dict() for route in data]
+        dict_routes = dict(zip(keys, my_routes))
+
         runners = [RunTime.query.filter_by(
             route_id=route['id']).count() for route in my_routes]
 
@@ -95,5 +99,5 @@ def user():
                 user_total_run_time = total_times.time
             return {'user': user.to_dict(), "total_time": user_total_run_time,
                     "total_distance": user_total_distance_ran,
-                    "rivals": my_rivals, "created_routes": my_routes}
-    return {'user': user.to_dict(), "rivals": my_rivals, "created_routes": my_routes}
+                    "rivals": my_rivals, "created_routes": dict_routes}
+    return {'user': user.to_dict(), "rivals": my_rivals, "created_routes": dict_routes}

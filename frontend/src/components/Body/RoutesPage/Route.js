@@ -92,7 +92,6 @@ const Routes = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { routeid } = useParams();
-  console.log(routeid); 
 
   const user = useSelector(state => state.session.user)
   const [route, setRoute] = useState({})

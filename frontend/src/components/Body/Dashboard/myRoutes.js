@@ -23,68 +23,73 @@ const MyRoutes = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const routes = useSelector(state => state.session.created_routes)
-  const [isLoaded, setIsLoaded] = useState(false);
-  const newRoutes = useRef(undefined); 
+  const routes = useSelector(state => state.session.created_routes);
+  const [isLoaded, setIsLoaded] = useState(false); 
 
-  const handleClick = (path) => { 
-    setIsLoaded(false); 
-    history.push(path)
-  }
+  // const handleClick = (path) => { 
+  //   setIsLoaded(false); 
+  //   history.push(path)
+  // }
 
   useEffect(() => {
     setIsLoaded(true)
   }, [routes]); 
 
   useEffect(() => {
+    if (!props.location) return; 
     if (props.location.state) {
       console.log("HEY EVERYBODY");
-      console.log(props.location.state); 
-      newRoutes.current = props.location.state.routes;   
+      console.log(props.location.state);   
     }
   }, []);
 
+
+  const RouteTables = ({ routes }) => {
+    const history = useHistory();
+  
+    const handleClick = (path) => {
+      history.push(path)
+    }
+  
+    return (
+      <TableBody>
+        {
+          Object.keys(routes).map((key) => (
+            <TableRow key={routes[key].id}>
+              <TableCell component="th" scope="row">
+                <Typography><Button onClick={() => handleClick(`/route/${routes[key].id}`)}>
+                  {routes[key].name}
+                </Button></Typography>
+              </TableCell>
+              <TableCell align="right">{routes[key].distance}</TableCell>
+              <TableCell align="right">{routes[key].runners}</TableCell>
+            </TableRow>
+          ))
+        }
+      </TableBody>
+    )
+  }
+
   return isLoaded && (
     <>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Route</TableCell>
-              <TableCell align="right">Distance (meters)</TableCell>
-              <TableCell align="right">Runs</TableCell>
-              {/* <TableCell align="right">Location</TableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {console.log(newRoutes)}
-            {newRoutes.current 
-               ? newRoutes.current.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
-                      <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
-                        {row.name}
-                      </Button></Typography>
-                    </TableCell>
-                    <TableCell align="right">{row.distance.toFixed(0)}</TableCell>
-                    <TableCell align="right">{row.runners}</TableCell>
-                  </TableRow>
-                ))
-              : routes?.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
-                      {row.name}
-                    </Button></Typography>
-                  </TableCell>
-                  <TableCell align="right">{row.distance.toFixed(0)}</TableCell>
-                  <TableCell align="right">{row.runners}</TableCell>
+      {
+        (routes && Object.keys(routes).length > 0)
+          ? (<TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Route</TableCell>
+                  <TableCell align="right">Distance (meters)</TableCell>
+                  <TableCell align="right">Runs</TableCell>
+                  {/* <TableCell align="right">Location</TableCell> */}
                 </TableRow>
-              ))   
-          }
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </TableHead>
+              <RouteTables routes={routes} />
+            </Table>
+          </TableContainer>
+          )
+          : <Typography>No Routes to show. Please create a route first.</Typography>
+      }
     </>
   )
 }
