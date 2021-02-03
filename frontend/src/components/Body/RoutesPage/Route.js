@@ -285,7 +285,7 @@ const Routes = (props) => {
                   shrink: true,
                 }}
                 inputProps={{
-                  step: 5, // 5 min
+                  step: 1, // 5 min
                 }}
               />
             </div>
