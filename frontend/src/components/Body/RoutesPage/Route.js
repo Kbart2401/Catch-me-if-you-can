@@ -216,7 +216,6 @@ const Routes = (props) => {
 
         {/* Map Component */}
         <Paper className={classes.route_map_container}>
-          <Typography>{route.name}</Typography>
           <SavedMap routeCoordinates={route.route_coordinates}/>
         </Paper>
         <div className={classes.route_information_container}>
@@ -229,7 +228,7 @@ const Routes = (props) => {
                 <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
                 <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance.toFixed(0)} meters</Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} Times Set for this Route</Typography></li>
+                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} times were logged for this route</Typography></li>
               </ul>
             </div>
             <div className={classes.postrun_container}>
@@ -256,25 +255,14 @@ const Routes = (props) => {
           <DialogTitle id="form-dialog-title">Submit A Run</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              To submit a run, please fill out this short form.
+              Please submit your time for this route here.
             </DialogContentText>
             <div className={classes.inputFields}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Name"
-                type="string"
-                defaultValue={runnerName}
-                onChange={handleChange('user')}
-                fullWidth
-              />
               <TextField
                 required
                 id="time"
                 label="Time (in minutes)"
                 type="number"
-                min="0"
                 defaultValue={runTime}
                 value={runTime}
                 className={classes.textField}
@@ -283,7 +271,8 @@ const Routes = (props) => {
                   shrink: true,
                 }}
                 inputProps={{
-                  step: 1, // 1 min
+                  step: 1,  // 1 min
+                  min: 0, 
                 }}
               />
             </div>
