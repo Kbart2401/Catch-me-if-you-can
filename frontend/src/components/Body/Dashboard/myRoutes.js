@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -24,15 +24,25 @@ const MyRoutes = (props) => {
   const history = useHistory();
 
   const routes = useSelector(state => state.session.created_routes)
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
+  const newRoutes = useRef(undefined); 
 
-  const handleClick = (path) => {
+  const handleClick = (path) => { 
+    setIsLoaded(false); 
     history.push(path)
   }
 
   useEffect(() => {
     setIsLoaded(true)
-  }, [routes])
+  }, [routes]); 
+
+  useEffect(() => {
+    if (props.location.state) {
+      console.log("HEY EVERYBODY");
+      console.log(props.location.state); 
+      newRoutes.current = props.location.state.routes;   
+    }
+  }, []);
 
   return isLoaded && (
     <>
@@ -41,23 +51,37 @@ const MyRoutes = (props) => {
           <TableHead>
             <TableRow>
               <TableCell>Route</TableCell>
-              <TableCell align="right">Distance (KM)</TableCell>
+              <TableCell align="right">Distance (meters)</TableCell>
               <TableCell align="right">Runs</TableCell>
               {/* <TableCell align="right">Location</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {routes.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
-                    {row.name}
-                  </Button></Typography>
-                </TableCell>
-                <TableCell align="right">{row.distance}</TableCell>
-                <TableCell align="right">{row.runners}</TableCell>
-              </TableRow>
-            ))}
+            {console.log(newRoutes)}
+            {newRoutes.current 
+               ? newRoutes.current.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
+                        {row.name}
+                      </Button></Typography>
+                    </TableCell>
+                    <TableCell align="right">{row.distance.toFixed(0)}</TableCell>
+                    <TableCell align="right">{row.runners}</TableCell>
+                  </TableRow>
+                ))
+              : routes?.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
+                      {row.name}
+                    </Button></Typography>
+                  </TableCell>
+                  <TableCell align="right">{row.distance.toFixed(0)}</TableCell>
+                  <TableCell align="right">{row.runners}</TableCell>
+                </TableRow>
+              ))   
+          }
           </TableBody>
         </Table>
       </TableContainer>

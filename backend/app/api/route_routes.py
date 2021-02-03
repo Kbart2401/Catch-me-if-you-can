@@ -25,19 +25,20 @@ def new_route():
     )
     db.session.add(route)
     db.session.commit()
-    return route.to_dict()
+    routes = Route.query.all()
+    return {"routes": [route.to_dict() for route in routes]}
 
 # Delete a created route
 
 
-@route_routes.route('/', methods=['DELETE'])
+@route_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
-def remove_route():
-    id = request.get_json().get('routeId')
+def remove_route(id): 
     route = Route.query.get(id)
     db.session.delete(route)
     db.session.commit()
-    return route.to_dict()
+    routes = Route.query.all()
+    return {"routes": [route.to_dict() for route in routes]}
 
 # Get all routes
 

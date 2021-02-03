@@ -23,8 +23,7 @@ const SavedMap = (props) => {
             return {
                 coordinates: [point[0], point[1]]
             }
-        });  
-        console.log(wayPoints.current); 
+        });   
     });
 
     useEffect(()=> {
@@ -39,15 +38,13 @@ const SavedMap = (props) => {
 
     //api request to mapbox to get route directions per given coordinates
     useEffect(() => {
-        console.log("HELLOOOO")
         directionsClient.getDirections({
             profile: 'walking', 
             geometries: 'geojson', 
             waypoints: wayPoints.current, 
         })
             .send()
-            .then(response => {
-                console.log(response); 
+            .then(response => { 
                 const route = response.body.routes[0].geometry.coordinates; 
              
     
