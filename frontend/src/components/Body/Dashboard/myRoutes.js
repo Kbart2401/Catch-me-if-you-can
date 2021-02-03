@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as sessionActions from '../../../store/actions/session'; 
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,15 +30,15 @@ const RouteTables = ({ routes }) => {
   return (
     <TableBody>
       {
-        routes.map((row) => (
-          <TableRow key={row.id}>
+        Object.keys(routes).map((key) => (
+          <TableRow key={routes[key].id}>
             <TableCell component="th" scope="row">
-              <Typography><Button onClick={() => handleClick(`/route/${row.id}`)}>
-                {row.name}
+              <Typography><Button onClick={() => handleClick(`/route/${routes[key].id}`)}>
+                {routes[key].name}
               </Button></Typography>
             </TableCell>
-            <TableCell align="right">{row.distance}</TableCell>
-            <TableCell align="right">{row.runners}</TableCell>
+            <TableCell align="right">{routes[key].distance}</TableCell>
+            <TableCell align="right">{routes[key].runners}</TableCell>
           </TableRow>
         ))
       }
@@ -47,25 +48,31 @@ const RouteTables = ({ routes }) => {
 
 const MyRoutes = (props) => {
   const classes = useStyles();
-
+  const dispatch = useDispatch(); 
   const routes = useSelector(state => state.session.created_routes)
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    (routes !== undefined) && setIsLoaded(true)
-    console.log('rerendering', routes)
-  }, [routes])
+    setIsLoaded(true)
+  }, [routes]); 
+
+  useEffect(() => {
+    if (!props.location) return; 
+    if (props.location.state) {
+      dispatch(sessionActions.addRoute(props.location.state));   
+    }
+  }, []);
 
   return isLoaded && (
     <>
       {
-        (routes && routes.length > 0)
+        (routes && Object.keys(routes).length > 0)
           ? (<TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Route</TableCell>
-                  <TableCell align="right">Distance (KM)</TableCell>
+                  <TableCell align="right">Distance (meters)</TableCell>
                   <TableCell align="right">Runs</TableCell>
                   {/* <TableCell align="right">Location</TableCell> */}
                 </TableRow>

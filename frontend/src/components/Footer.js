@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     padding: '0.5rem',
     position: 'relative',
-    width: '1000px',
+    width: '1200px',
     color: 'white',
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
     fontWeight: '400'
@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
   footer_iconContainer: {
     display: 'grid',
     gridAutoColumns: 'column',
-    // gap: '.5rem',
     maxWidth: 'fit-content',
     justifyContent: 'center',
   },
@@ -67,17 +66,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '.5rem',
-    // cursor: 'pointer',
-  },
-  iconButton: {
-    '&.MuiIconButton-root': {
-      borderRadius: '.5rem',
-      padding: '.5rem'
-    }
-  },
-  dialog: {
-    width: 'auto',
-    height: 'auto',
   },
   text: {
     fontSize: '14px',

@@ -147,7 +147,7 @@ const Dashboard = (props) => {
       sum += Math.floor((8.5 * totalRecentDistance) * Math.trunc(recentRuns[i].time * (1 / 60)))
     }
 
-    return sum
+    return sum/1000
   }
 
   useEffect(() => {
@@ -177,8 +177,8 @@ const Dashboard = (props) => {
   return isLoaded && (
     <div className={classes.root}>
       <div className={classes.title}>
-        <Typography variant={'h5'}>DashBoard</Typography>
-        <Typography>{username}</Typography>
+        <Typography variant={'h5'} className='header-font'>DashBoard</Typography>
+        <Typography className='dashboard-username font'>{username}</Typography>
         {
           (user.id !== userId) && <Button variant="outlined"><Typography>Make Rival</Typography></Button>
         }
@@ -188,7 +188,7 @@ const Dashboard = (props) => {
         <div className={classes.dashboard_circle_stat_container}>
           <div className={classes.dashboard_circle_stat} > <Typography variant={'h5'}>Weekly Stats</Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>
-            {recentRuns ? calcRecentDistance() : 0} km
+            {recentRuns ? calcRecentDistance() : 0} m
             </Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentRuns ? calcRecentCalories() : 0} Ca</Typography></div>
         </div>
@@ -205,7 +205,7 @@ const Dashboard = (props) => {
         </div>
         <div className={classes.dashboard_totalStat_stats}>
           <Typography variant={'h4'}>{totalDistance ? totalDistance : 0}</Typography>
-          <Typography>Total km</Typography>
+          <Typography>Total m</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
           <Typography variant={'h4'}>{(totalDistance && totalTime) ? Math.floor((8.5 * totalDistance) * Math.trunc(totalTime * (1 / 60))) : 0}</Typography>

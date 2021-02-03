@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     marginBottom: '20px',
     '&:hover': {
-      bottom: '8px',
+      bottom: '3px',
       backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
     }
   },
@@ -80,7 +80,7 @@ const SignUpForm = (props) => {
     e.preventDefault();
     if (password === confirmPassword) {
       dispatch(sessionActions.signupUser({ firstname, lastname, gender, email, height, weight, password }))
-      history.push('/dashboard')
+      history.push('/')
     } else {
       setErrors(['Please confirm your inputs are valid'])
     }

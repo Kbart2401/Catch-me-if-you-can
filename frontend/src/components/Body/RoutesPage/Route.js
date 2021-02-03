@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
     alignContent: 'center',
   },
   route_map_container: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     minWidth: '20rem',
     margin: '1rem',
     borderRadius: '.5rem',
@@ -127,14 +127,18 @@ const Routes = (props) => {
   }
 
   const handleDelete = async () => {
-    const res = await fetch(`/api/routes`, {
+    const res = await fetch(`/api/routes/${routeid}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json",
       },
     })
-    history.push('/my-routes')
-  }
+    const data = await res.json(); 
+    if (data) {
+      dispatch(sessionActions.deleteRoute(data));
+      history.push('/my-routes');
+    }
+  };
 
   const handleSubmit = async () => {
     handleClose();
@@ -215,7 +219,7 @@ const Routes = (props) => {
 
         {/* Map Component */}
         <Paper className={classes.route_map_container}>
-          <Typography>Map Here</Typography>
+          <Typography>{route.name}</Typography>
           <SavedMap routeCoordinates={route.route_coordinates}/>
         </Paper>
         <div className={classes.route_information_container}>
@@ -227,7 +231,7 @@ const Routes = (props) => {
               <ul>
                 <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
-                <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance} km</Typography></li>
+                <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance.toFixed(0)} meters</Typography></li>
                 <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} Rivals Posted</Typography></li>
               </ul>
             </div>
