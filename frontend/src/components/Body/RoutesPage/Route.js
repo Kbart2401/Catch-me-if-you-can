@@ -243,11 +243,11 @@ const Routes = (props) => {
               <Typography className='dashboard-font username' style={{ display: 'block', paddingLeft: '40px' }}>
                 {route.name}</Typography>
               <ul style={{listStyleType: 'none'}}>
-                <li><Typography style={{ padding: '0px 8px' }}>Route created by:
+                <li><Typography style={{ padding: '0px 8px' }}>Created by:
                     <Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
                 <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance.toFixed(0)} meters</Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} times were logged for this route</Typography></li>
+                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} times have been logged for this route</Typography></li>
               </ul>
             </div>
             <div className={classes.postrun_container}>
