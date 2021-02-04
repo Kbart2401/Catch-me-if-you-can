@@ -95,6 +95,7 @@ def user():
                         "email": obj.email, "gender": obj.gender, "height": obj.height, "weight": obj.weight}
             new_rivals = map(to_obj, rivals)
             my_rivals = list(new_rivals)
+            # my_rivals = (new_rivals)
         else:
             my_rivals = []
 

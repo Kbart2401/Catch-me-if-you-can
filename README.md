@@ -19,7 +19,7 @@
 <br>
 
 ## Summary
-Catch Me If You Can is a fun a competitive app that lets you create and track routes that you've walked, biked or ran. Add friends ("rivals") and they can track their own times on your route. Each route has a leaderboard to see who has the fastest time!
+Catch Me If You Can is a fun, competitive app that lets you create and track routes that you've walked, biked or ran. Add friends ("rivals") and they can track their own times on your route. Each route has a leaderboard to see who has the fastest time!
 
 ## Features
 ### Interactive map using © MapBox api 
