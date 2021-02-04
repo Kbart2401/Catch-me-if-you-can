@@ -11,6 +11,7 @@ const mapboxAPI = process.env.REACT_APP_MAPBOX;
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
 const MapSearch = () => {
+  const user = useSelector((state) => state.session.user)
   const [viewport, setViewport] = useState({});
   //set circle coordinates
   const [point, setPoint] = useState([])
@@ -57,7 +58,12 @@ const MapSearch = () => {
     alert(`ERROR(${err.code}): ${err.message}`);
   };
 
-  navigator.geolocation.getCurrentPosition(success, error);
+  useEffect(() => {
+    if (user && user.email === 'demo@aa.io') {
+      success({ coords: { latitude: 39.9763752, longitude: -82.9238448 } })
+    }
+    else navigator.geolocation.getCurrentPosition(success, error);
+  }, []);
 
   //click event for dropping marker on map && creating radius
   function clickLocation(event) {

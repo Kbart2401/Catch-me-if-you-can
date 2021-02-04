@@ -17,6 +17,10 @@
 <a href='https://www.linkedin.com/in/rhysprevite/'>Rhys Previte</a>
 </div>
 <br>
+<div align='center' style='font-size: 25px'>
+<a href='https://catch-me-if-you-cann.herokuapp.com/'>Live Link</a>
+</div>
+
 
 ## Summary
 Catch Me If You Can is a fun, competitive app that lets you create and track routes that you've walked, biked or ran. Add friends ("rivals") and they can track their own times on your route. Each route has a leaderboard to see who has the fastest time!
@@ -43,6 +47,9 @@ Catch Me If You Can is a fun, competitive app that lets you create and track rou
 ![Database Schema](./Documentation/Database-schema.png)
 
 # Usage 
+
+## Demo User
+There is a **Demo** login that allows access to the site. However, the Demo User Login does **NOT** use your geolocation, but instead uses a hard-coded latitude and longitude. If you would like to see routes in your local area, either manually navigate to your region or sign up for the site to get instant data on your area.
 
 ## Contribution
 If you would like to contribute to this project in any way, you may take the following steps
