@@ -6,7 +6,7 @@ export const REMOVE_RIVAL = "Catch_Me_If_You_Can/session/REMOVE_RIVAL";
 export const SET_RIVALS = 'Catch_Me_If_You_Can/session/SET_RIVALS';
 export const SET_USERS = 'Catch_Me_If_You_Can/session/SET_USERS';
 export const SET_ROUTES = 'Catch_Me_If_You_Can/session/SET_ROUTES';
-export const ADD_ROUTE = 'Catch_Me_If_You_Can/session/ADD_ROUTE'; 
+export const ADD_ROUTE = 'Catch_Me_If_You_Can/session/ADD_ROUTE';
 export const DELETE_ROUTE = 'Catch_Me_If_You_Can/session/DELETE_ROUTE';
 export const SET_TOTAL_TIME = 'Catch_Me_If_You_Can/session/SET_TOTAL_TIME'
 export const SET_TOTAL_DISTANCE = 'Catch_Me_If_You_Can/session/SET_TOTAL_DISTANCE'
@@ -25,77 +25,77 @@ const removeRival = (rival) => ({ type: REMOVE_RIVAL, payload: rival });
 
 //new Store Actions for create and remove run
 export const addRoute = route => {
-  const newRouteID = route.id; 
-  const newRoute = {}; 
-  newRoute[newRouteID] = route; 
-  
+  const newRouteID = route.id;
+  const newRoute = {};
+  newRoute[newRouteID] = route;
+
   return {
-    type: ADD_ROUTE, 
+    type: ADD_ROUTE,
     payload: newRoute,
   }
 }
 
 export const deleteRoute = route => {
-  const routeID = route.id; 
+  const routeID = route.id;
   return {
-    type: DELETE_ROUTE, 
-    payload: routeID, 
+    type: DELETE_ROUTE,
+    payload: routeID,
   }
 }
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
-	const { email, password } = user;
-	let res = await fetch("/api/auth/login", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			email,
-			password,
-		}),
-	});
+  const { email, password } = user;
+  let res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email,
+      password
+    })
+  });
 
-    if (res.ok) {
-      const data = await res.json()
-      dispatch(setUser(data));
-      window.location.replace("/")
-    } else {
-      res = await res.json()
-      throw res;
-    }
-    return res
+  if (res.ok) {
+    const data = await res.json()
+    dispatch(setUser(data));
+    window.location.replace("/")
+  } else {
+    res = await res.json()
+    throw res;
+  }
+  return res
 }
 
 export const signupUser = (user) => async (dispatch) => {
-	const { firstname, lastname, gender, email, height, weight, password } = user;
-	try {
-		const res = await fetch("/api/auth/signup", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				firstname,
-				lastname,
-				gender,
-				email,
-				height,
-				weight,
-				password,
-			}),
-		});
+  const { firstname, lastname, gender, email, height, weight, password } = user;
+  debugger
+  let res = await fetch("/api/auth/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      firstname,
+      lastname,
+      gender,
+      email,
+      height,
+      weight,
+      password,
+    }),
+  });
 
-    if (res.ok) {
-      const data = await res.json()
-      dispatch(setUser(data))
-      window.location.replace("/");
-      return data;
-    }
-  } catch (e) {
-    console.error(e)
+  if (res.ok) {
+    const data = await res.json()
+    dispatch(setUser(data))
+    window.location.replace("/");
+  } else {
+    res = await res.json()
+    throw res;
   }
+  return res
 };
 
 export const restoreUser = () => async (dispatch) => {

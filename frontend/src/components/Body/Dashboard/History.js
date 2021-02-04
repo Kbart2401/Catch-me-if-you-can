@@ -70,7 +70,7 @@ const History = (props) => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Route</TableCell>
-                    <TableCell align="right">Distance (KM)</TableCell>
+                    <TableCell align="right">Distance (meters)</TableCell>
                     <TableCell align="right">Time</TableCell>
                     {/* <TableCell align="right">Location</TableCell> */}
                     <TableCell align="right">Date</TableCell>

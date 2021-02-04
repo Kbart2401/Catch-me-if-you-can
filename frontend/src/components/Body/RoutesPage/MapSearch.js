@@ -27,21 +27,16 @@ const MapSearch = () => {
   const [radius, setRadius] = useState(1);
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
-  const [ids, setIds] = useState([]); 
+  const [ids, setIds] = useState([]);
   const [createdRoutes, setCreatedRoutes] = useState('')
-  const history = useHistory(); 
-  const [mapLoad, setMapLoad] = useState(false)
-
-  const user = useSelector((state) => state.session.user)
+  const [mapLoad, setMapLoad] = useState(false);
 
   useEffect(() => {
-    async function getRoutes() {
+    (async function getRoutes() {
       const res = await fetch('api/routes/')
       const routes = await res.json()
-      setCreatedRoutes(routes)
-
-    }
-    getRoutes()
+      setCreatedRoutes(routes);
+    })()
   }, [])
 
   //establish viewport coordinates based on user location
@@ -69,7 +64,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    setIds([]); 
+    setIds([]);
     const newPoint = turf.point([event.lngLat[0], event.lngLat[1]]);
     setPoint(newPoint);
     const buffered = turf.buffer(newPoint, radius, { units: 'kilometers' });
@@ -96,7 +91,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    setIds([]); 
+    setIds([]);
     const buffered = turf.buffer(point, radius, { units: 'kilometers' });
     const geojson = {
       type: 'FeatureCollection',
@@ -119,24 +114,24 @@ const MapSearch = () => {
   function findRuns(e) {
     e.preventDefault();
     if (point.length === 0) return;
-    let routes = []
+    let foundRoutes = []
     if (createdRoutes) {
       let n = [];
       let d = [];
       let i = []; 
-      createdRoutes.routes.forEach(route => {
-        routes.push(route.route_coordinates[0]);
-        n.push(route.name)
-        d.push(route.distance)
-        i.push(route.id); 
+      Object.keys(createdRoutes.routes).forEach(key => {
+        foundRoutes.push(createdRoutes.routes[key].route_coordinates[0]);
+        n.push(createdRoutes.routes[key].name)
+        d.push(createdRoutes.routes[key].distance)
+        i.push(createdRoutes.routes[key].id); 
       })
       setNames([...n]);
       setDistances([...d]);
-      setIds([...i]); 
+      setIds([...i]);
     };
 
     let results = [];
-    routes.forEach(marker => {
+    foundRoutes.forEach(marker => {
       const point = turf.point([marker[0], marker[1]]);
       const poly = turf.polygon(polyCoords);
 
@@ -152,21 +147,23 @@ const MapSearch = () => {
       {!mapLoad &&
         <>
           <div style={{
-            display: 'flex', backgroundColor: 'white', position: 'absolute',
+            display: 'flex', backgroundColor: '#EBF8FF', position: 'absolute',
             top: '50%', right: '50%', marginRight: '-50px'
           }}>
             <ClimbingBoxLoader size='50px' color='#3f51b5' />
           </div>
         </>}
       { mapLoad &&
-        <div className={"map_container"}>
-          <form className={"panel"} onSubmit={findRuns}>
-            <label className={"panel__distance"}>
-              Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
-              <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
-            </label>
-            <button className={'panel__search'} onClick={findRuns}>
-              Search for Runs
+        <>
+          <h5 className='header-font create-route'>Find a Route</h5>
+          <div className={"map_container"}>
+            <form className={"panel"} onSubmit={findRuns}>
+              <label className={"panel__distance"}>
+                Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
+                <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
+              </label>
+              <button className={'panel__search'} onClick={findRuns}>
+                Search for Runs
         </button>
           </form>
           <ReactMapGL {...viewport}
@@ -209,18 +206,20 @@ const MapSearch = () => {
                   <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span> {distances[index].toFixed(0)} m</p>
                   <p className={'popup'}>
                     <a href={`/route/${ids[index]}`} style={{'font-weight':'bold','textDecoration':'none', 'color':'black'}}>
-                      Click here to check out this run
+                      Click here to check out this route
                     </a>
-                  </p>
-                </div>
-              </Popup>
-            ) : null}
-          </>
-        }
-      </ReactMapGL>
-    </div>
-  }
-  </>
-)}
+                        </p>
+                      </div>
+                    </Popup>
+                  ) : null}
+                </>
+              }
+            </ReactMapGL>
+          </div>
+        </>
+      }
+    </>
+  )
+}
 
 export default MapSearch; 
