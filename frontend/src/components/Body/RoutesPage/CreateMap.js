@@ -4,10 +4,9 @@ import { useHistory } from "react-router-dom";
 import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import EndPin from './EndPin';
 import StartPin from './StartPin';
-import { css } from '@emotion/core';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import './Map.css';
-import { de } from "date-fns/locale";
+import { Typography } from '@material-ui/core';
 const mapboxAPI = process.env.REACT_APP_MAPBOX
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE
 
@@ -157,6 +156,9 @@ const CreateMap = () => {
       { mapLoad &&
         <>
           <h5 className='header-font create-route'>Create Route</h5>
+          <Typography style={{maxWidth: '65vw', paddingBottom: '10px'}}>Begin by clicking on the map to set your starting point. From there, you can click up to another 24 points onto the map
+            to complete your route. 
+          </Typography>
           <div className={"map_container"}>
             <div className={"panel"}>
               <label className={"panel__distance"}>
