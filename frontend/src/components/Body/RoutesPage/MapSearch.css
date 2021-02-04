@@ -4,8 +4,11 @@
   
   .panel {
       position: absolute;
+      display: flex; 
+      flex-direction: column;
       margin: 20px;
-      width: 15%;
+      min-width: 80px;
+      max-width: 150px;
       top: 0;
       padding: 10px;
       background-color: rgba(255, 255, 255, 0.9);
@@ -20,38 +23,6 @@
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: large;
-  }
-  
-  .panel__reset {
-    width: 120px;
-    margin: 15px 10px; 
-    border-radius: 3px; 
-    border: none; 
-    background-color: rgb(247, 180, 126);;
-    cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    transition: background-color 0.5s; 
-  }
-  
-  .panel__reset:hover {
-    background-color: rgb(252, 82, 70); 
-  }
-  
-  .panel__submit {
-    width: 120px;
-    margin: 0px 10px; 
-    border-radius: 3px; 
-    border: none; 
-    background-color: rgb(126, 209, 247);;
-    cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    transition: background-color 0.5s; 
-  }
-  
-  .panel__submit:hover {
-    background-color: rgb(35, 104, 252); 
   }
   
   .marker__button {

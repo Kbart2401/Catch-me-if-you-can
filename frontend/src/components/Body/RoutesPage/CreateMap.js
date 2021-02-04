@@ -99,7 +99,7 @@ const CreateMap = () => {
           markers[markers.length - 1][0] = lonEnd;
           markers[markers.length - 1][1] = latEnd;
           setName(nameArr);
-          setDistance(dist.toFixed(2));
+          setDistance(dist.toFixed(0));
           setRouteData({ ...geojson });
           setIsLoaded(true);
         });
@@ -156,16 +156,20 @@ const CreateMap = () => {
       { mapLoad &&
         <>
           <h5 className='header-font create-route'>Create Route</h5>
-          <Typography style={{maxWidth: '65vw', paddingBottom: '10px'}}>Begin by clicking on the map to set your starting point. From there, you can click up to another 24 points onto the map
-            to complete your route. 
-          </Typography>
-          <div className={"map_container"}>
-            <div className={"panel"}>
-              <label className={"panel__distance"}>
+          <div className={"mapcreate_container"}>
+            <Typography style={{width: '65vw', paddingBottom: '10px', display: 'block'}}>Begin by clicking on the map to set your starting point. From there, you can click up to another 24 points onto the map
+              to complete your route. Once you are happy with it, either click to submit your route or reset to refresh and start again. 
+            </Typography>
+            <div className={"mapcreate_panel"}>
+              <p className={"panel__route"}>
                 Route Name:
-                    <input type="text" value={routeName} onChange={(e) => setRouteName(e.target.value)} style={{ width: '100px', 'margin-left': '5px' }} />
-              </label>
-              <p className={"panel__distance"}>Distance <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(meters)</span>: {distance}</p>
+                <p>
+                  <input type="text" value={routeName} onChange={(e) => setRouteName(e.target.value)} style={{ width: '100px', marginBottom: '0' }} />
+                </p>
+              </p>
+              <p className={"panel__distance"}>Distance 
+                <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(meters)</span>: {distance}
+              </p>
               <button className={'panel__reset'} onClick={clickReset}>
                 <p>Reset Route</p>
               </button>
