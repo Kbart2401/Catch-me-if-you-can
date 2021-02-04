@@ -147,7 +147,7 @@ const Header = (props) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={() => handleMenuClick('/profile')}>Profile</MenuItem>
+            {/* <MenuItem onClick={() => handleMenuClick('/profile')}>Profile</MenuItem> */}
             <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
           </Menu>
         )
