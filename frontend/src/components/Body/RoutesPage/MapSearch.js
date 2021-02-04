@@ -27,7 +27,7 @@ const MapSearch = () => {
   const [radius, setRadius] = useState(1);
   const [distances, setDistances] = useState([]);
   const [names, setNames] = useState([]);
-  const [ids, setIds] = useState([]); 
+  const [ids, setIds] = useState([]);
   const [createdRoutes, setCreatedRoutes] = useState('')
   const [mapLoad, setMapLoad] = useState(false);
 
@@ -64,7 +64,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    setIds([]); 
+    setIds([]);
     const newPoint = turf.point([event.lngLat[0], event.lngLat[1]]);
     setPoint(newPoint);
     const buffered = turf.buffer(newPoint, radius, { units: 'kilometers' });
@@ -91,7 +91,7 @@ const MapSearch = () => {
     setMarkers([]);
     setNames([]);
     setDistances([]);
-    setIds([]); 
+    setIds([]);
     const buffered = turf.buffer(point, radius, { units: 'kilometers' });
     const geojson = {
       type: 'FeatureCollection',
@@ -127,7 +127,7 @@ const MapSearch = () => {
       })
       setNames([...n]);
       setDistances([...d]);
-      setIds([...i]); 
+      setIds([...i]);
     };
 
     let results = [];
@@ -147,21 +147,23 @@ const MapSearch = () => {
       {!mapLoad &&
         <>
           <div style={{
-            display: 'flex', backgroundColor: 'white', position: 'absolute',
+            display: 'flex', backgroundColor: '#EBF8FF', position: 'absolute',
             top: '50%', right: '50%', marginRight: '-50px'
           }}>
             <ClimbingBoxLoader size='50px' color='#3f51b5' />
           </div>
         </>}
       { mapLoad &&
-        <div className={"map_container"}>
-          <form className={"panel"} onSubmit={findRuns}>
-            <label className={"panel__distance"}>
-              Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
-              <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
-            </label>
-            <button className={'panel__search'} onClick={findRuns}>
-              Search for Runs
+        <>
+          <h5 className='header-font create-route'>Find a Route</h5>
+          <div className={"map_container"}>
+            <form className={"panel"} onSubmit={findRuns}>
+              <label className={"panel__distance"}>
+                Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
+                <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
+              </label>
+              <button className={'panel__search'} onClick={findRuns}>
+                Search for Runs
         </button>
           </form>
           <ReactMapGL {...viewport}
@@ -206,16 +208,18 @@ const MapSearch = () => {
                     <a href={`/route/${ids[index]}`} style={{'font-weight':'bold','textDecoration':'none', 'color':'black'}}>
                       Click here to check out this route
                     </a>
-                  </p>
-                </div>
-              </Popup>
-            ) : null}
-          </>
-        }
-      </ReactMapGL>
-    </div>
-  }
-  </>
-)}
+                        </p>
+                      </div>
+                    </Popup>
+                  ) : null}
+                </>
+              }
+            </ReactMapGL>
+          </div>
+        </>
+      }
+    </>
+  )
+}
 
 export default MapSearch; 

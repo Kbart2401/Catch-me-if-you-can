@@ -57,7 +57,7 @@ const CreateMap = () => {
         return {
           coordinates: [marker[0], marker[1]]
         }
-      }); 
+      });
       directionsClient.getDirections({
         profile: 'walking',
         geometries: 'geojson',
@@ -125,22 +125,22 @@ const CreateMap = () => {
 
   //submit for saving route to database 
   async function clickSubmit() {
-      const res = await fetch('/api/routes/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: user.id,
-            routeCoordinates: markers,
-            name: routeName,
-            distance
-        })
+    const res = await fetch('/api/routes/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: user.id,
+        routeCoordinates: markers,
+        name: routeName,
+        distance
       })
-      const data = await res.json(); 
-      if (data) {
-        history.push({pathname: '/my-routes', state: data});
-      }
+    })
+    const data = await res.json();
+    if (data) {
+      history.push({ pathname: '/my-routes', state: data });
+    }
   };
 
   return (
@@ -148,7 +148,7 @@ const CreateMap = () => {
       {!mapLoad &&
         <>
           <div style={{
-            display: 'flex', backgroundColor: 'white', position: 'absolute',
+            display: 'flex', backgroundColor: '#EBF8FF', position: 'absolute',
             top: '50%', right: '50%', marginRight: '-50px'
           }}>
             <ClimbingBoxLoader size='50px' color='#3f51b5' />
@@ -156,7 +156,7 @@ const CreateMap = () => {
         </>}
       { mapLoad &&
         <>
-          <h1 className='header-font'>Create Route</h1>
+          <h5 className='header-font create-route'>Create Route</h5>
           <div className={"map_container"}>
             <div className={"panel"}>
               <label className={"panel__distance"}>
