@@ -29,19 +29,14 @@ const MapSearch = () => {
   const [names, setNames] = useState([]);
   const [ids, setIds] = useState([]);
   const [createdRoutes, setCreatedRoutes] = useState('')
-  const history = useHistory();
-  const [mapLoad, setMapLoad] = useState(false)
-
-  const user = useSelector((state) => state.session.user)
+  const [mapLoad, setMapLoad] = useState(false);
 
   useEffect(() => {
-    async function getRoutes() {
+    (async function getRoutes() {
       const res = await fetch('api/routes/')
       const routes = await res.json()
-      setCreatedRoutes(routes)
-
-    }
-    getRoutes()
+      setCreatedRoutes(routes);
+    })()
   }, [])
 
   //establish viewport coordinates based on user location
@@ -119,16 +114,16 @@ const MapSearch = () => {
   function findRuns(e) {
     e.preventDefault();
     if (point.length === 0) return;
-    let routes = []
+    let foundRoutes = []
     if (createdRoutes) {
       let n = [];
       let d = [];
-      let i = [];
-      createdRoutes.routes.forEach(route => {
-        routes.push(route.route_coordinates[0]);
-        n.push(route.name)
-        d.push(route.distance)
-        i.push(route.id);
+      let i = []; 
+      Object.keys(createdRoutes.routes).forEach(key => {
+        foundRoutes.push(createdRoutes.routes[key].route_coordinates[0]);
+        n.push(createdRoutes.routes[key].name)
+        d.push(createdRoutes.routes[key].distance)
+        i.push(createdRoutes.routes[key].id); 
       })
       setNames([...n]);
       setDistances([...d]);
@@ -136,7 +131,7 @@ const MapSearch = () => {
     };
 
     let results = [];
-    routes.forEach(marker => {
+    foundRoutes.forEach(marker => {
       const point = turf.point([marker[0], marker[1]]);
       const poly = turf.polygon(polyCoords);
 
@@ -170,48 +165,48 @@ const MapSearch = () => {
               <button className={'panel__search'} onClick={findRuns}>
                 Search for Runs
         </button>
-            </form>
-            <ReactMapGL {...viewport}
-              mapboxApiAccessToken={mapboxAPI}
-              mapStyle={mapboxSTYLE}
-              onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
-              {isLoaded &&
-                <>
-                  <Source id="search-data" type="geojson" data={searchData}>
-                    <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
-                  </Source>
-                  {markers.map((marker, i) => {
-                    return (
-                      <Marker longitude={marker[0]} latitude={marker[1]} >
-                        <button className={"marker__button"}
-                          onClick={e => {
-                            e.preventDefault();
-                            setSelectPoint(marker);
-                            setIndex(i);
-                          }}
-                        >
-                          <SearchPin />
-                        </button>
-                      </Marker>
-                    )
-                  })}
-                  {selectPoint ? (
-                    <Popup
-                      latitude={selectPoint[1]}
-                      longitude={selectPoint[0]}
-                      tipSize={8}
-                      offsetLeft={6}
-                      onClose={() => {
-                        setSelectPoint(null);
-                      }}
-                      closeOnClick={false}
-                    >
-                      <div>
-                        <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Route name:</span> {names[index]}</p>
-                        <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Distance:</span> {distances[index].toFixed(0)} m</p>
-                        <p className={'popup'}>
-                          <a href={`/route/${ids[index]}`} style={{ 'font-weight': 'bold', 'textDecoration': 'none', 'color': 'black' }}>
-                            Click here to check out this run
+          </form>
+          <ReactMapGL {...viewport}
+            mapboxApiAccessToken={mapboxAPI}
+            mapStyle={mapboxSTYLE}
+            onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
+            {isLoaded &&
+              <>
+                <Source id="search-data" type="geojson" data={searchData}>
+                  <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
+                </Source>
+                {markers.map((marker, i) => {
+                  return (
+                    <Marker longitude={marker[0]} latitude={marker[1]} >
+                      <button className={"marker__button"}
+                        onClick={e => {
+                          e.preventDefault();
+                          setSelectPoint(marker);
+                          setIndex(i);
+                        }}
+                      >
+                        <SearchPin />
+                      </button>
+                    </Marker>
+                  )
+                })}
+                {selectPoint ? (
+                  <Popup
+                    latitude={selectPoint[1]}
+                    longitude={selectPoint[0]}
+                    tipSize={8}
+                    offsetLeft={6}
+                    onClose={() => {
+                      setSelectPoint(null);
+                    }}
+                    closeOnClick={false}
+                  >
+                <div>
+                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Route name:</span> {names[index]}</p>
+                  <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span> {distances[index].toFixed(0)} m</p>
+                  <p className={'popup'}>
+                    <a href={`/route/${ids[index]}`} style={{'font-weight':'bold','textDecoration':'none', 'color':'black'}}>
+                      Click here to check out this route
                     </a>
                         </p>
                       </div>

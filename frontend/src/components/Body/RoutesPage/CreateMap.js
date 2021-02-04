@@ -47,7 +47,7 @@ const CreateMap = () => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success, error);
-  }, []);
+  });
 
 
   //api request to the mapbox directions with SDK JS 
