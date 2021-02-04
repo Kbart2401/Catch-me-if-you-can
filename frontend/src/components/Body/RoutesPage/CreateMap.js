@@ -5,7 +5,7 @@ import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import EndPin from './EndPin';
 import StartPin from './StartPin';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
-import './Map.css';
+import './CreateMap.css';
 import { Typography } from '@material-ui/core';
 const mapboxAPI = process.env.REACT_APP_MAPBOX
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE

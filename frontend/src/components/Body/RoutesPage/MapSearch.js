@@ -3,7 +3,7 @@ import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import { useHistory } from 'react-router-dom';
 import SearchPin from './SearchPin';
 import { useSelector } from 'react-redux';
-import './Map.css';
+import './MapSearch.css';
 import * as turf from '@turf/turf';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Typography } from '@material-ui/core';
