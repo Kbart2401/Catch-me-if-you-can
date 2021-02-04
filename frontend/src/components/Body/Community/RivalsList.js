@@ -87,15 +87,12 @@ const RivalsList = () => {
 						Your Community
 					</Typography>
 					<Typography>
-						The Community page is where you can view your current "rivals" (AKA
-						"friends") and add new ones to challenge
+						The Community page is where you can view your current "rivals" and
+						add new ones
 					</Typography>
 				</Box>
 				<TableContainer component={Paper}>
 					<Table className={classes.table} aria-label="simple table">
-						{/* <Typography component="h1" variant="h6" >
-							Search for rivals:
-						</Typography> */}
 						<SearchBar
 							placeholder="Enter rival's first or last name here"
 							value={query}
@@ -107,7 +104,7 @@ const RivalsList = () => {
 				<Box
 					display="flex"
 					flexDirection="row"
-					px={10}
+					px={6}
 					pt={4}
 					justifyContent="space-between"
 				>
@@ -153,6 +150,7 @@ const RivalsList = () => {
 												Current rivals{" "}
 											</Typography>
 										</TableCell>
+										<TableCell align="right"></TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -160,7 +158,7 @@ const RivalsList = () => {
 										loadedRivals.map((rival) => (
 											<>
 												<TableRow key={rival.id} dense button>
-													<Typography>
+													<TableCell>
 														<Button
 															onClick={() => {
 																handleClick(rival.id);
@@ -168,6 +166,8 @@ const RivalsList = () => {
 														>
 															{rival.first_name}
 														</Button>
+													</TableCell>
+													<TableCell>
 														<Button align="right">
 															<ClearIcon
 																onClick={() => {
@@ -175,7 +175,7 @@ const RivalsList = () => {
 																}}
 															/>
 														</Button>
-													</Typography>
+													</TableCell>
 												</TableRow>
 											</>
 										))}
