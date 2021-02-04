@@ -1,14 +1,15 @@
 //Store Action Types
-export const SET_USER = "Catch_Me_If_You_Can/session/SET_USER";
-export const REMOVE_USER = "Catch_Me_If_You_Can/session/REMOVE_USER";
+export const SET_USER = 'Catch_Me_If_You_Can/session/SET_USER';
+export const REMOVE_USER = 'Catch_Me_If_You_Can/session/REMOVE_USER';
 export const SET_RIVAL = "Catch_Me_If_You_Can/session/SET_RIVAL";
 export const REMOVE_RIVAL = "Catch_Me_If_You_Can/session/REMOVE_RIVAL";
-export const SET_RIVALS = "Catch_Me_If_You_Can/session/SET_RIVALS";
-export const SET_USERS = "Catch_Me_If_You_Can/session/SET_USERS";
-export const SET_ROUTES = "Catch_Me_If_You_Can/session/SET_ROUTES";
-export const SET_TOTAL_TIME = "Catch_Me_If_You_Can/session/SET_TOTAL_TIME";
-export const SET_TOTAL_DISTANCE =
-	"Catch_Me_If_You_Can/session/SET_TOTAL_DISTANCE";
+export const SET_RIVALS = 'Catch_Me_If_You_Can/session/SET_RIVALS';
+export const SET_USERS = 'Catch_Me_If_You_Can/session/SET_USERS';
+export const SET_ROUTES = 'Catch_Me_If_You_Can/session/SET_ROUTES';
+export const ADD_ROUTE = 'Catch_Me_If_You_Can/session/ADD_ROUTE'; 
+export const DELETE_ROUTE = 'Catch_Me_If_You_Can/session/DELETE_ROUTE';
+export const SET_TOTAL_TIME = 'Catch_Me_If_You_Can/session/SET_TOTAL_TIME'
+export const SET_TOTAL_DISTANCE = 'Catch_Me_If_You_Can/session/SET_TOTAL_DISTANCE'
 
 //Store Actions
 const setUser = (user) => ({ type: SET_USER, payload: user });
@@ -16,14 +17,31 @@ const removeUser = (user) => ({ type: REMOVE_USER });
 
 const setRivals = (rivals) => ({ type: SET_RIVALS, payload: rivals });
 const setUsers = (users) => ({ type: SET_USERS, payload: users });
-const setCreatedRoutes = (routes) => ({ type: SET_ROUTES, payload: routes });
-const setTotalDistance = (distance) => ({
-	type: SET_TOTAL_DISTANCE,
-	payload: distance,
-});
-const setTotalRunTime = (time) => ({ type: SET_TOTAL_TIME, payload: time });
+const setCreatedRoutes = routes => ({ type: SET_ROUTES, payload: routes });
+const setTotalDistance = distance => ({ type: SET_TOTAL_DISTANCE, payload: distance })
+const setTotalRunTime = time => ({ type: SET_TOTAL_TIME, payload: time });
 const setRival = (rival) => ({ type: SET_RIVAL, payload: rival });
 const removeRival = (rival) => ({ type: REMOVE_RIVAL, payload: rival });
+
+//new Store Actions for create and remove run
+export const addRoute = route => {
+  const newRouteID = route.id; 
+  const newRoute = {}; 
+  newRoute[newRouteID] = route; 
+  
+  return {
+    type: ADD_ROUTE, 
+    payload: newRoute,
+  }
+}
+
+export const deleteRoute = route => {
+  const routeID = route.id; 
+  return {
+    type: DELETE_ROUTE, 
+    payload: routeID, 
+  }
+}
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
@@ -39,16 +57,16 @@ export const loginUser = (user) => async (dispatch) => {
 		}),
 	});
 
-	if (res.ok) {
-		const data = await res.json();
-		dispatch(setUser(data));
-		window.location.replace("/dashboard");
-	} else {
-		res = await res.json();
-		throw res;
-	}
-	return res;
-};
+    if (res.ok) {
+      const data = await res.json()
+      dispatch(setUser(data));
+      window.location.replace("/")
+    } else {
+      res = await res.json()
+      throw res;
+    }
+    return res
+}
 
 export const signupUser = (user) => async (dispatch) => {
 	const { firstname, lastname, gender, email, height, weight, password } = user;
@@ -69,15 +87,15 @@ export const signupUser = (user) => async (dispatch) => {
 			}),
 		});
 
-		if (res.ok) {
-			const data = await res.json();
-			dispatch(setUser(data));
-			window.location.replace("/dashboard");
-			return data;
-		}
-	} catch (e) {
-		console.error(e);
-	}
+    if (res.ok) {
+      const data = await res.json()
+      dispatch(setUser(data))
+      window.location.replace("/");
+      return data;
+    }
+  } catch (e) {
+    console.error(e)
+  }
 };
 
 export const restoreUser = () => async (dispatch) => {

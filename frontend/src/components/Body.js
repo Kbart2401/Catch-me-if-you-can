@@ -54,7 +54,7 @@ const Body = (props) => {
 
   return isLoaded && (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <Paper className={classes.paper} elevation={0} >
+      <Paper className={classes.paper} elevation={0}  >
         <Switch>
           <Route exact path="/" render={props => <Splash {...props} />} />
           <Route exact path="/login" render={props => <LoginForm {...props} />} />

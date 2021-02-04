@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)',
     color: 'white',
     '&:hover': {
-      bottom: '8px',
+      bottom: '3px',
       backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
     }
   },
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)',
     color: 'white',
     '&:hover': {
-      bottom: '8px',
+      bottom: '3px',
       backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)'
     }
   }

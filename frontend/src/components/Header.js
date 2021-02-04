@@ -15,12 +15,19 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   navBar_root: {
-    // maxWidth: '1000px',
+    width: '1200px',
     display: 'grid',
     gridAutoFlow: 'column',
     gridTemplateAreas: '\'left middle right\'',
     justifyContent: 'space-between',
-    padding: '0.5rem'
+    padding: '0.5rem',
+    borderBottom: '3px solid #e9ecef',
+    backgroundColor: '#63B3ED',
+    color: 'white',
+    '& p': {
+      color: 'white',
+      textShadow: '2px 2px #3f51b5',
+    },
   },
   navBar_left: {
     display: 'flex',
@@ -28,21 +35,22 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '25rem',
   },
   navBar_middle: {
-    // display: 'grid',
     display: 'flex',
     gridArea: 'middle',
+    width: '400px',
   },
   navBar_right: {
     display: 'flex',
     alignItems: 'center',
     gridArea: 'right',
-    // maxWidth: '25rem',
   },
 
 
   navBar_navContainer: {
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-between'
   },
 
 
@@ -158,7 +166,7 @@ const Header = (props) => {
         {/* LEFT */}
         <div className={classes.navBar_left}>
           <Button onClick={() => handleMenuClick('/')}>
-            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)' }} />
+            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)', boxShadow: '0px 0px 5px grey', borderRadius: '5%'}} />
             {/* <Typography color='primary' >Catch Me If You Can</Typography> */}
           </Button>
         </div>
