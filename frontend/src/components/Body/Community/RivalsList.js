@@ -104,7 +104,13 @@ const RivalsList = () => {
 					</Table>
 				</TableContainer>
 				{/* <TableContainer component={Paper}> */}
-				<Box display="flex" flexDirection="row" px={10} pt={4}>
+				<Box
+					display="flex"
+					flexDirection="row"
+					px={10}
+					pt={4}
+					justifyContent="space-between"
+				>
 					<Box>
 						{query && (
 							<Typography component="h1" variant="h5">
@@ -139,10 +145,16 @@ const RivalsList = () => {
 					</Box>
 					<Box>
 						<TableContainer component={Paper}>
-							<Typography component="h2" variant="h7">
-								Current rivals{" "}
-							</Typography>
 							<Table className={classes.table} aria-label="simple table">
+								<TableHead>
+									<TableRow>
+										<TableCell>
+											<Typography component="h2" variant="h5">
+												Current rivals{" "}
+											</Typography>
+										</TableCell>
+									</TableRow>
+								</TableHead>
 								<TableBody>
 									{loadedRivals &&
 										loadedRivals.map((rival) => (
