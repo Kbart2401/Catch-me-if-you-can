@@ -29,19 +29,14 @@ const MapSearch = () => {
   const [names, setNames] = useState([]);
   const [ids, setIds] = useState([]); 
   const [createdRoutes, setCreatedRoutes] = useState('')
-  const history = useHistory(); 
-  const [mapLoad, setMapLoad] = useState(false)
-
-  const user = useSelector((state) => state.session.user)
+  const [mapLoad, setMapLoad] = useState(false);
 
   useEffect(() => {
-    async function getRoutes() {
+    (async function getRoutes() {
       const res = await fetch('api/routes/')
       const routes = await res.json()
-      setCreatedRoutes(routes)
-
-    }
-    getRoutes()
+      setCreatedRoutes(routes);
+    })()
   }, [])
 
   //establish viewport coordinates based on user location
@@ -119,16 +114,16 @@ const MapSearch = () => {
   function findRuns(e) {
     e.preventDefault();
     if (point.length === 0) return;
-    let routes = []
+    let foundRoutes = []
     if (createdRoutes) {
       let n = [];
       let d = [];
       let i = []; 
-      createdRoutes.routes.forEach(route => {
-        routes.push(route.route_coordinates[0]);
-        n.push(route.name)
-        d.push(route.distance)
-        i.push(route.id); 
+      Object.keys(createdRoutes.routes).forEach(key => {
+        foundRoutes.push(createdRoutes.routes[key].route_coordinates[0]);
+        n.push(createdRoutes.routes[key].name)
+        d.push(createdRoutes.routes[key].distance)
+        i.push(createdRoutes.routes[key].id); 
       })
       setNames([...n]);
       setDistances([...d]);
@@ -136,7 +131,7 @@ const MapSearch = () => {
     };
 
     let results = [];
-    routes.forEach(marker => {
+    foundRoutes.forEach(marker => {
       const point = turf.point([marker[0], marker[1]]);
       const poly = turf.polygon(polyCoords);
 
@@ -209,7 +204,7 @@ const MapSearch = () => {
                   <p className={'popup'}><span style={{'font-weight':'bold'}}>Distance:</span> {distances[index].toFixed(0)} m</p>
                   <p className={'popup'}>
                     <a href={`/route/${ids[index]}`} style={{'font-weight':'bold','textDecoration':'none', 'color':'black'}}>
-                      Click here to check out this run
+                      Click here to check out this route
                     </a>
                   </p>
                 </div>
