@@ -7,13 +7,14 @@ import { useHistory } from "react-router-dom";
 
 // MUI
 import SearchBar from "material-ui-search-bar";
+import { flexbox } from "@material-ui/system";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import { Button } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 	},
 	table: {
-		minWidth: 650,
+		minWidth: "auto",
 	},
 }));
 
@@ -50,15 +51,6 @@ const RivalsList = () => {
 	const classes = useStyles();
 	const [checked, setChecked] = React.useState([0]);
 	console.log("Loaded Rivals", loadedRivals);
-	// const loadedRivals2 = loadedRivals[0];
-	// console.log("Loaded Rivals2", loadedRivals2);
-	// useEffect(() => {
-	// 	if (user) {
-	// 		dispatch(sessionActions.retrieveRivals(user.id))
-	// 			// .then((data) => setRivals(data.rivals))
-	// 			.then(setIsLoaded(true));
-	// 	}
-	// }, [user]);
 
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
@@ -78,31 +70,7 @@ const RivalsList = () => {
 	function addRivalButton(rival) {
 		dispatch(sessionActions.addRival(user, rival));
 	}
-	// function addRival(rival) {
-	// 	fetch("/api/rivals/", {
-	// 		method: "POST",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify({
-	// 			id: user.id,
-	// 			rival_id: rival.id,
-	// 		}),
-	// 	});
-	// 	// setRivals([...rivals, rival])
-	// }
-	// function removeRival(rivalId) {
-	// 	fetch("/api/rivals/", {
-	// 		method: "DELETE",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify({
-	// 			id: user.id,
-	// 			rival_id: rivalId,
-	// 		}),
-	// 	});
-	// }
+
 	function removeRival(rival) {
 		dispatch(sessionActions.deleteRival(user, rival));
 	}
@@ -111,99 +79,156 @@ const RivalsList = () => {
 		history.push(`/users/${userId}`);
 	};
 
-	// const clickSearch = (user) => {
-	//     setRivals(user)
-	// }
-
 	return (
 		isLoaded && (
-			<TableContainer component={Paper}>
-				<Table className={classes.table} aria-label="simple table">
-					<Typography component="h1" variant="h5">
-						Search for new rivals:
+			<Box>
+				<Box mb={6}>
+					<Typography variant={"h5"} className="header-font">
+						Your Community
 					</Typography>
-					<SearchBar
-						placeholder="Enter rival's name "
-						value={query}
-						onChange={(term) => setQuery(term)}
-					/>
-					<Typography component="h1" variant="h5">
-						Search Results:{" "}
+					<Typography>
+						The Community page is where you can view your current "rivals" (AKA
+						"friends") and add new ones to challenge
 					</Typography>
-					<TableBody>
-						{users.map((user) => (
-							<ListItem key={user.id}>
-								<Typography>
-									<Button
-										onClick={() => {
-											handleClick(user.id);
-											// clickSearch(user)
-										}}
-									>
-										{user.first_name}
-									</Button>
-									<Button align="right">
-										<AddIcon onClick={() => addRivalButton(user)} />
-									</Button>
-								</Typography>
-							</ListItem>
-						))}
-					</TableBody>
-					<Typography component="h1" variant="h5">
-						Current rivals:{" "}
-					</Typography>
-					<TableBody>
-						{loadedRivals &&
-							loadedRivals.map((rival) => (
-								<>
-									<TableRow key={rival.id} dense button>
+				</Box>
+				<TableContainer component={Paper}>
+					<Table className={classes.table} aria-label="simple table">
+						{/* <Typography component="h1" variant="h6" >
+							Search for rivals:
+						</Typography> */}
+						<SearchBar
+							placeholder="Enter rival's first or last name here"
+							value={query}
+							onChange={(term) => setQuery(term)}
+						/>
+					</Table>
+				</TableContainer>
+				{/* <TableContainer component={Paper}> */}
+				<Box display="flex" flexDirection="row" px={10} pt={4}>
+					<Box>
+						{query && (
+							<Typography component="h1" variant="h5">
+								Search Results{" "}
+							</Typography>
+						)}
+						<Table
+							className={classes.table}
+							aria-label="simple table"
+							justifyContent="flex-end"
+						>
+							<TableBody>
+								{users.map((user) => (
+									<ListItem key={user.id}>
 										<Typography>
 											<Button
 												onClick={() => {
-													handleClick(rival.id);
+													handleClick(user.id);
+													// clickSearch(user)
 												}}
 											>
-												{rival.first_name}
+												{user.first_name}
 											</Button>
 											<Button align="right">
-												<ClearIcon
-													onClick={() => {
-														removeRival(rival);
-													}}
-												/>
+												<AddIcon onClick={() => addRivalButton(user)} />
 											</Button>
 										</Typography>
-									</TableRow>
-								</>
-							))}
-						{/* {loadedRivals2 &&
-							loadedRivals2.map((rival) => (
-								<>
-									<TableRow key={rival.id} dense button>
-										<Typography>
-											<Button
-												onClick={() => {
-													handleClick(rival.id);
-												}}
-											>
-												{rival.first_name}
-											</Button>
-											<Button align="right">
-												<ClearIcon
-													onClick={() => {
-														removeRival(rival.id);
-													}}
-												/>
-											</Button>
-										</Typography>
-									</TableRow>
-								</>
-							))} */}
-					</TableBody>
-				</Table>
-			</TableContainer>
+									</ListItem>
+								))}
+							</TableBody>
+						</Table>
+					</Box>
+					<Box>
+						<TableContainer component={Paper}>
+							<Typography component="h2" variant="h7">
+								Current rivals{" "}
+							</Typography>
+							<Table className={classes.table} aria-label="simple table">
+								<TableBody>
+									{loadedRivals &&
+										loadedRivals.map((rival) => (
+											<>
+												<TableRow key={rival.id} dense button>
+													<Typography>
+														<Button
+															onClick={() => {
+																handleClick(rival.id);
+															}}
+														>
+															{rival.first_name}
+														</Button>
+														<Button align="right">
+															<ClearIcon
+																onClick={() => {
+																	removeRival(rival);
+																}}
+															/>
+														</Button>
+													</Typography>
+												</TableRow>
+											</>
+										))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Box>
+				</Box>
+				{/* </TableContainer> */}
+			</Box>
 		)
 	);
 };
 
 export default RivalsList;
+
+/*
+	<Typography component="h1" variant="h5">
+							Search Results:{" "}
+						</Typography>
+						<TableBody>
+							{users.map((user) => (
+								<ListItem key={user.id}>
+									<Typography>
+										<Button
+											onClick={() => {
+												handleClick(user.id);
+												// clickSearch(user)
+											}}
+										>
+											{user.first_name}
+										</Button>
+										<Button align="right">
+											<AddIcon onClick={() => addRivalButton(user)} />
+										</Button>
+									</Typography>
+								</ListItem>
+							))}
+						</TableBody>
+						<Typography component="h1" variant="h5">
+							Current rivals:{" "}
+						</Typography>
+						<TableBody>
+							{loadedRivals &&
+								loadedRivals.map((rival) => (
+									<>
+										<TableRow key={rival.id} dense button>
+											<Typography>
+												<Button
+													onClick={() => {
+														handleClick(rival.id);
+													}}
+												>
+													{rival.first_name}
+												</Button>
+												<Button align="right">
+													<ClearIcon
+														onClick={() => {
+															removeRival(rival);
+														}}
+													/>
+												</Button>
+											</Typography>
+										</TableRow>
+									</>
+								))}
+						</TableBody>
+					*/
