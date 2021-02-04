@@ -202,7 +202,7 @@ const Routes = (props) => {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
-          <TableRow>
+          <TableRow style={{ backgroundColor: '#63B3ED'}}>
             <TableCell>Position</TableCell>
             <TableCell align="left">Rival</TableCell>
             <TableCell align="left">Time</TableCell>
@@ -257,7 +257,7 @@ const Routes = (props) => {
 
           {/* LeaderBoard */}
           <div className={classes.route_information_leaderboard}>
-            <Typography>LeaderBoard</Typography>
+            <h5 className='header-font' style={{margin: '30px 0 0 0 '}}>LeaderBoard</h5>
             {
               (route.run_times)
                 ? <LeaderBoardTable />
