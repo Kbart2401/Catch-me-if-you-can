@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import * as sessionActions from "../../../store/actions/session.js";
+import { useDispatch } from "react-redux";
 
 //Components
 import BarGraph from './Graph';
@@ -89,7 +91,9 @@ const useStyles = makeStyles(() => ({
 const Dashboard = (props) => {
   const classes = useStyles()
   const user = useSelector(state => state.session.user)
+  const rivals = useSelector(state => state.session.rivals)
   const userId = parseInt(useParams().userId)
+  const dispatch = useDispatch();
 
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -172,8 +176,17 @@ const Dashboard = (props) => {
     }
   }, [user])
 
-  console.log('WeekData: ', weekData, ' RecentRuns: ', recentRuns)
+  	function addRivalButton(rival) {
+			dispatch(sessionActions.addRival(user, rival));
+		}
 
+		function removeRival(rival) {
+			dispatch(sessionActions.deleteRival(user, rival));
+		}
+
+
+  console.log('WeekData: ', weekData, ' RecentRuns: ', recentRuns)
+  console.log("Rivals loaded up ")
   return isLoaded && (
     <div className={classes.root}>
       <div className={classes.title}>
@@ -181,6 +194,9 @@ const Dashboard = (props) => {
         <Typography className='dashboard-font username'>{username}</Typography>
         {
           (user.id !== userId) && <Button variant="outlined"><Typography>Make Rival</Typography></Button>
+        }
+        {
+          (user.id !== userId) && <Button variant="outlined"><Typography>Remove Rival</Typography></Button>
         }
       </div>
 

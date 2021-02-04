@@ -17,30 +17,10 @@ const User = (props) => {
 	const loadedRivals = useSelector((state) => state.session.rivals);
 	console.log("loaded rivals", loadedRivals);
 
-	// useEffect(() => {
-	//     console.log("in async useEffect", userId)
-	//    fetch(`/api/users/${userId}`)
-	// 			.then((response) => {
-	// 				response.json();
-	// 			})
-	// 			.then((responseJSON) => console.log("RESPONSE", responseJSON))
-	//     console.log("response user in async", user)
-	//     console.log("User",user)
-	//     setUser(user);
-	// }, [userId]);
-
-	// useEffect(() => {
-	//   const theRival = loadedRivals.filter(rival => {
-	//     return (rival.id == userId)
-	//   })
-	//   console.log(theRival)
-	//   setRival(theRival)
-	// }, [])
     async function setTheRival() {
       const theRival = loadedRivals.filter(rival => {
         return (rival.id == userId)
       })
-      console.log("The rival is ",theRival)
       setRival(theRival)
     }
 
@@ -50,28 +30,16 @@ const User = (props) => {
 				console.log(data.users);
 				const result = data.users.filter((user) => checkSearch(user));
 				setRival(result);
-				console.log("The rival is ", rival);
 			})
 			.then(setIsLoaded(true));
 	}, []);
+
 	const checkSearch = (rival) => {
 		console.log(rival.id.toString(), userId);
 		console.log(rival.id.toString() == userId);
 		return rival.id.toString() == userId;
 	};
 
-	// const setTheUser = (users) => {
-	//   console.log("Users in setTheUser",users)
-	//         const results = users.filter((user) => checkUser(user));
-	//         setUsers(results);
-	// }
-
-	// const checkUser = (user) => {
-	//   if (userId = user.id) {
-	//      return true
-	//    }
-	// }
-	// setTheUser()
 	if (!user) {
 		return null;
 	}

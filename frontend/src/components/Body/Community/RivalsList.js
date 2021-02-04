@@ -135,7 +135,6 @@ const RivalsList = () => {
 												<Button
 													onClick={() => {
 														handleClick(user.id);
-														// clickSearch(user)
 													}}
 												>
 													{user.first_name}
