@@ -157,8 +157,8 @@ const MapSearch = () => {
       { mapLoad &&
         <>
           <h5 className='header-font create-route'>Find a Route</h5>
-          <Typography style={{maxWidth: '65vw', paddingBottom: '10px'}}>Begin by clicking on the map to set your starting point. From there, you can click up to another 24 points onto the map
-            to complete your route. 
+          <Typography style={{maxWidth: '65vw', paddingBottom: '10px'}}>Choose a location on the map, set the search radius and then press the
+          button to find all the registered routes in the area.  
           </Typography>
           <div className={"map_container"}>
             <form className={"panel"} onSubmit={findRuns}>
@@ -167,7 +167,7 @@ const MapSearch = () => {
                 <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
               </label>
               <button className={'panel__search'} onClick={findRuns}>
-                Search for Runs
+                Search for Routes
         </button>
           </form>
           <ReactMapGL {...viewport}
