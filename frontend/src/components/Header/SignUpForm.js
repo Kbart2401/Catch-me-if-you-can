@@ -125,7 +125,7 @@ const SignUpForm = (props) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography className='header-font' component="h1" variant="h5">
           Sign Up
 				</Typography>
         <form className={classes.form} onSubmit={onSignUp}>

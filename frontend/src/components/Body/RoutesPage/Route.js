@@ -94,10 +94,11 @@ const Routes = (props) => {
   const { routeid } = useParams();
 
   const user = useSelector(state => state.session.user)
-  const [route, setRoute] = useState({})
+  const [route, setRoute] = useState({});
+  const [newTime, setNewTime] = useState(false); 
   const [isLoaded, setIsLoaded] = useState(false)
   const [runnerName, setRunnerName] = useState(null)
-  const [runTime, setRunTime] = useState(60)
+  const [runTime, setRunTime] = useState(0)
 
   const [open, setOpen] = useState(false);
 
@@ -144,7 +145,7 @@ const Routes = (props) => {
     handleClose();
 
     try {
-      const res = await fetch('/api/runtimes/', {
+      await fetch('/api/runtimes/', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -155,27 +156,23 @@ const Routes = (props) => {
           time: parseInt(runTime),
         })
       });
-      const data = await res.json();
-      // await setRoute(data)
-      console.log('Run data receieved: ', data)
+      setNewTime(true); 
     }
     catch (e) {
       console.error(e)
     }
   }
 
-
-
   //Get Route info
   useEffect(() => {
     (async function () {
       const res = await fetch(`/api/routes/${routeid}`)
       const data = await res.json()
-
       setRoute(data)
-      setIsLoaded(true)
+      setIsLoaded(true); 
+      setNewTime(false); 
     })();
-  }, [])
+  }, [newTime])
 
   //Update user info
   useEffect(() => {
@@ -196,7 +193,7 @@ const Routes = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {route.run_times.map((run, index) => (
+        {route.run_times.map((run, index) => (
             <TableRow key={run.name}>
               <TableCell align="right">#{index + 1}</TableCell>
               <TableCell component="th" scope="row">
@@ -219,7 +216,6 @@ const Routes = (props) => {
 
         {/* Map Component */}
         <Paper className={classes.route_map_container}>
-          <Typography>{route.name}</Typography>
           <SavedMap routeCoordinates={route.route_coordinates}/>
         </Paper>
         <div className={classes.route_information_container}>
@@ -232,7 +228,7 @@ const Routes = (props) => {
                 <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
                 <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance.toFixed(0)} meters</Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} Rivals Posted</Typography></li>
+                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} times were logged for this route</Typography></li>
               </ul>
             </div>
             <div className={classes.postrun_container}>
@@ -259,19 +255,9 @@ const Routes = (props) => {
           <DialogTitle id="form-dialog-title">Submit A Run</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              To submit a run, please fill out this short form.
+              Please submit your time for this route here.
             </DialogContentText>
             <div className={classes.inputFields}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Name"
-                type="string"
-                defaultValue={runnerName}
-                onChange={handleChange('user')}
-                fullWidth
-              />
               <TextField
                 required
                 id="time"
@@ -285,7 +271,8 @@ const Routes = (props) => {
                   shrink: true,
                 }}
                 inputProps={{
-                  step: 5, // 5 min
+                  step: 1,  // 1 min
+                  min: 0, 
                 }}
               />
             </div>

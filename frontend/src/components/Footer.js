@@ -8,7 +8,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgb(30, 33, 30)',
     display: 'flex',
     justifyContent: 'center',
-    height: '135px'
+    height: '135px',
+    bottom: '0px'
   },
   footer_root: {
     display: 'grid',
@@ -69,11 +70,11 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     fontSize: '14px',
-    color: '#9DA0A2'
+    color: '#63B3ED'
   },
   linkText: {
     fontSize: '14px',
-    color: '#3f51b5',
+    color: '#63B3ED',
     textDecoration: 'none'
   },
   contact: {
