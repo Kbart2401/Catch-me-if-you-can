@@ -100,7 +100,7 @@ const RivalsList = () => {
 						/>
 					</Table>
 				</TableContainer>
-				{/* <TableContainer component={Paper}> */}
+
 				<Box
 					display="flex"
 					flexDirection="row"
@@ -108,37 +108,53 @@ const RivalsList = () => {
 					pt={4}
 					justifyContent="space-between"
 				>
-					<Box>
-						{query && (
-							<Typography component="h1" variant="h5">
-								Search Results{" "}
-							</Typography>
-						)}
-						<Table
-							className={classes.table}
-							aria-label="simple table"
-							justifyContent="flex-end"
-						>
-							<TableBody>
-								{users.map((user) => (
-									<ListItem key={user.id}>
-										<Typography>
-											<Button
-												onClick={() => {
-													handleClick(user.id);
-													// clickSearch(user)
-												}}
-											>
-												{user.first_name}
-											</Button>
-											<Button align="right">
-												<AddIcon onClick={() => addRivalButton(user)} />
-											</Button>
-										</Typography>
-									</ListItem>
-								))}
-							</TableBody>
-						</Table>
+					<Box  mr={6}>
+						{/* {query && ( */}
+						<TableContainer component={Paper} >
+							<Table
+								className={classes.table}
+								aria-label="simple table"
+								minWidth="200px"
+								// justifyContent="flex-end"
+							>
+								<TableHead>
+									<TableRow>
+										<TableCell>
+											<Typography component="h2" variant="h5">
+												Search Results{" "}
+											</Typography>
+										</TableCell>
+										<TableCell align="right"></TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{users.map((user) => (
+										// <ListItem key={user.id}>
+										<TableRow selected="true">
+											<TableCell>
+												<Button
+													onClick={() => {
+														handleClick(user.id);
+														// clickSearch(user)
+													}}
+												>
+													{user.first_name}
+												</Button>
+											</TableCell>
+											<TableCell>
+												<Typography>
+													<Button align="right">
+														<AddIcon onClick={() => addRivalButton(user)} />
+													</Button>
+												</Typography>
+											</TableCell>
+										</TableRow>
+										// </ListItem>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+						{/* )} */}
 					</Box>
 					<Box>
 						<TableContainer component={Paper}>
@@ -191,56 +207,3 @@ const RivalsList = () => {
 };
 
 export default RivalsList;
-
-/*
-	<Typography component="h1" variant="h5">
-							Search Results:{" "}
-						</Typography>
-						<TableBody>
-							{users.map((user) => (
-								<ListItem key={user.id}>
-									<Typography>
-										<Button
-											onClick={() => {
-												handleClick(user.id);
-												// clickSearch(user)
-											}}
-										>
-											{user.first_name}
-										</Button>
-										<Button align="right">
-											<AddIcon onClick={() => addRivalButton(user)} />
-										</Button>
-									</Typography>
-								</ListItem>
-							))}
-						</TableBody>
-						<Typography component="h1" variant="h5">
-							Current rivals:{" "}
-						</Typography>
-						<TableBody>
-							{loadedRivals &&
-								loadedRivals.map((rival) => (
-									<>
-										<TableRow key={rival.id} dense button>
-											<Typography>
-												<Button
-													onClick={() => {
-														handleClick(rival.id);
-													}}
-												>
-													{rival.first_name}
-												</Button>
-												<Button align="right">
-													<ClearIcon
-														onClick={() => {
-															removeRival(rival);
-														}}
-													/>
-												</Button>
-											</Typography>
-										</TableRow>
-									</>
-								))}
-						</TableBody>
-					*/
