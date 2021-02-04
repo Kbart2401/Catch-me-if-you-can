@@ -46,9 +46,11 @@ const CreateMap = () => {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(success, error);
-  });
-
+    if (user && user.email === 'demo@aa.io') {
+      success({ coords: { latitude: 39.9763752, longitude: -82.9238448 } })
+    }
+    else navigator.geolocation.getCurrentPosition(success, error);
+  }, []);
 
   //api request to the mapbox directions with SDK JS 
   useEffect(() => {

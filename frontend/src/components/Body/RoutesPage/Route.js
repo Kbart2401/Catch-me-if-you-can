@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/actions/session';
-import SavedMap from './SavedMaps.js'; 
+import SavedMap from './SavedMaps.js';
 
 //MUI
 import { Button, makeStyles, Typography } from '@material-ui/core';
@@ -49,6 +49,23 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  button: {
+    backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)',
+    color: 'white',
+    '&:hover': {
+      bottom: '3px',
+      backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
+    }
+  },
+  deleteButton: {
+    backgroundImage: 'linear-gradient(#C53030, #FC8181)',
+    color: 'white',
+    marginTop: '15px',
+    '&:hover': {
+      bottom: '3px',
+      backgroundImage: 'linear-gradient(#FC8181, #C53030)'
+    }
+  }
 }));
 
 //DUMMY DATA
@@ -95,7 +112,7 @@ const Routes = (props) => {
 
   const user = useSelector(state => state.session.user)
   const [route, setRoute] = useState({});
-  const [newTime, setNewTime] = useState(false); 
+  const [newTime, setNewTime] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false)
   const [runnerName, setRunnerName] = useState(null)
   const [runTime, setRunTime] = useState(0)
@@ -134,7 +151,7 @@ const Routes = (props) => {
         "Content-Type": "application/json",
       },
     })
-    const data = await res.json(); 
+    const data = await res.json();
     if (data) {
       dispatch(sessionActions.deleteRoute(data));
       history.push('/my-routes');
@@ -156,7 +173,7 @@ const Routes = (props) => {
           time: parseInt(runTime),
         })
       });
-      setNewTime(true); 
+      setNewTime(true);
     }
     catch (e) {
       console.error(e)
@@ -169,8 +186,8 @@ const Routes = (props) => {
       const res = await fetch(`/api/routes/${routeid}`)
       const data = await res.json()
       setRoute(data)
-      setIsLoaded(true); 
-      setNewTime(false); 
+      setIsLoaded(true);
+      setNewTime(false);
     })();
   }, [newTime])
 
@@ -193,7 +210,7 @@ const Routes = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-        {route.run_times.map((run, index) => (
+          {route.run_times.map((run, index) => (
             <TableRow key={run.name}>
               <TableCell align="right">#{index + 1}</TableCell>
               <TableCell component="th" scope="row">
@@ -216,23 +233,25 @@ const Routes = (props) => {
 
         {/* Map Component */}
         <Paper className={classes.route_map_container}>
-          <SavedMap routeCoordinates={route.route_coordinates}/>
+          <SavedMap routeCoordinates={route.route_coordinates} />
         </Paper>
         <div className={classes.route_information_container}>
 
           {/* Basic Information */}
           <div className={classes.route_stat_container}>
             <div className={classes.route_stats}>
-              <Typography variant='h5' style={{ padding: '6px 8px' }}>{route.name}</Typography>
+              <Typography className='dashboard-font username' style={{ display: 'block', paddingLeft: '40px' }}>
+                {route.name}</Typography>
               <ul>
-                <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
+                <li><Typography style={{ padding: '0px 8px' }}>Route created by:
+                    <Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
                 <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance.toFixed(0)} meters</Typography></li>
                 <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} times were logged for this route</Typography></li>
               </ul>
             </div>
             <div className={classes.postrun_container}>
-              <Button onClick={() => handleClickOpen()}><Typography>Submit A Run</Typography></Button>
+              <Button onClick={() => handleClickOpen()} className={classes.button}>Submit A Run</Button>
             </div>
           </div>
 
@@ -246,7 +265,7 @@ const Routes = (props) => {
             }
           </div>
           <div>
-            <Button onClick={() => handleDelete()}><Typography>Delete Route</Typography></Button>
+            <Button onClick={() => handleDelete()} className={classes.deleteButton}>Delete Route</Button>
           </div>
         </div>
 
@@ -272,7 +291,7 @@ const Routes = (props) => {
                 }}
                 inputProps={{
                   step: 1,  // 1 min
-                  min: 0, 
+                  min: 0,
                 }}
               />
             </div>

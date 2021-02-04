@@ -25,77 +25,76 @@ const removeRival = (rival) => ({ type: REMOVE_RIVAL, payload: rival });
 
 //new Store Actions for create and remove run
 export const addRoute = route => {
-  const newRouteID = route.id;
-  const newRoute = {};
-  newRoute[newRouteID] = route;
+	const newRouteID = route.id;
+	const newRoute = {};
+	newRoute[newRouteID] = route;
 
-  return {
-    type: ADD_ROUTE,
-    payload: newRoute,
-  }
+	return {
+		type: ADD_ROUTE,
+		payload: newRoute,
+	}
 }
 
 export const deleteRoute = route => {
-  const routeID = route.id;
-  return {
-    type: DELETE_ROUTE,
-    payload: routeID,
-  }
+	const routeID = route.id;
+	return {
+		type: DELETE_ROUTE,
+		payload: routeID,
+	}
 }
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
-  const { email, password } = user;
-  let res = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email,
-      password
-    })
-  });
+	const { email, password } = user;
+	let res = await fetch('/api/auth/login', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			email,
+			password
+		})
+	});
 
-  if (res.ok) {
-    const data = await res.json()
-    dispatch(setUser(data));
-    window.location.replace(`/dashboard/${data.id}`)
-  } else {
-    res = await res.json()
-    throw res;
-  }
-  return res
+	if (res.ok) {
+		const data = await res.json()
+		dispatch(setUser(data));
+		window.location.replace(`/dashboard/${data.id}`)
+	} else {
+		res = await res.json()
+		throw res;
+	}
+	return res
 }
 
 export const signupUser = (user) => async (dispatch) => {
-  const { firstname, lastname, gender, email, height, weight, password } = user;
-  debugger
-  let res = await fetch("/api/auth/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      firstname,
-      lastname,
-      gender,
-      email,
-      height,
-      weight,
-      password,
-    }),
-  });
+	const { firstname, lastname, gender, email, height, weight, password } = user;
+	let res = await fetch("/api/auth/signup", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			firstname,
+			lastname,
+			gender,
+			height,
+			weight,
+			email,
+			password,
+		}),
+	});
 
-  if (res.ok) {
-    const data = await res.json()
-    dispatch(setUser(data))
-    window.location.replace("/");
-  } else {
-    res = await res.json()
-    throw res;
-  }
-  return res
+	if (res.ok) {
+		const data = await res.json()
+		dispatch(setUser(data))
+		window.location.replace(`/dashboard/${data.id}`);
+	} else {
+		res = await res.json()
+		throw res;
+	}
+	return res
 };
 
 export const restoreUser = () => async (dispatch) => {
@@ -178,7 +177,6 @@ export const addRival = (user, rival) => async (dispatch) => {
 	// console.log("Rival in addRival thunk", rival)
 	// const data = await res.json();
 	// console.log("Data", data)
-	// debugger
 	dispatch(setRival(rival));
 };
 export const deleteRival = (user, rival) => async (dispatch) => {
