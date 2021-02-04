@@ -204,22 +204,22 @@ const Routes = (props) => {
         <TableHead>
           <TableRow>
             <TableCell>Position</TableCell>
-            <TableCell align="right">Rival</TableCell>
-            <TableCell align="right">Time</TableCell>
-            <TableCell align="right">Date</TableCell>
+            <TableCell align="left">Rival</TableCell>
+            <TableCell align="left">Time</TableCell>
+            <TableCell align="left">Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {route.run_times.map((run, index) => (
             <TableRow key={run.name}>
-              <TableCell align="right">#{index + 1}</TableCell>
+              <TableCell align="left">#{index + 1}</TableCell>
               <TableCell component="th" scope="row">
-                <Typography><Button onClick={() => handleClick(`/users/${run.user_id}`)}>
+                <Typography><Button onClick={() => handleClick(`/users/${run.user_id}`)} style={{padding: '0px', justifyContent: 'flex-start'}}>
                   {run.user_name}
                 </Button></Typography>
               </TableCell>
-              <TableCell align="right">{calculateTime(run.time)}</TableCell>
-              <TableCell align="right">{calculateDate(run.date_ran)}</TableCell>
+              <TableCell align="left">{calculateTime(run.time)}</TableCell>
+              <TableCell align="left">{calculateDate(run.date_ran)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -242,7 +242,7 @@ const Routes = (props) => {
             <div className={classes.route_stats}>
               <Typography className='dashboard-font username' style={{ display: 'block', paddingLeft: '40px' }}>
                 {route.name}</Typography>
-              <ul>
+              <ul style={{listStyleType: 'none'}}>
                 <li><Typography style={{ padding: '0px 8px' }}>Route created by:
                     <Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
