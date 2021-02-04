@@ -57,7 +57,7 @@ export const loginUser = (user) => async (dispatch) => {
   if (res.ok) {
     const data = await res.json()
     dispatch(setUser(data));
-    window.location.replace("/")
+    window.location.replace(`/dashboard/${data.id}`)
   } else {
     res = await res.json()
     throw res;
