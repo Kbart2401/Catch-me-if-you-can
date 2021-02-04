@@ -156,7 +156,7 @@ const CreateMap = () => {
         </>}
       { mapLoad &&
         <>
-          <h1 className='header-font'>Create Route</h1>
+          <h5 className='header-font create-route'>Create Route</h5>
           <div className={"map_container"}>
             <div className={"panel"}>
               <label className={"panel__distance"}>

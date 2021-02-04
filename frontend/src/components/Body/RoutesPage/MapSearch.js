@@ -159,66 +159,69 @@ const MapSearch = () => {
           </div>
         </>}
       { mapLoad &&
-        <div className={"map_container"}>
-          <form className={"panel"} onSubmit={findRuns}>
-            <label className={"panel__distance"}>
-              Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
-              <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
-            </label>
-            <button className={'panel__search'} onClick={findRuns}>
-              Search for Runs
+        <>
+          <h5 className='header-font create-route'>Find a Route</h5>
+          <div className={"map_container"}>
+            <form className={"panel"} onSubmit={findRuns}>
+              <label className={"panel__distance"}>
+                Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
+                <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
+              </label>
+              <button className={'panel__search'} onClick={findRuns}>
+                Search for Runs
         </button>
-          </form>
-          <ReactMapGL {...viewport}
-            mapboxApiAccessToken={mapboxAPI}
-            mapStyle={mapboxSTYLE}
-            onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
-            {isLoaded &&
-              <>
-                <Source id="search-data" type="geojson" data={searchData}>
-                  <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
-                </Source>
-                {markers.map((marker, i) => {
-                  return (
-                    <Marker longitude={marker[0]} latitude={marker[1]} >
-                      <button className={"marker__button"}
-                        onClick={e => {
-                          e.preventDefault();
-                          setSelectPoint(marker);
-                          setIndex(i);
-                        }}
-                      >
-                        <SearchPin />
-                      </button>
-                    </Marker>
-                  )
-                })}
-                {selectPoint ? (
-                  <Popup
-                    latitude={selectPoint[1]}
-                    longitude={selectPoint[0]}
-                    tipSize={8}
-                    offsetLeft={6}
-                    onClose={() => {
-                      setSelectPoint(null);
-                    }}
-                    closeOnClick={false}
-                  >
-                    <div>
-                      <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Route name:</span> {names[index]}</p>
-                      <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Distance:</span> {distances[index].toFixed(0)} m</p>
-                      <p className={'popup'}>
-                        <a href={`/route/${ids[index]}`} style={{ 'font-weight': 'bold', 'textDecoration': 'none', 'color': 'black' }}>
-                          Click here to check out this run
+            </form>
+            <ReactMapGL {...viewport}
+              mapboxApiAccessToken={mapboxAPI}
+              mapStyle={mapboxSTYLE}
+              onViewportChange={viewport => setViewport(viewport)} onClick={clickLocation}>
+              {isLoaded &&
+                <>
+                  <Source id="search-data" type="geojson" data={searchData}>
+                    <Layer id="search" type="fill" paint={{ 'fill-color': '#F1CF65', 'fill-opacity': 0.8 }} />
+                  </Source>
+                  {markers.map((marker, i) => {
+                    return (
+                      <Marker longitude={marker[0]} latitude={marker[1]} >
+                        <button className={"marker__button"}
+                          onClick={e => {
+                            e.preventDefault();
+                            setSelectPoint(marker);
+                            setIndex(i);
+                          }}
+                        >
+                          <SearchPin />
+                        </button>
+                      </Marker>
+                    )
+                  })}
+                  {selectPoint ? (
+                    <Popup
+                      latitude={selectPoint[1]}
+                      longitude={selectPoint[0]}
+                      tipSize={8}
+                      offsetLeft={6}
+                      onClose={() => {
+                        setSelectPoint(null);
+                      }}
+                      closeOnClick={false}
+                    >
+                      <div>
+                        <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Route name:</span> {names[index]}</p>
+                        <p className={'popup'}><span style={{ 'font-weight': 'bold' }}>Distance:</span> {distances[index].toFixed(0)} m</p>
+                        <p className={'popup'}>
+                          <a href={`/route/${ids[index]}`} style={{ 'font-weight': 'bold', 'textDecoration': 'none', 'color': 'black' }}>
+                            Click here to check out this run
                     </a>
-                      </p>
-                    </div>
-                  </Popup>
-                ) : null}
-              </>
-            }
-          </ReactMapGL>
-        </div>
+                        </p>
+                      </div>
+                    </Popup>
+                  ) : null}
+                </>
+              }
+            </ReactMapGL>
+          </div>
+        </>
       }
     </>
   )

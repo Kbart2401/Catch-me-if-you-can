@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../store/actions/session'
 
 //Mui
-import { makeStyles, Typography, Button } from '@material-ui/core';
+import { makeStyles, Typography, Button, Popper } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -94,8 +94,8 @@ const Header = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
 
-  const handleMenuOpen = async (e) => {
-    await setAnchorEl(e.currentTarget.id);
+  const handleMenuOpen = (e) => {
+    setAnchorEl(e.currentTarget.id);
   };
 
   const handleMenuClose = () => {
@@ -124,9 +124,10 @@ const Header = (props) => {
         return (
           <Menu
             anchorEl={el}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            getContentAnchorEl={null}
+            transformOrigin={{ vertical: 'top', horizontal: 'center' }}
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
@@ -139,9 +140,10 @@ const Header = (props) => {
         return (
           <Menu
             anchorEl={el}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            getContentAnchorEl={null}
+            transformOrigin={{ vertical: 'top', horizontal: 'center' }}
             open={isMenuOpen}
             onClose={handleMenuClose}
           >
@@ -166,7 +168,7 @@ const Header = (props) => {
         {/* LEFT */}
         <div className={classes.navBar_left}>
           <Button onClick={() => handleMenuClick('/')}>
-            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)', boxShadow: '0px 0px 5px grey', borderRadius: '5%'}} />
+            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)', boxShadow: '0px 0px 5px grey', borderRadius: '5%' }} />
             {/* <Typography color='primary' >Catch Me If You Can</Typography> */}
           </Button>
         </div>

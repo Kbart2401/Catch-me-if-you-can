@@ -30,3 +30,7 @@ h5.header-font, h1.header-font {
   color: #3f51b5;
   font-weight: 550;
 }
+
+.header-font.create-route {
+  margin: 15px 0;
+}

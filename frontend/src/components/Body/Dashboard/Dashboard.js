@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-around',
-
+    // maxWidth: '690px',
     margin: '1rem',
     borderRadius: '.5rem',
     backgroundColor: 'white',

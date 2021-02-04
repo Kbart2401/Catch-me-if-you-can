@@ -65,7 +65,7 @@ const MyRoutes = (props) => {
 
   return isLoaded && (
     <>
-      <h1  >Your Created Routes</h1>
+      { props.path === '/my-routes' && <Typography variant={'h5'} className='header-font'>Your Created Routes</Typography>}
       {
         (routes && Object.keys(routes).length > 0)
           ? (<TableContainer component={Paper}>
