@@ -49,7 +49,6 @@ const RivalsList = () => {
 	const [modal, setModal] = useState(false);
 	const [userModal, setUserModal] = useState(false);
 	const classes = useStyles();
-	console.log("Loaded Rivals", loadedRivals);
 
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
