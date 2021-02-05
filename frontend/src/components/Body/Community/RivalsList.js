@@ -108,29 +108,28 @@ const RivalsList = () => {
 					pt={4}
 					justifyContent="space-between"
 				>
-					<Box  mr={6}>
+					<Box  mr={6} width="270px">
 						{/* {query && ( */}
 						<TableContainer component={Paper} >
 							<Table
 								className={classes.table}
 								aria-label="simple table"
-								minWidth="200px"
 								// justifyContent="flex-end"
 							>
 								<TableHead>
 									<TableRow>
-										<TableCell>
-											<Typography component="h2" variant="h5">
+										<TableCell width="100%">
+											<Typography >
 												Search Results{" "}
 											</Typography>
 										</TableCell>
-										<TableCell align="right"></TableCell>
+										<TableCell>{" "}</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
 									{users.map((user) => (
 										// <ListItem key={user.id}>
-										<TableRow selected="true">
+										<TableRow>
 											<TableCell>
 												<Button
 													onClick={() => {
@@ -141,11 +140,11 @@ const RivalsList = () => {
 												</Button>
 											</TableCell>
 											<TableCell>
-												<Typography>
-													<Button align="right">
+												{/* <Typography> */}
+													<Button>
 														<AddIcon onClick={() => addRivalButton(user)} />
 													</Button>
-												</Typography>
+												{/* </Typography> */}
 											</TableCell>
 										</TableRow>
 										// </ListItem>
