@@ -144,6 +144,7 @@ const CreateMap = () => {
     })
     const data = await res.json();
     if (data) {
+      console.log(data); 
       history.push({ pathname: '/my-routes', state: data });
     }
   };
