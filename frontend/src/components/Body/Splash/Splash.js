@@ -52,7 +52,6 @@ const Clip2 = styled.div`
 
 const Card = styled.div`
   position: absolute;
-
   z-index: 5;
 `
 
@@ -66,7 +65,7 @@ const PicContainer = styled.div`
 
   font-size: 60px;
   color: white;
-  font-family: 'helvetica' sans-serif;
+  font-family: helvetica sans-serif;
   font-weight: 1000;
 `
 
@@ -282,12 +281,23 @@ const Splash = () => {
         </p>
         </PicContainer>
       </Card>
-
-      <CallToAction>
-        <p>Ready to begin Your Journey?</p>
-        <img src='/pictures/flare.jpg' width='100rem' />
-        <Button variant='outlined' onClick={() => handleClick()}>Get Started</Button>
-      </CallToAction>
+      <Card data-aos="fade-left" data-aos-offset="500" style={{
+        top: '205rem',
+        left: '65rem',
+        // width: '10rem',
+      }}>
+        <PicContainer style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          // backgroundImage: 'url(\'/pictures/topography.jpg\')',
+          backgroundSize: '500px 500px',
+          backgroundPosition: 'center',
+        }}>
+          <p style={{ color: 'black', }}>Ready to begin Your Journey</p>
+          <Button variant='outlined' onClick={() => handleClick()}>Get Started</Button>
+        </PicContainer>
+      </Card>
 
     </div>
   )
