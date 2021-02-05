@@ -15,11 +15,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   navBar_root: {
-    width: '1200px',
     display: 'grid',
     gridAutoFlow: 'column',
     gridTemplateAreas: '\'left middle right\'',
     justifyContent: 'space-between',
+
+    minWidth: '1200px',
     padding: '0.5rem',
     borderBottom: '3px solid #e9ecef',
     backgroundColor: '#63B3ED',
@@ -166,7 +167,7 @@ const Header = (props) => {
         {/* LEFT */}
         <div className={classes.navBar_left}>
           <Button onClick={() => handleMenuClick('/')}>
-            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)', boxShadow: '0px 0px 5px grey', borderRadius: '5%'}} />
+            <img src={require('../images/logo.png')} style={{ width: '200px', filter: 'contrast(200%)', boxShadow: '0px 0px 5px grey', borderRadius: '5%' }} />
             {/* <Typography color='primary' >Catch Me If You Can</Typography> */}
           </Button>
         </div>
