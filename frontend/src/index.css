@@ -35,3 +35,7 @@ h5.header-font, h1.header-font {
 .header-font.create-route {
   margin: 15px 0;
 }
+
+.bad-request-header {
+  font-size: 48px;
+}
