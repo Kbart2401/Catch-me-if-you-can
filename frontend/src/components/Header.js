@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import SimpleModal from './Header/SimpleModal';
 
 import * as sessionActions from '../store/actions/session'
 
@@ -177,21 +178,28 @@ const Header = (props) => {
         {/* MIDDLE */}
         <div className={classes.navBar_middle}>
           <div className={classes.navBar_navContainer}>
-            <Button onClick={() => handleNavClick(`/dashboard/${user.id}`)}>
-              <Typography>Dashboard</Typography>
-            </Button>
-            <Button
-              id='route'
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              onClick={handleMenuOpen}
-              color="inherit">
-              <Typography>Routes</Typography>
-            </Button>
-            <Button onClick={() => handleNavClick('/community')}>
-              <Typography>Community</Typography>
-            </Button>
+            {user ? ( 
+              <>
+                <Button onClick={() => handleNavClick(`/dashboard/${user.id}`)}>
+                  <Typography>Dashboard</Typography>
+                </Button>
+                <Button
+                  id='route'
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-haspopup="true"
+                  onClick={handleMenuOpen}
+                  color="inherit">
+                  <Typography>Routes</Typography>
+                </Button>
+                <Button onClick={() => handleNavClick('/community')}>
+                  <Typography>Community</Typography>
+                </Button>
+              </>
+            ) : (<><Button><Typography>Dashboard</Typography></Button>
+            <Button><Typography>Routes</Typography></Button>
+            <Button><Typography>Community</Typography></Button></>)
+            }
           </div>
         </div>
 
