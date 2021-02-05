@@ -19,6 +19,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
+//custom components
+import SimpleModal from "../../Header/SimpleModal";
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: "100%",
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	tableCell: {
 		width: "143px",
-		overflow: "visible"
+		overflow: "visible",
 	},
 }));
 
@@ -42,41 +45,49 @@ const RivalsList = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const [users, setUsers] = useState([]);
 	const [query, setQuery] = useState("");
+	const [modal, setModal] = useState(false);
 	const classes = useStyles();
 	console.log("Loaded Rivals", loadedRivals);
 
-  useEffect(() => {
-    dispatch(sessionActions.retrieveUsers())
-      .then((data) => {
-        const results = data.users.filter((user) => checkSearch(user));
-        setUsers(results);
-      })
-      .then(setIsLoaded(true));
-  }, [query]);
+	useEffect(() => {
+		dispatch(sessionActions.retrieveUsers())
+			.then((data) => {
+				const results = data.users.filter((user) => checkSearch(user));
+				setUsers(results);
+			})
+			.then(setIsLoaded(true));
+	}, [query]);
 
-  const checkSearch = (searchObj) => {
-    if (query !== "") {
-		// return Object.values(searchObj).includes(query);
-		return Object.values(searchObj).find(value => value.toString().toLowerCase() === query.toLowerCase());
-    }
-  };
+	const checkSearch = (searchObj) => {
+		if (query !== "") {
+			// return Object.values(searchObj).includes(query);
+			return Object.values(searchObj).find(
+				(value) => value.toString().toLowerCase() === query.toLowerCase()
+			);
+		}
+	};
 
 	function addRivalButton(rival) {
 		let rivalCheck = loadedRivals.find((lRival) => lRival.id === rival.id);
-		console.log("Rival check:", rivalCheck)
+		console.log("Rival check:", rivalCheck);
 		if (!rivalCheck) {
 			dispatch(sessionActions.addRival(user, rival));
+		} else {
+			return (<SimpleModal modal={modal} setModal={setModal} />)
 		}
-		
 	}
 
 	function removeRival(rival) {
 		dispatch(sessionActions.deleteRival(user, rival));
 	}
 
-  const handleClick = (userId) => {
-    history.push(`/users/${userId}`);
-  };
+	const handleClick = (userId) => {
+		history.push(`/users/${userId}`);
+	};
+
+	const openModal = () => {
+		setModal(true);
+	};
 
 	return (
 		isLoaded && (
@@ -100,19 +111,11 @@ const RivalsList = () => {
 					</Table>
 				</TableContainer>
 
-				<Box
-					display="flex"
-					flexDirection="row"
-					px={6}
-					pt={4}
-				>
+				<Box display="flex" flexDirection="row" px={6} pt={4}>
 					<Box mr={6} width="271.8px">
 						{/* {query && ( */}
 						<TableContainer component={Paper}>
-							<Table
-								className={classes.table}
-								aria-label="simple table"
-							>
+							<Table className={classes.table} aria-label="simple table">
 								<TableHead>
 									<TableRow>
 										<TableCell>
