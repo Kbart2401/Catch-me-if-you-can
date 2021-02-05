@@ -95,7 +95,6 @@ const Dashboard = (props) => {
 
   const [totalTime, setTotalTime] = useState(0)
   const [totalDistance, setTotalDistance] = useState(0)
-  const [totalCalories, setTotalCalories] = useState(0)
 
   const [username, setUsername] = useState('')
   const [totalRuns, setTotalRuns] = useState(0)
@@ -112,9 +111,7 @@ const Dashboard = (props) => {
   const calculateCalories = (totalDist, totalTime) => {
     //918
     //10
-    console.log(totalDist, totalTime)
-    const calories = Math.floor((8.5 * totalDist) * totalTime * (1 / 60))
-    console.log('calories: ', calories)
+    const calories = ((8.5 * totalDist) * totalTime * (1 / 60))
 
     return calories
   }
@@ -139,27 +136,28 @@ const Dashboard = (props) => {
     let totalRecentDistance = 0
 
     for (let i = 0; i < recentRuns.length; i++) {
-      totalRecentDistance += (recentRuns[i].distance / 1000)
+      totalRecentDistance += (recentRuns[i].distance)
     }
 
     return totalRecentDistance.toFixed(1);
   }
 
   const calcRecentCalories = () => {
-    let sum = 0
-    let totalRecentDistance = 0
-    console.log(recentRuns)
+    let sum = 0;
+    let totalRecentDistance = 0;
 
     for (let i = 0; i < recentRuns.length; i++) {
       totalRecentDistance += recentRuns[i].distance
     }
+
+    totalRecentDistance = totalRecentDistance / 1000
 
     for (let i = 0; i < recentRuns.length; i++) {
       // sum += Math.floor((8.5 * totalRecentDistance) * Math.trunc(recentRuns[i].time * (1 / 60)))
       sum += calculateCalories(totalRecentDistance, recentRuns[i].time)
     }
 
-    return (sum / 1000).toFixed(0)
+    return (sum).toFixed(2)
   }
 
   useEffect(() => {
@@ -172,7 +170,7 @@ const Dashboard = (props) => {
           setUsername(`${data.first_name} ${data.last_name}`, setTotalRuns((data) ? data.run_count : null))
           setWeekData(data.week_data)
           setRecentRuns(data.recent_run)
-          setTotalDistance(data.total_distance, setTotalTime(data.total_runtime), setTotalCalories())
+          setTotalDistance(data.total_distance, setTotalTime(data.total_runtime))
           setIsLoaded(true)
         })()
       } catch (e) {
@@ -195,7 +193,7 @@ const Dashboard = (props) => {
         <div className={classes.dashboard_circle_stat_container} className='dashboard-font' >
           <div className={classes.dashboard_circle_stat} > <Typography variant={'h5'}>Weekly Stats</Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>
-            {recentRuns ? calcRecentDistance() : 0} Km
+            {recentRuns ? calcRecentDistance() : 0} meters
             </Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentRuns ? calcRecentCalories() : 0} Ca</Typography></div>
         </div>
@@ -215,7 +213,7 @@ const Dashboard = (props) => {
           <Typography>Total Km</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
-          <Typography variant={'h4'}>{(totalDistance && totalTime) ? calculateCalories(totalDistance, totalTime) : 0}</Typography>
+          <Typography variant={'h4'}>{(totalTime && totalDistance) && calculateCalories(totalDistance, totalTime)}</Typography>
           <Typography>Total Ca</Typography>
         </div>
       </div>
