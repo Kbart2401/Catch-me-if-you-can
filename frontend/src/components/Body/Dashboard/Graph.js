@@ -9,7 +9,7 @@ export const BarGraph = (props) => {
     display: true,
     labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     datasets: [{
-      label: '# of km ran',
+      label: '# of meters ran',
       barPercentage: 0.5,
       barThickness: 20,
       borderWidth: 1,

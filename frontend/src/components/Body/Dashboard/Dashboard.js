@@ -97,11 +97,11 @@ const Dashboard = (props) => {
 
   const [isLoaded, setIsLoaded] = useState(false)
 
-  const totalTime = useSelector(state => state.session.total_run_time)
-  const totalDistance = useSelector(state => state.session.total_distance_ran)
+  const [totalTime, setTotalTime] = useState(0)
+  const [totalDistance, setTotalDistance] = useState(0)
+
   const [username, setUsername] = useState('')
   const [totalRuns, setTotalRuns] = useState(0)
-  const [totalHours, setTotalHours] = useState(0)
   const [recentRuns, setRecentRuns] = useState([])
   const [weekData, setWeekData] = useState([])
 
@@ -112,20 +112,27 @@ const Dashboard = (props) => {
     return `${(hr < 10) ? 0 : ''}${hr}:${(min < 10) ? 0 : ''}${min}:${(sec < 10) ? 0 : ''}${sec}`
   }
 
+  const calculateCalories = (totalDist, totalTime) => {
+    //918
+    //10
+    const calories = ((8.5 * totalDist) * totalTime * (1 / 60))
+
+    return calories
+  }
+
   const handleGraphData = (weekData) => {
     let arr = []
 
-    Object.keys(weekData).map(day => {
+    weekData.dayOrder.map(day => {
       let sum = 0
 
-      weekData[day].map(run => {
+      weekData.days[day].map(run => {
         sum += run.distance
       })
 
       arr.push(sum)
     })
 
-    console.log('Arr: ', arr)
     return arr
   }
 
@@ -133,25 +140,28 @@ const Dashboard = (props) => {
     let totalRecentDistance = 0
 
     for (let i = 0; i < recentRuns.length; i++) {
-      totalRecentDistance += (recentRuns[i].distance / 1000)
+      totalRecentDistance += (recentRuns[i].distance)
     }
 
     return totalRecentDistance.toFixed(1);
   }
 
   const calcRecentCalories = () => {
-    let sum = 0
-    let totalRecentDistance = 0
+    let sum = 0;
+    let totalRecentDistance = 0;
 
     for (let i = 0; i < recentRuns.length; i++) {
       totalRecentDistance += recentRuns[i].distance
     }
 
+    totalRecentDistance = totalRecentDistance / 1000
+
     for (let i = 0; i < recentRuns.length; i++) {
-      sum += Math.floor((8.5 * totalRecentDistance) * Math.trunc(recentRuns[i].time * (1 / 60)))
+      // sum += Math.floor((8.5 * totalRecentDistance) * Math.trunc(recentRuns[i].time * (1 / 60)))
+      sum += calculateCalories(totalRecentDistance, recentRuns[i].time)
     }
 
-    return (sum/1000).toFixed(0)
+    return (sum).toFixed(2)
   }
 
   useEffect(() => {
@@ -161,14 +171,11 @@ const Dashboard = (props) => {
           const res = await fetch(`/api/users/dashboard/${userId}`)
           const data = await res.json()
 
-          console.log(data.recent_run)
-
-          await setUsername(`${data.first_name} ${data.last_name}`, setTotalRuns((data) ? data.run_count : null))
-          await setWeekData(data.week_data)
-          await setRecentRuns(data.recent_run)
-          await setIsLoaded(true)
-
-          // console.log('weekData: ', weekData)
+          setUsername(`${data.first_name} ${data.last_name}`, setTotalRuns((data) ? data.run_count : null))
+          setWeekData(data.week_data)
+          setRecentRuns(data.recent_run)
+          setTotalDistance(data.total_distance, setTotalTime(data.total_runtime))
+          setIsLoaded(true)
         })()
       } catch (e) {
         console.error(e)
@@ -176,17 +183,6 @@ const Dashboard = (props) => {
     }
   }, [user])
 
-  	function addRivalButton(rival) {
-			dispatch(sessionActions.addRival(user, rival));
-		}
-
-		function removeRival(rival) {
-			dispatch(sessionActions.deleteRival(user, rival));
-		}
-
-
-  console.log('WeekData: ', weekData, ' RecentRuns: ', recentRuns)
-  console.log("Rivals loaded up ")
   return isLoaded && (
     <div className={classes.root}>
       <div className={classes.title}>
@@ -204,7 +200,7 @@ const Dashboard = (props) => {
         <div className={classes.dashboard_circle_stat_container} className='dashboard-font' >
           <div className={classes.dashboard_circle_stat} > <Typography variant={'h5'}>Weekly Stats</Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>
-            {recentRuns ? calcRecentDistance() : 0} Km
+            {recentRuns ? calcRecentDistance() : 0} meters
             </Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentRuns ? calcRecentCalories() : 0} Ca</Typography></div>
         </div>
@@ -224,7 +220,7 @@ const Dashboard = (props) => {
           <Typography>Total Km</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
-          <Typography variant={'h4'}>{(totalDistance && totalTime) ? Math.floor((8.5 * totalDistance) * Math.trunc(totalTime * (1 / 60))) : 0}</Typography>
+          <Typography variant={'h4'}>{(totalTime && totalDistance) && calculateCalories(totalDistance, totalTime)}</Typography>
           <Typography>Total Ca</Typography>
         </div>
       </div>
@@ -236,12 +232,13 @@ const Dashboard = (props) => {
       <div className={classes.dashboard_accordian_container}>
         <Accordion className={classes.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography style={{ color: '#3f51b5', fontWeight: '550'}}>History</Typography>
+            <Typography style={{ color: '#3f51b5', fontWeight: '550' }}>History</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <History user={user} />
           </AccordionDetails>
         </Accordion>
+
         <Accordion className={classes.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography style={{ color: '#3f51b5', fontWeight: '550' }}>My Routes</Typography>

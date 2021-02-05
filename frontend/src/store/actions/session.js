@@ -25,172 +25,166 @@ const removeRival = (rival) => ({ type: REMOVE_RIVAL, payload: rival });
 
 //new Store Actions for create and remove run
 export const addRoute = route => {
-	const newRouteID = route.id;
-	const newRoute = {};
-	newRoute[newRouteID] = route;
+  const newRouteID = route.id;
+  const newRoute = {};
+  newRoute[newRouteID] = route;
 
-	return {
-		type: ADD_ROUTE,
-		payload: newRoute,
-	}
+  return {
+    type: ADD_ROUTE,
+    payload: newRoute,
+  }
 }
 
 export const deleteRoute = route => {
-	const routeID = route.id;
-	return {
-		type: DELETE_ROUTE,
-		payload: routeID,
-	}
+  const routeID = route.id;
+  return {
+    type: DELETE_ROUTE,
+    payload: routeID,
+  }
 }
 
 //Login Thunk
 export const loginUser = (user) => async (dispatch) => {
-	const { email, password } = user;
-	let res = await fetch('/api/auth/login', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			email,
-			password
-		})
-	});
+  const { email, password } = user;
+  let res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email,
+      password
+    })
+  });
 
-	if (res.ok) {
-		const data = await res.json()
-		dispatch(setUser(data));
-		window.location.replace(`/dashboard/${data.id}`)
-	} else {
-		res = await res.json()
-		throw res;
-	}
-	return res
+  if (res.ok) {
+    const data = await res.json()
+    dispatch(setUser(data));
+    window.location.replace(`/dashboard/${data.id}`)
+  } else {
+    res = await res.json()
+    throw res;
+  }
+  return res
 }
 
 export const signupUser = (user) => async (dispatch) => {
-	const { firstname, lastname, gender, email, height, weight, password } = user;
-	let res = await fetch("/api/auth/signup", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			firstname,
-			lastname,
-			gender,
-			height,
-			weight,
-			email,
-			password,
-		}),
-	});
+  const { firstname, lastname, gender, email, height, weight, password } = user;
+  let res = await fetch("/api/auth/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      firstname,
+      lastname,
+      gender,
+      height,
+      weight,
+      email,
+      password,
+    }),
+  });
 
-	if (res.ok) {
-		const data = await res.json()
-		dispatch(setUser(data))
-		window.location.replace(`/dashboard/${data.id}`);
-	} else {
-		res = await res.json()
-		throw res;
-	}
-	return res
+  if (res.ok) {
+    const data = await res.json()
+    dispatch(setUser(data))
+    window.location.replace(`/dashboard/${data.id}`);
+  } else {
+    res = await res.json()
+    throw res;
+  }
+  return res
 };
 
 export const restoreUser = () => async (dispatch) => {
-	try {
-		const res = await fetch("/api/users/restore", {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+  try {
+    const res = await fetch("/api/users/restore", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-		if (res.ok) {
-			const data = await res.json();
-			console.log("data.rivals", data.rivals)
-			dispatch(setUser(data.user));
-			dispatch(setRivals(data.rivals));
-			dispatch(setCreatedRoutes(data.created_routes));
-			dispatch(setTotalDistance(data.total_distance));
-			dispatch(setTotalRunTime(data.total_time));
-			return data;
-		}
-	} catch (e) {
-		console.error(e);
-	}
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(setUser(data.user));
+      dispatch(setRivals(data.rivals));
+      dispatch(setCreatedRoutes(data.created_routes));
+      dispatch(setTotalDistance(data.total_distance));
+      dispatch(setTotalRunTime(data.total_time));
+      return data;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 //THIS IS USELESS:
 export const retrieveRivals = (userId) => async (dispatch) => {
-	try {
-		const res = await fetch(`/api/users/${userId}`);
-		if (res.ok) {
-			// console.log("**** IN RETRIEVE RIVALS *****");
-			const data = await res.json();
-			dispatch(setRivals(data.rivals));
-			return data;
-		}
-	} catch (e) {
-		console.error(e);
-	}
+  try {
+    const res = await fetch(`/api/users/${userId}`);
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(setRivals(data.rivals));
+      return data;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 export const retrieveUsers = () => async (dispatch) => {
-	try {
-		const res = await fetch(`/api/users/`);
+  try {
+    const res = await fetch(`/api/users/`);
 
-		if (res.ok) {
-			const data = await res.json();
-			dispatch(setUsers(data));
-			return data;
-		}
-	} catch (e) {
-		console.error(e);
-	}
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(setUsers(data));
+      return data;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const logoutUser = () => async (dispatch) => {
-	try {
-		const res = await fetch("/api/auth/logout", {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		}).then(dispatch(removeUser()));
+  try {
+    const res = await fetch("/api/auth/logout", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(dispatch(removeUser()));
 
-		return res;
-	} catch (e) {
-		console.error(e);
-	}
+    return res;
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const addRival = (user, rival) => async (dispatch) => {
-	const res = await fetch("/api/rivals/", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			id: user.id,
-			rival_id: rival.id,
-		}),
-	});
-	// console.log("User in addRival thunk", user)
-	// console.log("Rival in addRival thunk", rival)
-	// const data = await res.json();
-	// console.log("Data", data)
-	dispatch(setRival(rival));
+  const res = await fetch("/api/rivals/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: user.id,
+      rival_id: rival.id,
+    }),
+  });
+
+  dispatch(setRival(rival));
 };
 export const deleteRival = (user, rival) => async (dispatch) => {
-	const res = await fetch("/api/rivals/", {
-		method: "DELETE",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			id: user.id,
-			rival_id: rival.id,
-		}),
-	});
-	console.log("res", res.json())
-	console.log("rival", rival)
-	dispatch(removeRival(rival));
+  const res = await fetch("/api/rivals/", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: user.id,
+      rival_id: rival.id,
+    }),
+  });
+
+  dispatch(removeRival(rival));
 };

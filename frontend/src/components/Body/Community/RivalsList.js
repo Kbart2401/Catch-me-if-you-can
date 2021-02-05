@@ -54,20 +54,20 @@ const RivalsList = () => {
 	const classes = useStyles();
 	console.log("Loaded Rivals", loadedRivals);
 
-	useEffect(() => {
-		dispatch(sessionActions.retrieveUsers())
-			.then((data) => {
-				const results = data.users.filter((user) => checkSearch(user));
-				setUsers(results);
-			})
-			.then(setIsLoaded(true));
-	}, [query]);
+  useEffect(() => {
+    dispatch(sessionActions.retrieveUsers())
+      .then((data) => {
+        const results = data.users.filter((user) => checkSearch(user));
+        setUsers(results);
+      })
+      .then(setIsLoaded(true));
+  }, [query]);
 
-	const checkSearch = (searchObj) => {
-		if (query !== "") {
-			return Object.values(searchObj).includes(query);
-		}
-	};
+  const checkSearch = (searchObj) => {
+    if (query !== "") {
+      return Object.values(searchObj).includes(query);
+    }
+  };
 
 	function addRivalButton(rival) {
 		let rivalCheck = loadedRivals.find((lRival) => lRival.id === rival.id);
@@ -82,9 +82,9 @@ const RivalsList = () => {
 		dispatch(sessionActions.deleteRival(user, rival));
 	}
 
-	const handleClick = (userId) => {
-		history.push(`/users/${userId}`);
-	};
+  const handleClick = (userId) => {
+    history.push(`/users/${userId}`);
+  };
 
 	return (
 		isLoaded && (
