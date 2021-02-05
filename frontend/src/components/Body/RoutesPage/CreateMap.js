@@ -126,6 +126,10 @@ const CreateMap = () => {
 
   //submit for saving route to database 
   async function clickSubmit() {
+    if (!routeName) {
+      alert("Please give your route a name!")
+      return; 
+    } 
     const res = await fetch('/api/routes/', {
       method: 'POST',
       headers: {
