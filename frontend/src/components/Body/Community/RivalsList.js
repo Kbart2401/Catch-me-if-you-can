@@ -56,7 +56,8 @@ const RivalsList = () => {
 
   const checkSearch = (searchObj) => {
     if (query !== "") {
-      return Object.values(searchObj).includes(query);
+		// return Object.values(searchObj).includes(query);
+		return Object.values(searchObj).find(value => value.toString().toLowerCase() === query.toLowerCase());
     }
   };
 
