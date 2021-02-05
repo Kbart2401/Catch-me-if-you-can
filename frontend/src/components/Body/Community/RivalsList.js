@@ -20,7 +20,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 //custom components
-import SimpleModal from "../../Header/SimpleModal";
+import RivalModal from "./RivalModal";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -73,7 +73,7 @@ const RivalsList = () => {
 		if (!rivalCheck) {
 			dispatch(sessionActions.addRival(user, rival));
 		} else {
-			return (<SimpleModal modal={modal} setModal={setModal} />)
+			setModal(true)
 		}
 	}
 
@@ -148,6 +148,7 @@ const RivalsList = () => {
 													<Button align="right">
 														<AddIcon onClick={() => addRivalButton(user)} />
 													</Button>
+													<RivalModal modal={modal} setModal={setModal} />
 												</TableCell>
 											</TableRow>
 										</>
