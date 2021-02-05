@@ -66,6 +66,7 @@ const LoginForm = (props) => {
 
   const onLogin = (e) => {
     e.preventDefault();
+    if (frontEndValidation()) return
     dispatch(sessionActions.loginUser({ email, password }))
       .catch(res => {
         if (res.errors) return setErrors(res.errors)
@@ -79,6 +80,14 @@ const LoginForm = (props) => {
         if (res.errors) return setErrors(res.errors)
       })
   };
+
+  const frontEndValidation = () => {
+    let loginErrors = []
+    if (!email) loginErrors.push('Please enter an email address')
+    if (!password) loginErrors.push('Please enter a password')
+    setErrors([...loginErrors])
+    if (!email || !password) return true
+  }
 
   const handleChange = (prop) => (e) => {
     switch (prop) {
@@ -97,11 +106,11 @@ const LoginForm = (props) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography className='header-font' component="h1" variant="h5">
           Log In
 				</Typography>
         <div>
-          <ul style={{ color: 'red', listStyleType: 'none' }}>
+          <ul style={{ color: 'red', listStyleType: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             {errors.map(error => (
               <li key={error}>
                 <Typography >{error}</Typography>

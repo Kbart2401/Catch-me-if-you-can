@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RivalsList = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+	const dispatch = useDispatch();
+	const history = useHistory();
 	const loadedRivals = useSelector((state) => state.session.rivals);
 	const user = useSelector((state) => state.session.user);
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -48,17 +48,18 @@ const RivalsList = () => {
 	const [users, setUsers] = useState([]);
 	const [query, setQuery] = useState("");
 	const classes = useStyles();
-  const [checked, setChecked] = React.useState([0]);
-  
+	const [checked, setChecked] = React.useState([0]);
+	console.log("Loaded Rivals", loadedRivals);
+	// const loadedRivals2 = loadedRivals[0];
+	// console.log("Loaded Rivals2", loadedRivals2);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		dispatch(sessionActions.retrieveRivals(user.id))
+	// 			// .then((data) => setRivals(data.rivals))
+	// 			.then(setIsLoaded(true));
+	// 	}
+	// }, [user]);
 
-	useEffect(() => {
-		if (user) {
-			dispatch(sessionActions.retrieveRivals(user.id))
-				// .then((data) => setRivals(data.rivals))
-				.then(setIsLoaded(true));
-		}
-  }, [user]);
-  
 	useEffect(() => {
 		dispatch(sessionActions.retrieveUsers())
 			.then((data) => {
@@ -74,40 +75,46 @@ const RivalsList = () => {
 		}
 	};
 
-	 function addRival(rival) {
-					fetch("/api/rivals/", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-              id: user.id,
-              rival_id: rival.id
-						}),
-          });
-          // setRivals([...rivals, rival])
-				}
-	 function removeRival(rivalId) {
-					fetch("/api/rivals/", {
-						method: "DELETE",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-              id: user.id,
-              rival_id: rivalId
-						}),
-					});
-  			}
+	function addRivalButton(rival) {
+		dispatch(sessionActions.addRival(user, rival));
+	}
+	// function addRival(rival) {
+	// 	fetch("/api/rivals/", {
+	// 		method: "POST",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify({
+	// 			id: user.id,
+	// 			rival_id: rival.id,
+	// 		}),
+	// 	});
+	// 	// setRivals([...rivals, rival])
+	// }
+	// function removeRival(rivalId) {
+	// 	fetch("/api/rivals/", {
+	// 		method: "DELETE",
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 		},
+	// 		body: JSON.stringify({
+	// 			id: user.id,
+	// 			rival_id: rivalId,
+	// 		}),
+	// 	});
+	// }
+	function removeRival(rival) {
+		dispatch(sessionActions.deleteRival(user, rival));
+	}
 
-  const handleClick = (userId) => {
-    history.push(`/dashboard/${userId}`);
-  }
+	const handleClick = (userId) => {
+		history.push(`/users/${userId}`);
+	};
 
-  // const clickSearch = (user) => {
-  //     setRivals(user)
-  // }
-  
+	// const clickSearch = (user) => {
+	//     setRivals(user)
+	// }
+
 	return (
 		isLoaded && (
 			<TableContainer component={Paper}>
@@ -129,18 +136,14 @@ const RivalsList = () => {
 								<Typography>
 									<Button
 										onClick={() => {
-                      handleClick(user.id);
-                      // clickSearch(user)
+											handleClick(user.id);
+											// clickSearch(user)
 										}}
 									>
 										{user.first_name}
 									</Button>
 									<Button align="right">
-										<AddIcon
-											onClick={
-												addRival(user)
-											}
-										/>
+										<AddIcon onClick={() => addRivalButton(user)} />
 									</Button>
 								</Typography>
 							</ListItem>
@@ -150,28 +153,52 @@ const RivalsList = () => {
 						Current rivals:{" "}
 					</Typography>
 					<TableBody>
-						{loadedRivals.map((rival) => (
-							<>
-								<TableRow key={rival.id} dense button>
-									<Typography>
-										<Button
-											onClick={() => {
-												handleClick(rival.id);
-											}}
-										>
-											{rival.first_name}
-										</Button>
-										<Button align="right">
-											<ClearIcon
+						{loadedRivals &&
+							loadedRivals.map((rival) => (
+								<>
+									<TableRow key={rival.id} dense button>
+										<Typography>
+											<Button
 												onClick={() => {
-													removeRival(rival.id);
+													handleClick(rival.id);
 												}}
-											/>
-										</Button>
-									</Typography>
-								</TableRow>
-							</>
-						))}
+											>
+												{rival.first_name}
+											</Button>
+											<Button align="right">
+												<ClearIcon
+													onClick={() => {
+														removeRival(rival);
+													}}
+												/>
+											</Button>
+										</Typography>
+									</TableRow>
+								</>
+							))}
+						{/* {loadedRivals2 &&
+							loadedRivals2.map((rival) => (
+								<>
+									<TableRow key={rival.id} dense button>
+										<Typography>
+											<Button
+												onClick={() => {
+													handleClick(rival.id);
+												}}
+											>
+												{rival.first_name}
+											</Button>
+											<Button align="right">
+												<ClearIcon
+													onClick={() => {
+														removeRival(rival.id);
+													}}
+												/>
+											</Button>
+										</Typography>
+									</TableRow>
+								</>
+							))} */}
 					</TableBody>
 				</Table>
 			</TableContainer>

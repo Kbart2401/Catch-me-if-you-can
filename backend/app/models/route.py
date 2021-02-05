@@ -15,7 +15,7 @@ class Route(db.Model):
         
     user = db.relationship('User', back_populates='routes',
                            primaryjoin='User.id==Route.user_creator')
-    run_times = db.relationship('RunTime', back_populates='route')
+    run_times = db.relationship('RunTime', back_populates='route', cascade="all, delete-orphan")
 
     def to_dict(self):
         return {

@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-around',
-
+    // maxWidth: '690px',
     margin: '1rem',
     borderRadius: '.5rem',
     backgroundColor: 'white',
@@ -48,14 +48,14 @@ const useStyles = makeStyles(() => ({
     width: '20rem',
     margin: '1rem',
   },
-  dashboard_circle_stat_container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // margin: '5rem 0',
-    minHeight: '50%'
-  },
+  // dashboard_circle_stat_container: {
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   // margin: '5rem 0',
+  //   minHeight: '50%'
+  // },
   dashboard_circle_stat: {
     margin: '.5rem 0',
   },
@@ -129,10 +129,10 @@ const Dashboard = (props) => {
     let totalRecentDistance = 0
 
     for (let i = 0; i < recentRuns.length; i++) {
-      totalRecentDistance += recentRuns[i].distance
+      totalRecentDistance += (recentRuns[i].distance / 1000)
     }
 
-    return totalRecentDistance
+    return totalRecentDistance.toFixed(1);
   }
 
   const calcRecentCalories = () => {
@@ -147,7 +147,7 @@ const Dashboard = (props) => {
       sum += Math.floor((8.5 * totalRecentDistance) * Math.trunc(recentRuns[i].time * (1 / 60)))
     }
 
-    return sum/1000
+    return (sum/1000).toFixed(0)
   }
 
   useEffect(() => {
@@ -178,17 +178,17 @@ const Dashboard = (props) => {
     <div className={classes.root}>
       <div className={classes.title}>
         <Typography variant={'h5'} className='header-font'>DashBoard</Typography>
-        <Typography className='dashboard-username font'>{username}</Typography>
+        <Typography className='dashboard-font username'>{username}</Typography>
         {
           (user.id !== userId) && <Button variant="outlined"><Typography>Make Rival</Typography></Button>
         }
       </div>
 
       <div className={classes.dashboard_circle}>
-        <div className={classes.dashboard_circle_stat_container}>
+        <div className={classes.dashboard_circle_stat_container} className='dashboard-font' >
           <div className={classes.dashboard_circle_stat} > <Typography variant={'h5'}>Weekly Stats</Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>
-            {recentRuns ? calcRecentDistance() : 0} m
+            {recentRuns ? calcRecentDistance() : 0} Km
             </Typography></div>
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentRuns ? calcRecentCalories() : 0} Ca</Typography></div>
         </div>
@@ -204,8 +204,8 @@ const Dashboard = (props) => {
           <Typography>Total Runs</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
-          <Typography variant={'h4'}>{totalDistance ? totalDistance : 0}</Typography>
-          <Typography>Total m</Typography>
+          <Typography variant={'h4'}>{totalDistance ? totalDistance.toFixed(0) : 0}</Typography>
+          <Typography>Total Km</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
           <Typography variant={'h4'}>{(totalDistance && totalTime) ? Math.floor((8.5 * totalDistance) * Math.trunc(totalTime * (1 / 60))) : 0}</Typography>
@@ -220,7 +220,7 @@ const Dashboard = (props) => {
       <div className={classes.dashboard_accordian_container}>
         <Accordion className={classes.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>History</Typography>
+            <Typography style={{ color: '#3f51b5', fontWeight: '550'}}>History</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <History user={user} />
@@ -228,7 +228,7 @@ const Dashboard = (props) => {
         </Accordion>
         <Accordion className={classes.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>My Routes</Typography>
+            <Typography style={{ color: '#3f51b5', fontWeight: '550' }}>My Routes</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Routes />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import * as sessionActions from '../../../store/actions/session'; 
+import * as sessionActions from '../../../store/actions/session';
 
 //MUI
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,7 +37,7 @@ const RouteTables = ({ routes }) => {
                 {routes[key].name}
               </Button></Typography>
             </TableCell>
-            <TableCell align="right">{routes[key].distance}</TableCell>
+            <TableCell align="right">{routes[key].distance.toFixed(0)}</TableCell>
             <TableCell align="right">{routes[key].runners}</TableCell>
           </TableRow>
         ))
@@ -48,23 +48,24 @@ const RouteTables = ({ routes }) => {
 
 const MyRoutes = (props) => {
   const classes = useStyles();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const routes = useSelector(state => state.session.created_routes)
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     setIsLoaded(true)
-  }, [routes]); 
+  }, [routes]);
 
   useEffect(() => {
-    if (!props.location) return; 
+    if (!props.location) return;
     if (props.location.state) {
-      dispatch(sessionActions.addRoute(props.location.state));   
+      dispatch(sessionActions.addRoute(props.location.state));
     }
   }, []);
 
   return isLoaded && (
     <>
+      { props.path === '/my-routes' && <Typography variant={'h5'} className='header-font'>Your Created Routes</Typography>}
       {
         (routes && Object.keys(routes).length > 0)
           ? (<TableContainer component={Paper}>

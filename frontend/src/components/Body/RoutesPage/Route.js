@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/actions/session';
-import SavedMap from './SavedMaps.js'; 
+import SavedMap from './SavedMaps.js';
 
 //MUI
 import { Button, makeStyles, Typography } from '@material-ui/core';
@@ -49,6 +49,23 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  button: {
+    backgroundImage: 'linear-gradient(#3f51b5, #3f86b5)',
+    color: 'white',
+    '&:hover': {
+      bottom: '3px',
+      backgroundImage: 'linear-gradient(#3f86b5, #3f51b5)'
+    }
+  },
+  deleteButton: {
+    backgroundImage: 'linear-gradient(#C53030, #FC8181)',
+    color: 'white',
+    marginTop: '15px',
+    '&:hover': {
+      bottom: '3px',
+      backgroundImage: 'linear-gradient(#FC8181, #C53030)'
+    }
+  }
 }));
 
 //DUMMY DATA
@@ -94,10 +111,11 @@ const Routes = (props) => {
   const { routeid } = useParams();
 
   const user = useSelector(state => state.session.user)
-  const [route, setRoute] = useState({})
+  const [route, setRoute] = useState({});
+  const [newTime, setNewTime] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false)
   const [runnerName, setRunnerName] = useState(null)
-  const [runTime, setRunTime] = useState(60)
+  const [runTime, setRunTime] = useState(0)
 
   const [open, setOpen] = useState(false);
 
@@ -133,7 +151,7 @@ const Routes = (props) => {
         "Content-Type": "application/json",
       },
     })
-    const data = await res.json(); 
+    const data = await res.json();
     if (data) {
       dispatch(sessionActions.deleteRoute(data));
       history.push('/my-routes');
@@ -144,7 +162,7 @@ const Routes = (props) => {
     handleClose();
 
     try {
-      const res = await fetch('/api/runtimes/', {
+      await fetch('/api/runtimes/', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -155,27 +173,23 @@ const Routes = (props) => {
           time: parseInt(runTime),
         })
       });
-      const data = await res.json();
-      // await setRoute(data)
-      console.log('Run data receieved: ', data)
+      setNewTime(true);
     }
     catch (e) {
       console.error(e)
     }
   }
 
-
-
   //Get Route info
   useEffect(() => {
     (async function () {
       const res = await fetch(`/api/routes/${routeid}`)
       const data = await res.json()
-
       setRoute(data)
-      setIsLoaded(true)
+      setIsLoaded(true);
+      setNewTime(false);
     })();
-  }, [])
+  }, [newTime])
 
   //Update user info
   useEffect(() => {
@@ -188,24 +202,24 @@ const Routes = (props) => {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
-          <TableRow>
+          <TableRow style={{ backgroundColor: '#63B3ED'}}>
             <TableCell>Position</TableCell>
-            <TableCell align="right">Rival</TableCell>
-            <TableCell align="right">Time</TableCell>
-            <TableCell align="right">Date</TableCell>
+            <TableCell align="left">Rival</TableCell>
+            <TableCell align="left">Time</TableCell>
+            <TableCell align="left">Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {route.run_times.map((run, index) => (
             <TableRow key={run.name}>
-              <TableCell align="right">#{index + 1}</TableCell>
+              <TableCell align="left">#{index + 1}</TableCell>
               <TableCell component="th" scope="row">
-                <Typography><Button onClick={() => handleClick(`/users/${run.user_id}`)}>
+                <Typography><Button onClick={() => handleClick(`/users/${run.user_id}`)} style={{padding: '0px', justifyContent: 'flex-start'}}>
                   {run.user_name}
                 </Button></Typography>
               </TableCell>
-              <TableCell align="right">{calculateTime(run.time)}</TableCell>
-              <TableCell align="right">{calculateDate(run.date_ran)}</TableCell>
+              <TableCell align="left">{calculateTime(run.time)}</TableCell>
+              <TableCell align="left">{calculateDate(run.date_ran)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -219,30 +233,31 @@ const Routes = (props) => {
 
         {/* Map Component */}
         <Paper className={classes.route_map_container}>
-          <Typography>{route.name}</Typography>
-          <SavedMap routeCoordinates={route.route_coordinates}/>
+          <SavedMap routeCoordinates={route.route_coordinates} />
         </Paper>
         <div className={classes.route_information_container}>
 
           {/* Basic Information */}
           <div className={classes.route_stat_container}>
             <div className={classes.route_stats}>
-              <Typography variant='h5' style={{ padding: '6px 8px' }}>{route.name}</Typography>
-              <ul>
-                <li><Typography style={{ padding: '0px 8px' }}>Route founded by:<Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
+              <Typography className='dashboard-font username' style={{ display: 'block', paddingLeft: '40px' }}>
+                {route.name}</Typography>
+              <ul style={{listStyleType: 'none'}}>
+                <li><Typography style={{ padding: '0px 8px' }}>Created by:
+                    <Button onClick={() => handleClick(`/users/${route.user_creator}`)}>{route.user}</Button></Typography></li>
                 {/* <li><Typography style={{ padding: '6px 8px' }}>Location: {routeInfo.location}</Typography></li> */}
                 <li><Typography style={{ padding: '6px 8px' }}>Length: {route.distance.toFixed(0)} meters</Typography></li>
-                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} Rivals Posted</Typography></li>
+                <li><Typography style={{ padding: '6px 8px' }}>{route.runCount} times have been logged for this route</Typography></li>
               </ul>
             </div>
             <div className={classes.postrun_container}>
-              <Button onClick={() => handleClickOpen()}><Typography>Submit A Run</Typography></Button>
+              <Button onClick={() => handleClickOpen()} className={classes.button}>Submit A Run</Button>
             </div>
           </div>
 
           {/* LeaderBoard */}
           <div className={classes.route_information_leaderboard}>
-            <Typography>LeaderBoard</Typography>
+            <h5 className='header-font' style={{margin: '30px 0 0 0 '}}>LeaderBoard</h5>
             {
               (route.run_times)
                 ? <LeaderBoardTable />
@@ -250,7 +265,7 @@ const Routes = (props) => {
             }
           </div>
           <div>
-            <Button onClick={() => handleDelete()}><Typography>Delete Route</Typography></Button>
+            <Button onClick={() => handleDelete()} className={classes.deleteButton}>Delete Route</Button>
           </div>
         </div>
 
@@ -259,19 +274,9 @@ const Routes = (props) => {
           <DialogTitle id="form-dialog-title">Submit A Run</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              To submit a run, please fill out this short form.
+              Please submit your time for this route here.
             </DialogContentText>
             <div className={classes.inputFields}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Name"
-                type="string"
-                defaultValue={runnerName}
-                onChange={handleChange('user')}
-                fullWidth
-              />
               <TextField
                 required
                 id="time"
@@ -285,7 +290,8 @@ const Routes = (props) => {
                   shrink: true,
                 }}
                 inputProps={{
-                  step: 5, // 5 min
+                  step: 1,  // 1 min
+                  min: 0,
                 }}
               />
             </div>

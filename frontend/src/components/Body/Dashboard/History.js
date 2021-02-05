@@ -70,7 +70,7 @@ const History = (props) => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Route</TableCell>
-                    <TableCell align="right">Distance (KM)</TableCell>
+                    <TableCell align="right">Distance (meters)</TableCell>
                     <TableCell align="right">Time</TableCell>
                     {/* <TableCell align="right">Location</TableCell> */}
                     <TableCell align="right">Date</TableCell>
@@ -84,7 +84,7 @@ const History = (props) => {
                           {run.route_name}
                         </Button></Typography>
                       </TableCell>
-                      <TableCell align="right">{run.distance}</TableCell>
+                      <TableCell align="right">{run.distance.toFixed(0)}</TableCell>
                       <TableCell align="right">{`${calculateTime(run.time)}`}</TableCell>
                       {/* <TableCell align="right">{row.location}</TableCell> */}
                       <TableCell align="right">{`${calculateDate(run.date_ran)}`}</TableCell>

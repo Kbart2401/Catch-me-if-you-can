@@ -1,7 +1,7 @@
 import {
   SET_USER, REMOVE_USER, SET_RIVALS,
   SET_ROUTES, SET_TOTAL_TIME, SET_TOTAL_DISTANCE,
-  ADD_ROUTE, DELETE_ROUTE
+  SET_RIVAL, REMOVE_RIVAL, ADD_ROUTE, DELETE_ROUTE
 } from '../actions/session';
 
 const initialState = { user: null, rivals: [] };
@@ -19,6 +19,16 @@ const sessionReducer = (state = initialState, action) => {
     case SET_RIVALS:
       newState = Object.assign({}, state);
       newState.rivals = [...action.payload]
+      return newState
+    case SET_RIVAL:
+      newState = Object.assign({}, state);
+      newState.rivals = [...newState.rivals, action.payload]
+      return newState
+    case REMOVE_RIVAL:
+      newState = Object.assign({}, state);
+      const newRivals = newState.rivals.filter((rival) => rival.id !== action.payload.id)
+      console.log("new Rivals", newRivals)
+      newState.rivals = newRivals
       return newState
     case SET_ROUTES:
       newState = Object.assign({}, state);

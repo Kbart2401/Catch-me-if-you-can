@@ -17,6 +17,7 @@ import Container from "@material-ui/core/Container";
 import { Select } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import { de } from "date-fns/locale";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -78,12 +79,11 @@ const SignUpForm = (props) => {
 
   const onSignUp = (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      dispatch(sessionActions.signupUser({ firstname, lastname, gender, email, height, weight, password }))
-      history.push('/')
-    } else {
-      setErrors(['Please confirm your inputs are valid'])
-    }
+    if (frontEndValidation()) return
+    dispatch(sessionActions.signupUser({ firstname, lastname, gender, email, height, weight, password }))
+      .catch(res => {
+        if (res.errors) return setErrors(res.errors)
+      })
   };
 
   const handleChange = prop => e => {
@@ -121,13 +121,31 @@ const SignUpForm = (props) => {
     setIsLoaded(true)
   }, [])
 
+  const frontEndValidation = () => {
+    let signupErrors = []
+    if (password !== confirmPassword) {
+      signupErrors.push('Passwords do not match')
+      setErrors([...signupErrors])
+      return true
+    }
+  }
+
   return isLoaded && (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography className='header-font' component="h1" variant="h5">
           Sign Up
 				</Typography>
+        <div>
+          <ul style={{ color: 'red', listStyleType: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {errors.map(error => (
+              <li key={error}>
+                <Typography >{error}</Typography>
+              </li>
+            ))}
+          </ul>
+        </div>
         <form className={classes.form} onSubmit={onSignUp}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

@@ -2,6 +2,7 @@
 body.body {
   border: 0px 0px;
   background-color: #EBF8FF;
+  margin-bottom: 0%;
 }
 
 h5.header-font, h1.header-font {
@@ -10,8 +11,27 @@ h5.header-font, h1.header-font {
   color: #3f51b5
 }
 
-.dashboard-username.font {
+.dashboard-font {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-font.username {
+  font-size: 35px;
   color: #63B3ED;
-  text-shadow: 0px 0px 2px #3f51b5;
-  font-size: 40px;
+  text-shadow: -1px 1px 2px #3f51b5,
+  1px 1px 2px #3f51b5,
+  1px -1px 0px #3f51b5,
+  -1px -1px 0px #3f51b5
+}
+
+.dashboard-font h5  {
+  color: #3f51b5;
+  font-weight: 550;
+}
+
+.header-font.create-route {
+  margin: 15px 0;
 }

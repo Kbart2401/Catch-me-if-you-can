@@ -4,10 +4,9 @@ import { useHistory } from "react-router-dom";
 import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import EndPin from './EndPin';
 import StartPin from './StartPin';
-import { css } from '@emotion/core';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
-import './Map.css';
-import { de } from "date-fns/locale";
+import './CreateMap.css';
+import { Typography } from '@material-ui/core';
 const mapboxAPI = process.env.REACT_APP_MAPBOX
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE
 
@@ -46,9 +45,11 @@ const CreateMap = () => {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(success, error);
+    if (user && user.email === 'demo@aa.io') {
+      success({ coords: { latitude: 39.9763752, longitude: -82.9238448 } })
+    }
+    else navigator.geolocation.getCurrentPosition(success, error);
   }, []);
-
 
   //api request to the mapbox directions with SDK JS 
   useEffect(() => {
@@ -57,7 +58,7 @@ const CreateMap = () => {
         return {
           coordinates: [marker[0], marker[1]]
         }
-      }); 
+      });
       directionsClient.getDirections({
         profile: 'walking',
         geometries: 'geojson',
@@ -100,7 +101,7 @@ const CreateMap = () => {
           markers[markers.length - 1][0] = lonEnd;
           markers[markers.length - 1][1] = latEnd;
           setName(nameArr);
-          setDistance(dist.toFixed(2));
+          setDistance(dist.toFixed(0));
           setRouteData({ ...geojson });
           setIsLoaded(true);
         });
@@ -125,22 +126,22 @@ const CreateMap = () => {
 
   //submit for saving route to database 
   async function clickSubmit() {
-      const res = await fetch('/api/routes/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: user.id,
-            routeCoordinates: markers,
-            name: routeName,
-            distance
-        })
+    const res = await fetch('/api/routes/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: user.id,
+        routeCoordinates: markers,
+        name: routeName,
+        distance
       })
-      const data = await res.json(); 
-      if (data) {
-        history.push({pathname: '/my-routes', state: data});
-      }
+    })
+    const data = await res.json();
+    if (data) {
+      history.push({ pathname: '/my-routes', state: data });
+    }
   };
 
   return (
@@ -148,7 +149,7 @@ const CreateMap = () => {
       {!mapLoad &&
         <>
           <div style={{
-            display: 'flex', backgroundColor: 'white', position: 'absolute',
+            display: 'flex', backgroundColor: '#EBF8FF', position: 'absolute',
             top: '50%', right: '50%', marginRight: '-50px'
           }}>
             <ClimbingBoxLoader size='50px' color='#3f51b5' />
@@ -156,14 +157,21 @@ const CreateMap = () => {
         </>}
       { mapLoad &&
         <>
-          <h1 className='header-font'>Create Route</h1>
-          <div className={"map_container"}>
-            <div className={"panel"}>
-              <label className={"panel__distance"}>
+          <h5 className='header-font create-route'>Create Route</h5>
+          <div className={"mapcreate_container"}>
+            <Typography style={{width: '65vw', paddingBottom: '10px', display: 'block'}}>Begin by clicking on the map to set your starting point. From there, you can click up to another 24 points onto the map
+              to complete your route. Once you are happy with it, either click to submit your route or reset to refresh and start again. 
+            </Typography>
+            <div className={"mapcreate_panel"}>
+              <p className={"panel__route"}>
                 Route Name:
-                    <input type="text" value={routeName} onChange={(e) => setRouteName(e.target.value)} style={{ width: '100px', 'margin-left': '5px' }} />
-              </label>
-              <p className={"panel__distance"}>Distance <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(meters)</span>: {distance}</p>
+                <p>
+                  <input type="text" value={routeName} onChange={(e) => setRouteName(e.target.value)} style={{ width: '100px', marginBottom: '0' }} />
+                </p>
+              </p>
+              <p className={"panel__distance"}>Distance 
+                <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(meters)</span>: {distance}
+              </p>
               <button className={'panel__reset'} onClick={clickReset}>
                 <p>Reset Route</p>
               </button>
