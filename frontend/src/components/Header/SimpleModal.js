@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 
@@ -7,36 +7,40 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: '4px solid #63B3ED',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
+    backgroundColor: '#3f51b5',
+    color: 'white'
   },
 }));
 
-const SimpleModal = () => {
+const SimpleModal = (props) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
 
-  const handleOpen = () => {
-    setOpen(true)
-  }
+  useEffect(() => {
+    if (props.modal === true) setOpen(true)
+  }, [props])
 
   const handleClose = () => {
     setOpen(false)
+    props.setModal(false)
   }
 
   const body = (
     <div className={classes.paper}>
-      <h2 id='simple-modal-title'>Some text</h2>
-      <p id='simple-modal-description'>Something else here</p>
+      <h2 id='simple-modal-title' style={{textAlign: 'center', fontSize: '30px'}}>Log In Required</h2>
+      <p id='simple-modal-description' style={{fontSize:'20px'}}>Please log in or sign-up to interact with the application</p>
     </div>
   )
 
   return (
     <div>
-      <button type='button' onClick={handleOpen}>Open Modal</button>
       <Modal open={open} onClose={handleClose} aria-labelledby='simple-modal-title'
-      aria-describedby='simple-modal-description'>
+        aria-describedby='simple-modal-description'
+        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         {body}
       </Modal>
     </div>

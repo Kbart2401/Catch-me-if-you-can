@@ -94,6 +94,7 @@ const Header = (props) => {
   const [user, setUser] = useState(props.user)
   const [anchorEl, setAnchorEl] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [modal, setModal] = useState(false)
   const isMenuOpen = Boolean(anchorEl);
 
   const handleMenuOpen = (e) => {
@@ -117,6 +118,10 @@ const Header = (props) => {
     dispatch(sessionActions.logoutUser())
     handleMenuClose()
     history.push('/')
+  }
+
+  const openModal = () => {
+    setModal(true)
   }
 
   const switchStatement = (id) => {
@@ -178,7 +183,7 @@ const Header = (props) => {
         {/* MIDDLE */}
         <div className={classes.navBar_middle}>
           <div className={classes.navBar_navContainer}>
-            {user ? ( 
+            {user ? (
               <>
                 <Button onClick={() => handleNavClick(`/dashboard/${user.id}`)}>
                   <Typography>Dashboard</Typography>
@@ -196,9 +201,9 @@ const Header = (props) => {
                   <Typography>Community</Typography>
                 </Button>
               </>
-            ) : (<><Button><Typography>Dashboard</Typography></Button>
-            <Button><Typography>Routes</Typography></Button>
-            <Button><Typography>Community</Typography></Button></>)
+            ) : (<><SimpleModal modal={modal} setModal={setModal} /><Button onClick={openModal}><Typography>Dashboard</Typography></Button>
+              <Button onClick={openModal}><Typography>Routes</Typography></Button>
+              <Button onClick={openModal}><Typography>Community</Typography></Button></>)
             }
           </div>
         </div>
