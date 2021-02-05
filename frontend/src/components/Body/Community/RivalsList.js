@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
 import * as sessionActions from "../../../store/actions/session.js";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 // MUI
 import SearchBar from "material-ui-search-bar";
-import { flexbox } from "@material-ui/system";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import { Box, Button } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import Table from "@material-ui/core/Table";
@@ -113,8 +104,6 @@ const RivalsList = () => {
 					flexDirection="row"
 					px={6}
 					pt={4}
-					// justifyContent="space-between"
-					// overflow="hidden"
 				>
 					<Box mr={6} width="271.8px">
 						{/* {query && ( */}
@@ -122,14 +111,12 @@ const RivalsList = () => {
 							<Table
 								className={classes.table}
 								aria-label="simple table"
-								// justifyContent="flex-end"
 							>
 								<TableHead>
 									<TableRow>
 										<TableCell>
 											<Typography
 												className={classes.tableCell}
-												
 												noWrap={true}
 												component="h2"
 												variant="h5"
@@ -160,7 +147,6 @@ const RivalsList = () => {
 												</TableCell>
 											</TableRow>
 										</>
-										// </ListItem>
 									))}
 								</TableBody>
 							</Table>
@@ -212,7 +198,6 @@ const RivalsList = () => {
 						</TableContainer>
 					</Box>
 				</Box>
-				{/* </TableContainer> */}
 			</Box>
 		)
 	);
