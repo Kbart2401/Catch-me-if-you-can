@@ -32,7 +32,8 @@ const SimpleModal = (props) => {
   const body = (
     <div className={classes.paper}>
       <h2 id='simple-modal-title' style={{textAlign: 'center', fontSize: '30px'}}>Log In Required</h2>
-      <p id='simple-modal-description' style={{fontSize:'20px'}}>Please log in or sign-up to interact with the application</p>
+      <p id='simple-modal-description' style={{fontSize:'20px'}}>Please log in or sign-up to get the full experience with the application <br /><br/>
+        <div style={{fontSize: '15px'}}>A demo user is available for those wanting to tour the site</div></p>
     </div>
   )
 
