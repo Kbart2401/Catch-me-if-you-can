@@ -37,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
 	table: {
 		minWidth: "auto",
 	},
+	tableCell: {
+		width: "143px",
+		overflow: "visible"
+	},
 }));
 
 const RivalsList = () => {
@@ -45,11 +49,9 @@ const RivalsList = () => {
 	const loadedRivals = useSelector((state) => state.session.rivals);
 	const user = useSelector((state) => state.session.user);
 	const [isLoaded, setIsLoaded] = useState(false);
-	const [rivals, setRivals] = useState([]);
 	const [users, setUsers] = useState([]);
 	const [query, setQuery] = useState("");
 	const classes = useStyles();
-	const [checked, setChecked] = React.useState([0]);
 	console.log("Loaded Rivals", loadedRivals);
 
 	useEffect(() => {
@@ -68,7 +70,12 @@ const RivalsList = () => {
 	};
 
 	function addRivalButton(rival) {
-		dispatch(sessionActions.addRival(user, rival));
+		let rivalCheck = loadedRivals.find((lRival) => lRival.id === rival.id);
+		console.log("Rival check:", rivalCheck)
+		if (!rivalCheck) {
+			dispatch(sessionActions.addRival(user, rival));
+		}
+		
 	}
 
 	function removeRival(rival) {
@@ -106,11 +113,12 @@ const RivalsList = () => {
 					flexDirection="row"
 					px={6}
 					pt={4}
-					justifyContent="space-between"
+					// justifyContent="space-between"
+					// overflow="hidden"
 				>
-					<Box  mr={6} width="270px">
+					<Box mr={6} width="271.8px">
 						{/* {query && ( */}
-						<TableContainer component={Paper} >
+						<TableContainer component={Paper}>
 							<Table
 								className={classes.table}
 								aria-label="simple table"
@@ -118,35 +126,40 @@ const RivalsList = () => {
 							>
 								<TableHead>
 									<TableRow>
-										<TableCell width="100%">
-											<Typography >
-												Search Results{" "}
+										<TableCell>
+											<Typography
+												className={classes.tableCell}
+												
+												noWrap={true}
+												component="h2"
+												variant="h5"
+											>
+												Search Results
 											</Typography>
 										</TableCell>
-										<TableCell>{" "}</TableCell>
+										<TableCell> </TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
 									{users.map((user) => (
-										// <ListItem key={user.id}>
-										<TableRow>
-											<TableCell>
-												<Button
-													onClick={() => {
-														handleClick(user.id);
-													}}
-												>
-													{user.first_name}
-												</Button>
-											</TableCell>
-											<TableCell>
-												{/* <Typography> */}
-													<Button>
+										<>
+											<TableRow key={user.id}>
+												<TableCell>
+													<Button
+														onClick={() => {
+															handleClick(user.id);
+														}}
+													>
+														{user.first_name}
+													</Button>
+												</TableCell>
+												<TableCell>
+													<Button align="right">
 														<AddIcon onClick={() => addRivalButton(user)} />
 													</Button>
-												{/* </Typography> */}
-											</TableCell>
-										</TableRow>
+												</TableCell>
+											</TableRow>
+										</>
 										// </ListItem>
 									))}
 								</TableBody>
@@ -174,6 +187,7 @@ const RivalsList = () => {
 												<TableRow key={rival.id} dense button>
 													<TableCell>
 														<Button
+															width="50px"
 															onClick={() => {
 																handleClick(rival.id);
 															}}
