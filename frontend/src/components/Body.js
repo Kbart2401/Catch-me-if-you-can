@@ -36,8 +36,8 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => {
 
 const useStyles = makeStyles(() => ({
   paper: {
-    display: 'flex',
-    justifyContent: 'center',
+    // display: 'flex',
+    // justifyContent: 'center',
 
     backgroundColor: '#e9ecef',
     padding: '1rem',

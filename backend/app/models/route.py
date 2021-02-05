@@ -24,5 +24,5 @@ class Route(db.Model):
             "user_creator": self.user_creator,
             "route_coordinates": self.route_coordinates,
             "distance": self.distance,
-            "date_created": self.date_created
+            "date_created": self.date_created, 
         }
