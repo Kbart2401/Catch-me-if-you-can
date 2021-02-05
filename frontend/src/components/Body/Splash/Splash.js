@@ -102,7 +102,7 @@ const useStyles = makeStyles(() => ({
     height: '55rem',
 
     fontSize: '2rem',
-    color: 'white',
+    color: 'black',
     fontFamily: '\'helvetica\' sans-serif',
     fontWeight: '1000',
   },
@@ -200,13 +200,16 @@ const Splash = () => {
 
       <IntroSeq>
         <Clip1 className={classes.clip}>
-          <h1>New area and dont know the roads?</h1>
+          <h1>Dont know</h1>
+          <h1>the roads?</h1>
+          <h1>New area?</h1>
         </Clip1>
         <Clip2 className={classes.clip}>
-          <h1>Wanting to track your progress?</h1>
+          <h1>Wanting to track </h1>
+          <h1>your progress?</h1>
         </Clip2>
         <Clip3 className={classes.clip}>
-          <h1 style={{ color: 'white' }}>Dont want to get too far in the middle of nowhere?</h1>
+          <h1 style={{ color: 'white' }}>Losing your competitive spirit?</h1>
         </Clip3>
       </IntroSeq>
 
@@ -298,7 +301,6 @@ const Splash = () => {
           <Button variant='outlined' onClick={() => handleClick()}>Get Started</Button>
         </PicContainer>
       </Card>
-
     </div>
   )
 }

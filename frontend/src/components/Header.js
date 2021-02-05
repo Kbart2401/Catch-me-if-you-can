@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateAreas: '\'left middle right\'',
     justifyContent: 'space-between',
 
+    maxWidth: '1800px',
     minWidth: '1200px',
     padding: '0.5rem',
     borderBottom: '3px solid #e9ecef',
