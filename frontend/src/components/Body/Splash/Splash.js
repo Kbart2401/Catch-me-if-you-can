@@ -94,16 +94,17 @@ const useStyles = makeStyles(() => ({
 
   clip: {
     position: 'absolute',
-    top: '15rem',
-    left: '30rem',
+    top: '63rem',
+    left: '50%',
 
     transition: '0.5s',
     width: '95rem',
     height: '55rem',
+    margin: 'calc((95rem / 2) * -1)',
 
     fontSize: '2rem',
     color: 'black',
-    fontFamily: '\'helvetica\' sans-serif',
+    fontFamily: 'helvetica sans-serif',
     fontWeight: '1000',
   },
 
