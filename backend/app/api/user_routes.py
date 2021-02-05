@@ -34,6 +34,12 @@ def runCount(id):
         desc(RunTime.date_ran)).all()
     user = User.query.get(id).to_dict()
 
+    # get user created routes
+    routes = Route.query.filter_by(user_creator=id).all()
+    keys = [route.id for route in routes]
+    my_routes = [route.to_dict() for route in routes]
+    dict_routes = dict(zip(keys, my_routes))
+
     # get total distance ran
     total_distance = Route.query.join(RunTime).filter(
         RunTime.user_id == id).all()
@@ -88,7 +94,7 @@ def runCount(id):
         recent_runs[i]['distance'] = routes[i]['distance']
 
     obj = {'run_count': runs, 'recent_run': recent_runs if (recent_runs) else None,
-           'first_name': user['first_name'], 'last_name': user['last_name'], 'week_data': weekData, 'total_distance': user_total_distance_ran, 'total_runtime': user_total_run_time}
+           'first_name': user['first_name'], 'last_name': user['last_name'], 'week_data': weekData, 'total_distance': user_total_distance_ran, 'total_runtime': user_total_run_time, "created_routes": dict_routes}
 
     return obj
 
