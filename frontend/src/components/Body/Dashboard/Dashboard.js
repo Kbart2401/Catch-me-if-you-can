@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import * as sessionActions from "../../../store/actions/session.js";
+import { useDispatch } from "react-redux";
 
 //Components
 import BarGraph from './Graph';
@@ -79,7 +81,9 @@ const useStyles = makeStyles(() => ({
 const Dashboard = (props) => {
   const classes = useStyles()
   const user = useSelector(state => state.session.user)
+  const rivals = useSelector(state => state.session.rivals)
   const userId = parseInt(useParams().userId)
+  const dispatch = useDispatch();
 
   const [isLoaded, setIsLoaded] = useState(false)
   const [dashboardData, setDashboardData] = useState({})
@@ -166,6 +170,9 @@ const Dashboard = (props) => {
         <Typography className='dashboard-font username'>{(dashboardData.first_name && dashboardData.last_name) ? `${dashboardData.first_name} ${dashboardData.last_name}` : ''}</Typography>
         {
           (user.id !== userId) && <Button variant="outlined"><Typography>Make Rival</Typography></Button>
+        }
+        {
+          (user.id !== userId) && <Button variant="outlined"><Typography>Remove Rival</Typography></Button>
         }
       </div>
 

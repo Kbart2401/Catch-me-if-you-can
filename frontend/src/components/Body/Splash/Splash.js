@@ -266,7 +266,7 @@ const Splash = () => {
         }}>
           <p style={{ color: 'black', }}>
             Climb the leaderboards
-            of new found motivation
+            of newfound motivation
         </p>
         </PicContainer>
       </Card>
