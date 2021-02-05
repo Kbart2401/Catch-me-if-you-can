@@ -21,6 +21,7 @@ import Paper from "@material-ui/core/Paper";
 
 //custom components
 import RivalModal from "./RivalModal";
+import UserModal from "./UserModal.js";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -46,6 +47,7 @@ const RivalsList = () => {
 	const [users, setUsers] = useState([]);
 	const [query, setQuery] = useState("");
 	const [modal, setModal] = useState(false);
+	const [userModal, setUserModal] = useState(false);
 	const classes = useStyles();
 	console.log("Loaded Rivals", loadedRivals);
 
@@ -69,8 +71,12 @@ const RivalsList = () => {
 
 	function addRivalButton(rival) {
 		let rivalCheck = loadedRivals.find((lRival) => lRival.id === rival.id);
-		console.log("Rival check:", rivalCheck);
-		if (!rivalCheck) {
+		// let rivalCheck = loadedRivals.find((lRival) => lRival.id === rival.id || user.id === rival.id);
+		let userCheck = loadedRivals.find((lRival) => user.id === rival.id);
+		if (userCheck) {
+			setUserModal(true)
+		}
+		else if (!rivalCheck) {
 			dispatch(sessionActions.addRival(user, rival));
 		} else {
 			setModal(true)
@@ -141,7 +147,7 @@ const RivalsList = () => {
 															handleClick(user.id);
 														}}
 													>
-														{user.first_name}
+														{user.first_name} {user.last_name.slice(0, 1)}
 													</Button>
 												</TableCell>
 												<TableCell>
@@ -149,6 +155,10 @@ const RivalsList = () => {
 														<AddIcon onClick={() => addRivalButton(user)} />
 													</Button>
 													<RivalModal modal={modal} setModal={setModal} />
+													<UserModal
+														modal={userModal}
+														setModal={setUserModal}
+													/>
 												</TableCell>
 											</TableRow>
 										</>
@@ -183,7 +193,7 @@ const RivalsList = () => {
 																handleClick(rival.id);
 															}}
 														>
-															{rival.first_name}
+															{rival.first_name} {rival.last_name.slice(0, 1)}
 														</Button>
 													</TableCell>
 													<TableCell>
