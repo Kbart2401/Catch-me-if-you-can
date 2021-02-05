@@ -18,20 +18,19 @@ const useStyles = makeStyles(theme => ({
     gridAutoFlow: 'row',
     gridTemplateRows: 'auto 1fr auto',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyItems: 'center',
+    // justifySelf: 'center',
 
     minHeight: '96vh',
+
     padding: '2rem',
     gap: '2rem',
-    // width: 'fit-content',
   },
   rootContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-
-    // width: 'fit-content',
   }
 }))
 

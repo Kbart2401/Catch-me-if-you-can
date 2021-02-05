@@ -28,155 +28,145 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		width: "100%",
-		maxWidth: 360,
-		backgroundColor: theme.palette.background.paper,
-	},
-	table: {
-		minWidth: 650,
-	},
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  table: {
+    minWidth: 650,
+  },
 }));
 
 const RivalsList = () => {
-	const dispatch = useDispatch();
-	const history = useHistory();
-	const loadedRivals = useSelector((state) => state.session.rivals);
-	const user = useSelector((state) => state.session.user);
-	const [isLoaded, setIsLoaded] = useState(false);
-	const [rivals, setRivals] = useState([]);
-	const [users, setUsers] = useState([]);
-	const [query, setQuery] = useState("");
-	const classes = useStyles();
-	const [checked, setChecked] = React.useState([0]);
-	console.log("Loaded Rivals", loadedRivals);
-	// const loadedRivals2 = loadedRivals[0];
-	// console.log("Loaded Rivals2", loadedRivals2);
-	// useEffect(() => {
-	// 	if (user) {
-	// 		dispatch(sessionActions.retrieveRivals(user.id))
-	// 			// .then((data) => setRivals(data.rivals))
-	// 			.then(setIsLoaded(true));
-	// 	}
-	// }, [user]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const loadedRivals = useSelector((state) => state.session.rivals);
+  const user = useSelector((state) => state.session.user);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [rivals, setRivals] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState("");
+  const classes = useStyles();
+  const [checked, setChecked] = React.useState([0]);
 
-	useEffect(() => {
-		dispatch(sessionActions.retrieveUsers())
-			.then((data) => {
-				const results = data.users.filter((user) => checkSearch(user));
-				setUsers(results);
-			})
-			.then(setIsLoaded(true));
-	}, [query]);
+  useEffect(() => {
+    dispatch(sessionActions.retrieveUsers())
+      .then((data) => {
+        const results = data.users.filter((user) => checkSearch(user));
+        setUsers(results);
+      })
+      .then(setIsLoaded(true));
+  }, [query]);
 
-	const checkSearch = (searchObj) => {
-		if (query !== "") {
-			return Object.values(searchObj).includes(query);
-		}
-	};
+  const checkSearch = (searchObj) => {
+    if (query !== "") {
+      return Object.values(searchObj).includes(query);
+    }
+  };
 
-	function addRivalButton(rival) {
-		dispatch(sessionActions.addRival(user, rival));
-	}
-	// function addRival(rival) {
-	// 	fetch("/api/rivals/", {
-	// 		method: "POST",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify({
-	// 			id: user.id,
-	// 			rival_id: rival.id,
-	// 		}),
-	// 	});
-	// 	// setRivals([...rivals, rival])
-	// }
-	// function removeRival(rivalId) {
-	// 	fetch("/api/rivals/", {
-	// 		method: "DELETE",
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 		},
-	// 		body: JSON.stringify({
-	// 			id: user.id,
-	// 			rival_id: rivalId,
-	// 		}),
-	// 	});
-	// }
-	function removeRival(rival) {
-		dispatch(sessionActions.deleteRival(user, rival));
-	}
+  function addRivalButton(rival) {
+    dispatch(sessionActions.addRival(user, rival));
+  }
+  // function addRival(rival) {
+  // 	fetch("/api/rivals/", {
+  // 		method: "POST",
+  // 		headers: {
+  // 			"Content-Type": "application/json",
+  // 		},
+  // 		body: JSON.stringify({
+  // 			id: user.id,
+  // 			rival_id: rival.id,
+  // 		}),
+  // 	});
+  // 	// setRivals([...rivals, rival])
+  // }
+  // function removeRival(rivalId) {
+  // 	fetch("/api/rivals/", {
+  // 		method: "DELETE",
+  // 		headers: {
+  // 			"Content-Type": "application/json",
+  // 		},
+  // 		body: JSON.stringify({
+  // 			id: user.id,
+  // 			rival_id: rivalId,
+  // 		}),
+  // 	});
+  // }
+  function removeRival(rival) {
+    dispatch(sessionActions.deleteRival(user, rival));
+  }
 
-	const handleClick = (userId) => {
-		history.push(`/users/${userId}`);
-	};
+  const handleClick = (userId) => {
+    history.push(`/users/${userId}`);
+  };
 
-	// const clickSearch = (user) => {
-	//     setRivals(user)
-	// }
+  // const clickSearch = (user) => {
+  //     setRivals(user)
+  // }
 
-	return (
-		isLoaded && (
-			<TableContainer component={Paper}>
-				<Table className={classes.table} aria-label="simple table">
-					<Typography component="h1" variant="h5">
-						Search for new rivals:
+  return (
+    isLoaded && (
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <Typography component="h1" variant="h5">
+            Search for new rivals:
 					</Typography>
-					<SearchBar
-						placeholder="Enter rival's name "
-						value={query}
-						onChange={(term) => setQuery(term)}
-					/>
-					<Typography component="h1" variant="h5">
-						Search Results:{" "}
-					</Typography>
-					<TableBody>
-						{users.map((user) => (
-							<ListItem key={user.id}>
-								<Typography>
-									<Button
-										onClick={() => {
-											handleClick(user.id);
-											// clickSearch(user)
-										}}
-									>
-										{user.first_name}
-									</Button>
-									<Button align="right">
-										<AddIcon onClick={() => addRivalButton(user)} />
-									</Button>
-								</Typography>
-							</ListItem>
-						))}
-					</TableBody>
-					<Typography component="h1" variant="h5">
-						Current rivals:{" "}
-					</Typography>
-					<TableBody>
-						{loadedRivals &&
-							loadedRivals.map((rival) => (
-								<>
-									<TableRow key={rival.id} dense button>
-										<Typography>
-											<Button
-												onClick={() => {
-													handleClick(rival.id);
-												}}
-											>
-												{rival.first_name}
-											</Button>
-											<Button align="right">
-												<ClearIcon
-													onClick={() => {
-														removeRival(rival);
-													}}
-												/>
-											</Button>
-										</Typography>
-									</TableRow>
-								</>
-							))}
-						{/* {loadedRivals2 &&
+          <SearchBar
+            placeholder="Enter rival's name "
+            value={query}
+            onChange={(term) => setQuery(term)}
+          />
+          <Typography component="h1" variant="h5">
+            Search Results:{" "}
+          </Typography>
+          <TableBody>
+            {users.map((user) => (
+              <ListItem key={user.id}>
+                <Typography>
+                  <Button
+                    onClick={() => {
+                      handleClick(user.id);
+                      // clickSearch(user)
+                    }}
+                  >
+                    {user.first_name}
+                  </Button>
+                  <Button align="right">
+                    <AddIcon onClick={() => addRivalButton(user)} />
+                  </Button>
+                </Typography>
+              </ListItem>
+            ))}
+          </TableBody>
+          <Typography component="h1" variant="h5">
+            Current rivals:{" "}
+          </Typography>
+          <TableBody>
+            {loadedRivals &&
+              loadedRivals.map((rival) => (
+                <>
+                  <TableRow key={rival.id} dense button>
+                    <Typography>
+                      <Button
+                        onClick={() => {
+                          handleClick(rival.id);
+                        }}
+                      >
+                        {rival.first_name}
+                      </Button>
+                      <Button align="right">
+                        <ClearIcon
+                          onClick={() => {
+                            removeRival(rival);
+                          }}
+                        />
+                      </Button>
+                    </Typography>
+                  </TableRow>
+                </>
+              ))}
+            {/* {loadedRivals2 &&
 							loadedRivals2.map((rival) => (
 								<>
 									<TableRow key={rival.id} dense button>
@@ -199,11 +189,11 @@ const RivalsList = () => {
 									</TableRow>
 								</>
 							))} */}
-					</TableBody>
-				</Table>
-			</TableContainer>
-		)
-	);
+          </TableBody>
+        </Table>
+      </TableContainer>
+    )
+  );
 };
 
 export default RivalsList;

@@ -33,26 +33,52 @@ def runCount(id):
     recent_runs = RunTime.query.filter_by(user_id=id).order_by(
         desc(RunTime.date_ran)).all()
     user = User.query.get(id).to_dict()
-    # userName = userName.to_dict()
 
+    # get total distance ran
+    total_distance = Route.query.join(RunTime).filter(
+        RunTime.user_id == id).all()
+    if total_distance:
+        if isinstance(total_distance, list):
+            def distances(distance):
+                return distance.distance
+            user_distances = map(distances, total_distance)
+            user_total_distance_ran = sum(user_distances)
+        else:
+            user_total_distance_ran = total_distance.distance
+
+    # get total running time
+    total_times = RunTime.query.filter_by(user_id=id).all()
+    if total_times:
+        if isinstance(total_times, list):
+            def run_times(total_time):
+                return total_time.time
+            user_times = map(run_times, total_times)
+            user_total_run_time = sum(user_times)
+        else:
+            user_total_run_time = total_times.time
+
+    # filter runs for specific time frame
     recent_runs = [run.to_dict() for run in recent_runs]
     recent_runs = [run for run in recent_runs if (
         (datetime.today() - run['date_ran']).days <= 7)]
 
     weekData = {
-        'Mon': [],
-        'Tue': [],
-        'Wed': [],
-        'Thu': [],
-        'Fri': [],
-        'Sat': [],
-        'Sun': [],
+        'days': {
+            'Mon': [],
+            'Tue': [],
+            'Wed': [],
+            'Thu': [],
+            'Fri': [],
+            'Sat': [],
+            'Sun': [],
+        },
+        'dayOrder': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     }
 
     for i in range(len(recent_runs)):
         currentDay = recent_runs[i]['date_ran'].weekday()
-        currentDay = list(weekData.keys())[currentDay]
-        weekData[currentDay].append(recent_runs[i])
+        currentDay = list(weekData['days'].keys())[currentDay]
+        weekData['days'][currentDay].append(recent_runs[i])
 
     routes = [Route.query.get(run_time['route_id']).to_dict()
               for run_time in recent_runs]
@@ -62,7 +88,7 @@ def runCount(id):
         recent_runs[i]['distance'] = routes[i]['distance']
 
     obj = {'run_count': runs, 'recent_run': recent_runs if (recent_runs) else None,
-           'first_name': user['first_name'], 'last_name': user['last_name'], 'week_data': weekData, }
+           'first_name': user['first_name'], 'last_name': user['last_name'], 'week_data': weekData, 'total_distance': user_total_distance_ran, 'total_runtime': user_total_run_time}
 
     return obj
 
@@ -76,7 +102,7 @@ def user():
         # get user created routes
         data = Route.query.filter_by(user_creator=user.id).all()
 
-        #added extra code here for turning created routes into a dict for easier access  
+        # added extra code here for turning created routes into a dict for easier access
         keys = [route.id for route in data]
         my_routes = [route.to_dict() for route in data]
         dict_routes = dict(zip(keys, my_routes))
