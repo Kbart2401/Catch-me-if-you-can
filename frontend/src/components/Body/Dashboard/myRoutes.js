@@ -37,8 +37,8 @@ const RouteTables = ({ routes }) => {
                 {routes[key].name}
               </Button></Typography>
             </TableCell>
-            <TableCell align="right">{routes[key].distance}</TableCell>
-            <TableCell align="right">{routes[key].runners}</TableCell>
+            <TableCell align="right">{routes[key].distance.toFixed(0)}</TableCell>
+            <TableCell align="right">{routes[key]?.runners || 0}</TableCell>
           </TableRow>
         ))
       }

@@ -9,7 +9,7 @@ import Routes from './Body/RoutesPage/Route';
 import MyRoutes from './Body/Dashboard/myRoutes';
 import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
-import Splash from './Body/Splash';
+import Splash from './Body/Splash/Splash';
 import User from './Body/Profile';
 import UsersList from './Body/UsersList';
 import RivalsList from './Body/Community/RivalsList';
@@ -36,8 +36,12 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => {
 
 const useStyles = makeStyles(() => ({
   paper: {
+    // display: 'flex',
+    // justifyContent: 'center',
+
     backgroundColor: '#e9ecef',
     padding: '1rem',
+    width: 'fit-content',
   },
 }))
 
@@ -53,7 +57,7 @@ const Body = (props) => {
   }, [props.user])
 
   return isLoaded && (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', }}>
       <Paper className={classes.paper} elevation={0}  >
         <Switch>
           <Route exact path="/" render={props => <Splash {...props} />} />

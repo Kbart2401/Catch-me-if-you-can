@@ -12,6 +12,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@turf/turf": "^5.1.6",
+    "aos": "^2.3.4",
     "chart.js": "^2.9.4",
     "date-fns": "^2.8.1",
     "dotenv": "^8.2.0",
@@ -26,7 +27,8 @@
     "react-scripts": "3.4.3",
     "react-spinners": "^0.10.4",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

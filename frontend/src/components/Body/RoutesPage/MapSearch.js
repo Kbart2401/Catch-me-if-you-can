@@ -3,13 +3,15 @@ import ReactMapGL, { Marker, Layer, Source, Popup } from "react-map-gl";
 import { useHistory } from 'react-router-dom';
 import SearchPin from './SearchPin';
 import { useSelector } from 'react-redux';
-import './Map.css';
+import './MapSearch.css';
 import * as turf from '@turf/turf';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
+import { Typography } from '@material-ui/core';
 const mapboxAPI = process.env.REACT_APP_MAPBOX;
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
 const MapSearch = () => {
+  const user = useSelector((state) => state.session.user)
   const [viewport, setViewport] = useState({});
   //set circle coordinates
   const [point, setPoint] = useState([])
@@ -46,8 +48,8 @@ const MapSearch = () => {
       latitude: crd.latitude,
       longitude: crd.longitude,
       zoom: 11,
-      width: "50vw",
-      height: "80vh",
+      width: "65vw",
+      height: "65vh",
     })
     setMapLoad(true)
   };
@@ -56,7 +58,12 @@ const MapSearch = () => {
     alert(`ERROR(${err.code}): ${err.message}`);
   };
 
-  navigator.geolocation.getCurrentPosition(success, error);
+  useEffect(() => {
+    if (user && user.email === 'demo@aa.io') {
+      success({ coords: { latitude: 39.9763752, longitude: -82.9238448 } })
+    }
+    else navigator.geolocation.getCurrentPosition(success, error);
+  }, []);
 
   //click event for dropping marker on map && creating radius
   function clickLocation(event) {
@@ -156,14 +163,18 @@ const MapSearch = () => {
       { mapLoad &&
         <>
           <h5 className='header-font create-route'>Find a Route</h5>
+          <Typography style={{maxWidth: '65vw', paddingBottom: '10px'}}>Choose a location on the map, set the search radius and then press the
+          search button to find all the registered routes in the area.  
+          </Typography>
           <div className={"map_container"}>
             <form className={"panel"} onSubmit={findRuns}>
               <label className={"panel__distance"}>
-                Search Radius <span style={{ 'font-size': 15, 'font-weight': 'normal' }}>(km)</span>
+                Search Radius: 
                 <input type="number" min="1" max="15" style={{ width: '30px', 'margin-left': '5px' }} value={radius} onChange={e => setRadius(e.target.value)} />
+                <span style={{ 'font-size': 15, 'font-weight': 'normal' }}> km</span>
               </label>
               <button className={'panel__search'} onClick={findRuns}>
-                Search for Runs
+                Search for Routes
         </button>
           </form>
           <ReactMapGL {...viewport}

@@ -14,21 +14,24 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '1200px',
     display: 'grid',
     gridAutoFlow: 'row',
+    gridTemplateRows: 'auto 1fr auto',
     alignItems: 'center',
+    justifyContent: 'center',
+
     minHeight: '96vh',
     padding: '2rem',
     gap: '2rem',
-    gridTemplateRows: 'auto 1fr auto',
+    // width: 'fit-content',
   },
   rootContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100vw'
+
+    // width: 'fit-content',
   }
 }))
 
