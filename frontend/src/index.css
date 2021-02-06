@@ -36,6 +36,80 @@ h5.header-font, h1.header-font {
   margin: 15px 0;
 }
 
+.bad-request-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  min-width: 1000px;
+  min-height: 500px;
+  position: relative; 
+}
+
+.bad-request-container video {
+  position: absolute;
+  width: 1200px;
+  right: -100px
+}
+
+.bad-request-img {
+  height: 400px;
+  width: 400px;
+  z-index: 1;
+  position: absolute;
+  right: 28%;
+  top: 35%;
+  border: 2px solid #3f51b5;
+  border-radius: 5px;
+  box-shadow: 0 0 5px 5px #3f51b5;
+  transition: all 4s 8s;
+}
+
+.bad-request-img.begin {
+  height: 0px;
+  width: 0px;
+}
+
+.bad-request-container div {
+  z-index: 2;
+  color: white;
+  position: absolute;
+}
+
 .bad-request-header {
-  font-size: 48px;
+  font-size: 60px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.header1 {
+  top: -10%;
+  right: 45%;
+  transition: top 5s 0s;
+}
+
+.header2 {
+  top: 2%;
+  right: 29%;
+  transition: top 5s 1s;
+}
+
+.bad-request-text {
+  font-size: 24px;
+}
+
+.text1 {
+  right: 26%;
+  top: 20%;
+  transition: top 5s 2s;
+}
+
+.text2 {
+  right: 25%;
+  top: 27%;
+  transition: top 5s 3s;
+}
+
+.bad-request-header.begin, .bad-request-text.begin {
+  top: 150%;
 }
