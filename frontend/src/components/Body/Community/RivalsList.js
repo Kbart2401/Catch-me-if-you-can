@@ -39,17 +39,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RivalsList = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const loadedRivals = useSelector((state) => state.session.rivals);
-  const user = useSelector((state) => state.session.user);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [query, setQuery] = useState("");
-  const [modal, setModal] = useState(false);
-  const [userModal, setUserModal] = useState(false);
-  const classes = useStyles();
-  console.log("Loaded Rivals", loadedRivals);
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const loadedRivals = useSelector((state) => state.session.rivals);
+	const user = useSelector((state) => state.session.user);
+	const [isLoaded, setIsLoaded] = useState(false);
+	const [users, setUsers] = useState([]);
+	const [query, setQuery] = useState("");
+	const [modal, setModal] = useState(false);
+	const [userModal, setUserModal] = useState(false);
+	const classes = useStyles();
 
   useEffect(() => {
     dispatch(sessionActions.retrieveUsers())
