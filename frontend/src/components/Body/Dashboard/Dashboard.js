@@ -126,7 +126,7 @@ const Dashboard = (props) => {
       totalRecentDistance += (dashboardData.recent_run[i].distance)
     }
 
-    return totalRecentDistance.toFixed(1);
+    return totalRecentDistance.toFixed(0);
   }
 
   const calcRecentCalories = () => {
@@ -144,7 +144,7 @@ const Dashboard = (props) => {
       sum += calculateCalories(totalRecentDistance, dashboardData.recent_run[i].time)
     }
 
-    return (sum).toFixed(2)
+    return (sum).toFixed(0)
   }
 
   useEffect(() => {
@@ -209,7 +209,7 @@ const Dashboard = (props) => {
 						</div>
 						<div className={classes.dashboard_circle_stat}>
 							<Typography variant={"h5"}>
-								{dashboardData.recent_run ? calcRecentCalories() : 0} Ca
+								{dashboardData.recent_run ? calcRecentCalories() : 0} Cal
 							</Typography>
 						</div>
 					</div>
@@ -245,9 +245,9 @@ const Dashboard = (props) => {
 								calculateCalories(
 									dashboardData.total_distance,
 									dashboardData.total_runtime
-								).toFixed(2)}
+								).toFixed(0)}
 						</Typography>
-						<Typography>Total Ca</Typography>
+						<Typography>Total Cal</Typography>
 					</div>
 				</div>
 

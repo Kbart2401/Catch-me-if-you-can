@@ -53,6 +53,7 @@ const CreateMap = () => {
 
   //api request to the mapbox directions with SDK JS 
   useEffect(() => {
+    if (markers.length > 25) return; 
     if (markers.length >= 2) {
       const ways = markers.map(marker => {
         return {
@@ -110,6 +111,10 @@ const CreateMap = () => {
 
   //click event for dropping marker on map
   function clickMarker(event) {
+    if (markers.length >= 25) {
+      alert("You have set the maximum number of points for your route. Please submit or reset your route.")
+      return;
+    } 
     setMarkers([...markers,
     [event.lngLat[0], event.lngLat[1]]
     ]);
