@@ -97,18 +97,10 @@ const Dashboard = (props) => {
     return `${(hr < 10) ? 0 : ''}${hr}:${(min < 10) ? 0 : ''}${min}:${(sec < 10) ? 0 : ''}${sec}`
   }
 
-<<<<<<< HEAD
-  const calculateCalories = (totalDist, totalTime) => {
-    //918
-    //10
-    const calories = ((8.5 * totalDist) * totalTime * (1 / 60)); 
-    return calories; 
-=======
   const calculateCalories = (totalDist, time) => {
     const calories = ((8.5 * totalDist) * time * (1 / 60))
 
     return calories
->>>>>>> master
   }
 
   const handleGraphData = (weekData) => {
@@ -217,7 +209,7 @@ const Dashboard = (props) => {
 						</div>
 						<div className={classes.dashboard_circle_stat}>
 							<Typography variant={"h5"}>
-								{dashboardData.recent_run ? calcRecentCalories() : 0} Ca
+								{dashboardData.recent_run ? calcRecentCalories() : 0} Cal
 							</Typography>
 						</div>
 					</div>
@@ -253,9 +245,9 @@ const Dashboard = (props) => {
 								calculateCalories(
 									dashboardData.total_distance,
 									dashboardData.total_runtime
-								).toFixed(2)}
+								).toFixed(0)}
 						</Typography>
-						<Typography>Total Ca</Typography>
+						<Typography>Total Cal</Typography>
 					</div>
 				</div>
 
