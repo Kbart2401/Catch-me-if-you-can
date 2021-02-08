@@ -15,6 +15,7 @@ import UsersList from './Body/UsersList';
 import RivalsList from './Body/Community/RivalsList';
 import MapSearch from './Body/RoutesPage/MapSearch';
 import CreateMap from './Body/RoutesPage/CreateMap'
+import BadRequest from './Body/BadRequest';
 
 
 //MUI
@@ -72,7 +73,7 @@ const Body = (props) => {
           <ProtectedRoute exact user={user} path="/dashboard/:userId" component={Dashboard} />
           <ProtectedRoute exact user={user} path="/users/:userId" component={Profile} />
           <ProtectedRoute exact user={user} path="/search" component={MapSearch} />
-          <Route exact user={user} path="/search" component={MapSearch} /> {/*TODO change this*/}
+          <Route user={user} path="/" component={BadRequest} /> 
         </Switch>
       </Paper>
     </div>

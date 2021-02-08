@@ -23,7 +23,7 @@ const History = (props) => {
   const history = useHistory();
 
   const [isLoaded, setIsLoaded] = useState(false)
-  const [user] = useState(props.user)
+  const [userId] = useState(props.userId)
   const [runs, setRuns] = useState();
 
   const handleClick = (path) => {
@@ -49,7 +49,7 @@ const History = (props) => {
   useEffect(() => {
     (async function () {
       try {
-        const res = await fetch(`/api/runtimes/users/${user.id}`)
+        const res = await fetch(`/api/runtimes/users/${userId}`)
         const { run_times } = await res.json()
         setRuns(run_times)
         setIsLoaded(true)

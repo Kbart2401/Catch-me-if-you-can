@@ -78,7 +78,7 @@ const MyRoutes = (props) => {
                   {/* <TableCell align="right">Location</TableCell> */}
                 </TableRow>
               </TableHead>
-              <RouteTables routes={routes} />
+              <RouteTables routes={props.created_routes ? props.created_routes : routes} />
             </Table>
           </TableContainer>
           )

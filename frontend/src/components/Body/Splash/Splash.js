@@ -94,16 +94,17 @@ const useStyles = makeStyles(() => ({
 
   clip: {
     position: 'absolute',
-    top: '15rem',
-    left: '30rem',
+    top: '63rem',
+    left: '50%',
 
     transition: '0.5s',
     width: '95rem',
     height: '55rem',
+    margin: 'calc((95rem / 2) * -1)',
 
     fontSize: '2rem',
     color: 'black',
-    fontFamily: '\'helvetica\' sans-serif',
+    fontFamily: 'helvetica sans-serif',
     fontWeight: '1000',
   },
 
@@ -200,7 +201,7 @@ const Splash = () => {
 
       <IntroSeq>
         <Clip1 className={classes.clip}>
-          <h1>Dont know</h1>
+          <h1>Don't know</h1>
           <h1>the roads?</h1>
           <h1>New area?</h1>
         </Clip1>
@@ -265,7 +266,7 @@ const Splash = () => {
         }}>
           <p style={{ color: 'black', }}>
             Climb the leaderboards
-            of new found motivation
+            of newfound motivation
         </p>
         </PicContainer>
       </Card>

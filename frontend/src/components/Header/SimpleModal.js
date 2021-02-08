@@ -37,12 +37,13 @@ const SimpleModal = (props) => {
     </div>
   )
 
+
   return (
     <div>
       <Modal open={open} onClose={handleClose} aria-labelledby='simple-modal-title'
         aria-describedby='simple-modal-description'
         style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        {body}
+        { body } 
       </Modal>
     </div>
   )
