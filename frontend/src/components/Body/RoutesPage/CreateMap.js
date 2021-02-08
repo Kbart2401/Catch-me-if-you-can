@@ -53,6 +53,7 @@ const CreateMap = () => {
 
   //api request to the mapbox directions with SDK JS 
   useEffect(() => {
+    if (markers.length > 25) return; 
     if (markers.length >= 2) {
       const ways = markers.map(marker => {
         return {
@@ -168,7 +169,7 @@ const CreateMap = () => {
               to complete your route. Once you are happy with it click to submit your route. At any point use the refresh button to restart making a route.  
             </Typography>
             <div className={"mapcreate_panel"}>
-              <p className={"panel__route"}>
+              <p className={"panel__route"}>cod
                 Route Name:
                 <p>
                   <input type="text" value={routeName} onChange={(e) => setRouteName(e.target.value)} style={{ width: '100px', marginBottom: '0' }} />
