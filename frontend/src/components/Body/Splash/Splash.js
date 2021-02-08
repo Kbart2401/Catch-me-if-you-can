@@ -201,7 +201,7 @@ const Splash = () => {
 
       <IntroSeq>
         <Clip1 className={classes.clip}>
-          <h1>Dont know</h1>
+          <h1>Don't know</h1>
           <h1>the roads?</h1>
           <h1>New area?</h1>
         </Clip1>
