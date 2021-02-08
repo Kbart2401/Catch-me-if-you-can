@@ -65,7 +65,6 @@ Catch Me If You Can is a fun, competitive app that lets you create and track rou
 # Database Schema
 <img width="1458" alt="Screen Shot 2021-02-08 at 11 32 37 AM" src="https://user-images.githubusercontent.com/67812737/107249485-6c55b580-6a01-11eb-83f5-9a13447b47ea.png">
 <br />
-<br />
 
 # Usage 
 
