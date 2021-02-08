@@ -111,6 +111,10 @@ const CreateMap = () => {
 
   //click event for dropping marker on map
   function clickMarker(event) {
+    if (markers.length >= 25) {
+      alert("You have set the maximum number of points for your route. Please submit or reset your route.")
+      return;
+    } 
     setMarkers([...markers,
     [event.lngLat[0], event.lngLat[1]]
     ]);
@@ -169,7 +173,7 @@ const CreateMap = () => {
               to complete your route. Once you are happy with it click to submit your route. At any point use the refresh button to restart making a route.  
             </Typography>
             <div className={"mapcreate_panel"}>
-              <p className={"panel__route"}>cod
+              <p className={"panel__route"}>
                 Route Name:
                 <p>
                   <input type="text" value={routeName} onChange={(e) => setRouteName(e.target.value)} style={{ width: '100px', marginBottom: '0' }} />

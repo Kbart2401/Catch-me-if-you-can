@@ -111,9 +111,8 @@ const Dashboard = (props) => {
   const calculateCalories = (totalDist, totalTime) => {
     //918
     //10
-    const calories = ((8.5 * totalDist) * totalTime * (1 / 60))
-
-    return calories
+    const calories = ((8.5 * totalDist) * totalTime * (1 / 60)); 
+    return calories; 
   }
 
   const handleGraphData = (weekData) => {
@@ -139,7 +138,7 @@ const Dashboard = (props) => {
       totalRecentDistance += (recentRuns[i].distance)
     }
 
-    return totalRecentDistance.toFixed(1);
+    return totalRecentDistance.toFixed(0);
   }
 
   const calcRecentCalories = () => {
@@ -157,7 +156,7 @@ const Dashboard = (props) => {
       sum += calculateCalories(totalRecentDistance, recentRuns[i].time)
     }
 
-    return (sum).toFixed(2)
+    return (sum).toFixed(0)
   }
 
   useEffect(() => {
@@ -195,7 +194,7 @@ const Dashboard = (props) => {
           <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>
             {recentRuns ? calcRecentDistance() : 0} meters
             </Typography></div>
-          <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentRuns ? calcRecentCalories() : 0} Ca</Typography></div>
+          <div className={classes.dashboard_circle_stat}><Typography variant={'h5'}>{recentRuns ? calcRecentCalories() : 0} Cal</Typography></div>
         </div>
       </div>
 
@@ -213,8 +212,8 @@ const Dashboard = (props) => {
           <Typography>Total Km</Typography>
         </div>
         <div className={classes.dashboard_totalStat_stats}>
-          <Typography variant={'h4'}>{(totalTime && totalDistance) && calculateCalories(totalDistance, totalTime)}</Typography>
-          <Typography>Total Ca</Typography>
+          <Typography variant={'h4'}>{(totalTime && totalDistance) && (calculateCalories(totalDistance, totalTime)/1000).toFixed(0)}</Typography>
+          <Typography>Total KCal</Typography>
         </div>
       </div>
 
