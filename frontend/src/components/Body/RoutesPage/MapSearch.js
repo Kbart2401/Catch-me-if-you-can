@@ -163,7 +163,7 @@ const MapSearch = () => {
       { mapLoad &&
         <>
           <h5 className='header-font create-route'>Find a Route</h5>
-          <Typography style={{maxWidth: '65vw', paddingBottom: '10px'}}>Choose a location on the map, set the search radius and then press the
+          <Typography style={{maxWidth: '65vw', maxWidth: '1000px', minWidth: '800px', paddingBottom: '10px'}}>Choose a location on the map, set the search radius and then press the
           search button to find all the registered routes in the area.  
           </Typography>
           <div className={"map_container"}>

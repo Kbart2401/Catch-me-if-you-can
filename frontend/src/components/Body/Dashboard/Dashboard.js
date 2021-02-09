@@ -233,7 +233,7 @@ const Dashboard = (props) => {
 					<div className={classes.dashboard_totalStat_stats}>
 						<Typography variant={"h4"}>
 							{dashboardData.total_distance
-								? dashboardData.total_distance.toFixed(0)
+								? (dashboardData.total_distance/1000).toFixed(2)
 								: 0}
 						</Typography>
 						<Typography>Total Km</Typography>
