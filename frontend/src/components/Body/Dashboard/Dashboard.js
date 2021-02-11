@@ -100,7 +100,7 @@ const Dashboard = (props) => {
   const calculateCalories = (totalDist, time) => {
     const calories = ((8.5 * totalDist) * time * (1 / 60))
 
-    return calories
+    return calories / 10
   }
 
   const handleGraphData = (weekData) => {
@@ -137,7 +137,7 @@ const Dashboard = (props) => {
       totalRecentDistance += dashboardData.recent_run[i].distance
     }
 
-    totalRecentDistance = totalRecentDistance / 1000
+    totalRecentDistance = totalRecentDistance 
 
     for (let i = 0; i < dashboardData.recent_run.length; i++) {
       // sum += Math.floor((8.5 * totalRecentDistance) * Math.trunc(dashboardData.recent_run[i].time * (1 / 60)))
@@ -146,6 +146,8 @@ const Dashboard = (props) => {
 
     return (sum).toFixed(0)
   }
+
+
 
   useEffect(() => {
     if (user) {
@@ -162,6 +164,7 @@ const Dashboard = (props) => {
       }
     }
   }, [user])
+  console.log(dashboardData); 
 
   const communityReturn = (userId) => {
     history.push(`/community`);
