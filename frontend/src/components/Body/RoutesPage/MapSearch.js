@@ -7,6 +7,14 @@ import './MapSearch.css';
 import * as turf from '@turf/turf';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Typography } from '@material-ui/core';
+// see https://github.com/mapbox/mapbox-gl-js/issues/10173#issuecomment-753662795
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl";
+
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
 const mapboxAPI = process.env.REACT_APP_MAPBOX;
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 

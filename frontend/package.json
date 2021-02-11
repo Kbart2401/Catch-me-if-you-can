@@ -28,7 +28,8 @@
     "react-spinners": "^0.10.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "worker-loader": "^3.0.7"
   },
   "scripts": {
     "start": "react-scripts start",
