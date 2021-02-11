@@ -147,6 +147,8 @@ const Dashboard = (props) => {
     return (sum).toFixed(0)
   }
 
+
+
   useEffect(() => {
     if (user) {
       try {
@@ -162,6 +164,7 @@ const Dashboard = (props) => {
       }
     }
   }, [user])
+  console.log(dashboardData); 
 
   const communityReturn = (userId) => {
     history.push(`/community`);
