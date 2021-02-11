@@ -7,6 +7,13 @@ import StartPin from './StartPin';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import './CreateMap.css';
 import { Typography } from '@material-ui/core';
+// see https://github.com/mapbox/mapbox-gl-js/issues/10173#issuecomment-753662795
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl";
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
 const mapboxAPI = process.env.REACT_APP_MAPBOX
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE
 
@@ -149,7 +156,6 @@ const CreateMap = () => {
     })
     const data = await res.json();
     if (data) {
-      console.log(data); 
       history.push({ pathname: '/my-routes', state: data });
     }
   };
@@ -169,7 +175,7 @@ const CreateMap = () => {
         <>
           <h5 className='header-font create-route'>Create Route</h5>
           <div className={"mapcreate_container"}>
-            <Typography style={{width: '65vw', paddingBottom: '10px', display: 'block'}}>Begin by clicking on the map to set your starting point. From there, you can click up to another 24 points onto the map
+            <Typography style={{width: '65vw', maxWidth: '1000px', minWidth: '800px', paddingBottom: '10px', display: 'block'}}>Begin by clicking on the map to set your starting point. From there, you can click up to another 24 points onto the map
               to complete your route. Once you are happy with it click to submit your route. At any point use the refresh button to restart making a route.  
             </Typography>
             <div className={"mapcreate_panel"}>
