@@ -265,7 +265,9 @@ const Routes = (props) => {
             }
           </div>
           <div>
-            <Button onClick={() => handleDelete()} className={classes.deleteButton}>Delete Route</Button>
+            {user?.email === route?.user_email &&
+              <Button onClick={() => handleDelete()} className={classes.deleteButton}>Delete Route</Button>
+            }
           </div>
         </div>
 
