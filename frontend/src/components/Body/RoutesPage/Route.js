@@ -230,7 +230,7 @@ const Routes = (props) => {
   return isLoaded && (
     <div className={classes.root}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-
+        {console.log(route)}
         {/* Map Component */}
         <Paper className={classes.route_map_container}>
           <SavedMap routeCoordinates={route.route_coordinates} />

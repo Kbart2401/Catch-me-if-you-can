@@ -73,4 +73,5 @@ def get_specific_route(id):
     routeInfo['run_times'] = runList
     routeInfo['runCount'] = RunTime.query.filter_by(route_id=id).count()
     routeInfo['user'] = user.first_name
+    routeInfo['user_email'] = user.email
     return routeInfo
