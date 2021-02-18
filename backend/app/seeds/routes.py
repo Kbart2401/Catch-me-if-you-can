@@ -5,7 +5,7 @@ import datetime
 # Adds a demo user, you can add other users here if you want
 
 
-def seed_users():
+def seed_routes():
 
     demo_route = Route(id=1, name='my first run', route_coordinates=[[-82.968629,39.965927],[-82.949661,39.968005],[-82.941831,39.962666]],
                 distance=3179, date_created=datetime.date(2021,1,24), user_creator=1)
@@ -13,16 +13,16 @@ def seed_users():
                 distance=20321, date_created=datetime.date(2021,1,28), user_creator=1)
     demo_route_three = Route(id=3, name='river run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
                 distance=3874, date_created=datetime.date(2021,2,5), user_creator=1)
-    demo_route_four = Route(id=4, name='river run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
-                distance=3874, date_created=datetime.date(2021,2,5), user_creator=1)
-    demo_route_five = Route(id=5, name='river run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
-                distance=3874, date_created=datetime.date(2021,2,5), user_creator=1)
-    demo_route_six = Route(id=6, name='river run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
-                distance=3874, date_created=datetime.date(2021,2,5), user_creator=1)
-    demo_route_seven = Route(id=7, name='river run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
-                distance=3874, date_created=datetime.date(2021,2,5), user_creator=1)
-    demo_route_eight = Route(id=8, name='river run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
-                distance=3874, date_created=datetime.date(2021,2,5), user_creator=1)
+    demo_route_four = Route(id=4, name='big run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
+                distance=20248, date_created=datetime.date(2021,1,31), user_creator=2)
+    demo_route_five = Route(id=5, name='to the lake run', route_coordinates=[[-82.826047,39.909527],[-82.508618,39.922438]],
+                distance=30124, date_created=datetime.date(2021,2,8), user_creator=2)
+    demo_route_six = Route(id=6, name='down south run', route_coordinates=[[-82.980352,39.978058],[-82.984821,39.887454],[-83.062447,39.921283],[-82.98763,39.980262]],
+                distance=35119, date_created=datetime.date(2021,2,12), user_creator=2)
+    demo_route_seven = Route(id=7, name='west to east run', route_coordinates=[[-83.174023,40.107444],[-82.803521,40.097689]],
+                distance=34132, date_created=datetime.date(2021,2,1), user_creator=3)
+    demo_route_eight = Route(id=8, name='outskirts run', route_coordinates=[[-82.953814,40.058618],[-82.80684,40.052847],[-82.790867,39.93162],[-82.878128,39.913224]],
+                distance=37281, date_created=datetime.date(2021,2,14), user_creator=3)
 
     db.session.add(demo_route)
     db.session.add(demo_route_two)
@@ -41,6 +41,6 @@ def seed_users():
 # the auto incrementing primary key
 
 
-def undo_users():
-    db.session.execute('TRUNCATE users;')
+def undo_routes():
+    db.session.execute('TRUNCATE routes;')
     db.session.commit()
