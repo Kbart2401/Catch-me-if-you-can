@@ -52,7 +52,7 @@ const CreateMap = () => {
   };
 
   useEffect(() => {
-    if (user && user.email === 'demo@aa.io') {
+    if (user && (user.email === 'demo@aa.io' || user.email === 'sj@sj.io' || user.email === 'gb@gb.io')) {
       success({ coords: { latitude: 39.9763752, longitude: -82.9238448 } })
     }
     else navigator.geolocation.getCurrentPosition(success, error);
