@@ -80,7 +80,8 @@ const useStyles = makeStyles((theme) => ({
   contact: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between',
+    padding: '0 10px'
   },
   contactContainer: {
     display: 'flex',
