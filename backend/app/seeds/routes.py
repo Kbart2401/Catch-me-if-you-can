@@ -13,8 +13,8 @@ def seed_routes():
                 distance=20321, date_created=datetime.date(2021,1,28), user_creator=1)
     demo_route_three = Route(name='river run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
                 distance=3874, date_created=datetime.date(2021,2,5), user_creator=1)
-    demo_route_four = Route(name='big run', route_coordinates=[[-83.016106,39.95201],[-82.996177,39.939071]],
-                distance=20248, date_created=datetime.date(2021,1,31), user_creator=2)
+    demo_route_four = Route(name='downtown run', route_coordinates=[[-83.719295,39.913608],[-83.007835,39.952198]],
+                distance=65839, date_created=datetime.date(2021,1,31), user_creator=2)
     demo_route_five = Route(name='to the lake run', route_coordinates=[[-82.826047,39.909527],[-82.508618,39.922438]],
                 distance=30124, date_created=datetime.date(2021,2,8), user_creator=2)
     demo_route_six = Route(name='down south run', route_coordinates=[[-82.980352,39.978058],[-82.984821,39.887454],[-83.062447,39.921283],[-82.98763,39.980262]],
