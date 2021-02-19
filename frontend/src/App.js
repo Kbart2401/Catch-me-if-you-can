@@ -17,11 +17,11 @@ const useStyles = makeStyles(theme => ({
     display: 'grid',
     gridAutoFlow: 'row',
     gridTemplateRows: 'auto 1fr auto',
-    alignItems: 'center',
     justifyItems: 'center',
+    alignItems: 'center',
     width: '100vw',
 
-    minHeight: '96vh',
+    minHeight: '100vh',
     gap: '2rem',
   },
   rootContainer: {
@@ -41,10 +41,10 @@ const App = (props) => {
         <BrowserRouter>
           <Header user={props.user} />
           <Body user={props.user} />
+          <Footer />
         </BrowserRouter>
       </div>
       {/* </div> */}
-      {/* <Footer /> */}
     </>
   );
 }

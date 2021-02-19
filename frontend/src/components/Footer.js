@@ -4,15 +4,20 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles((theme) => ({
   footer_container: {
+    position: 'relative',
+    // tranform: 'translate(0, 50%)',
+
     width: '100vw',
     backgroundColor: 'rgb(30, 33, 30)',
     display: 'flex',
     justifyContent: 'center',
     height: '135px',
-    bottom: '0px'
+    // bottom: '0px'
   },
   footer_root: {
     display: 'grid',
+    position: 'absolute',
+
     gridAutoFlow: 'column',
     gridTemplateAreas: '\'left middle right\'',
     justifyContent: 'space-between',
