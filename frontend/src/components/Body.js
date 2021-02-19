@@ -73,7 +73,7 @@ const Body = (props) => {
           <ProtectedRoute exact user={user} path="/dashboard/:userId" component={Dashboard} />
           <ProtectedRoute exact user={user} path="/users/:userId" component={Profile} />
           <ProtectedRoute exact user={user} path="/search" component={MapSearch} />
-          <Route user={user} path="/" component={BadRequest} /> 
+          <Route user={user} path="/" component={BadRequest} />
         </Switch>
       </Paper>
     </div>

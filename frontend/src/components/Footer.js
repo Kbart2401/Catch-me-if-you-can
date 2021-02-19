@@ -3,22 +3,18 @@ import React from 'react';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles((theme) => ({
-  footer_container: {
-    width: '100vw',
-    backgroundColor: 'rgb(30, 33, 30)',
-    display: 'flex',
-    justifyContent: 'center',
-    height: '135px',
-    bottom: '0px'
-  },
   footer_root: {
     display: 'grid',
+    position: 'relative',
+
     gridAutoFlow: 'column',
     gridTemplateAreas: '\'left middle right\'',
-    justifyContent: 'space-between',
+    gap: '15rem',
+    justifyContent: 'center',
+
+    backgroundColor: 'rgb(30, 33, 30)',
     padding: '0.5rem',
-    position: 'relative',
-    width: '1200px',
+    width: '100vw',
     color: 'white',
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif;',
     fontWeight: '400'
@@ -102,57 +98,57 @@ const useStyles = makeStyles((theme) => ({
 const Footer = () => {
   const classes = useStyles()
   return (
-    <div className={classes.footer_container}>
-      <div className={classes.footer_root}>
-        <div className={classes.footer_left}>
-          <span>Follow</span>
-          <Typography className={classes.text}>View this project on Github</Typography>
-          <a className={classes.linkText} href='https://github.com/Kbart2401/Catch-me-if-you-can' target='_blank'>
-            <GitHubIcon />
-          </a>
-        </div>
-        <div className={classes.footer_middle}>
-          <span>About Us</span>
-          <Typography className={classes.text}>Creators</Typography>
-          <div className={classes.contactContainer}>
-            <div className={classes.contactColumn}>
-              <div className={classes.contact}>
-                <a className={classes.linkText} href='https://www.linkedin.com/in/aaron-hanson-brb/' target='_blank'>Aaron Hanson</a> &nbsp;
+    // <div className={classes.footer_container}>
+    <div className={classes.footer_root}>
+      <div className={classes.footer_left}>
+        <span>Follow</span>
+        <Typography className={classes.text}>View this project on Github</Typography>
+        <a className={classes.linkText} href='https://github.com/Kbart2401/Catch-me-if-you-can' target='_blank'>
+          <GitHubIcon />
+        </a>
+      </div>
+      <div className={classes.footer_middle}>
+        <span>About Us</span>
+        <Typography className={classes.text}>Creators</Typography>
+        <div className={classes.contactContainer}>
+          <div className={classes.contactColumn}>
+            <div className={classes.contact}>
+              <a className={classes.linkText} href='https://www.linkedin.com/in/aaron-hanson-brb/' target='_blank'>Aaron Hanson</a> &nbsp;
             <a className={classes.linkText} href='https://github.com/ahan8927' target='_blank'>
-                  <GitHubIcon />
-                </a>
-              </div>
-              <div className={classes.contact}>
-                <a className={classes.linkText} href='https://www.linkedin.com/in/kyle-barthelmes-a5120b51/' target='_blank'>Kyle Barthelmes</a> &nbsp;
-            <a className={classes.linkText} href='https://github.com/Kbart2401' target='_blank'>
-                  <GitHubIcon />
-                </a>
-              </div>
+                <GitHubIcon />
+              </a>
             </div>
-            <div className={classes.contactColumn}>
-              <div className={classes.contact}>
-                <a className={classes.linkText} href='https://www.linkedin.com/in/nicholas-richard-77a9a066/' target='_blank'>Nick Richard</a> &nbsp;
-            <a className={classes.linkText} href='https://github.com/rickynich' target='_blank'>
-                  <GitHubIcon />
-                </a>
-              </div>
-              <div className={classes.contact}>
-                <a className={classes.linkText} href='https://www.linkedin.com/in/rhysprevite/' target='_blank'>Rhys Previte</a> &nbsp;
-            <a className={classes.linkText} href='https://github.com/Preezey24' target='_blank'>
-                  <GitHubIcon />
-                </a>
-              </div>
+            <div className={classes.contact}>
+              <a className={classes.linkText} href='https://www.linkedin.com/in/kyle-barthelmes-a5120b51/' target='_blank'>Kyle Barthelmes</a> &nbsp;
+            <a className={classes.linkText} href='https://github.com/Kbart2401' target='_blank'>
+                <GitHubIcon />
+              </a>
             </div>
           </div>
-        </div>
-        <div className={classes.footer_right}>
-          <span>Inspired By</span>
-          <div>
-            <a className={classes.linkText} href='https://www.mapmyrun.com/' target='_blank'>MapMyRun</a>
+          <div className={classes.contactColumn}>
+            <div className={classes.contact}>
+              <a className={classes.linkText} href='https://www.linkedin.com/in/nicholas-richard-77a9a066/' target='_blank'>Nick Richard</a> &nbsp;
+            <a className={classes.linkText} href='https://github.com/rickynich' target='_blank'>
+                <GitHubIcon />
+              </a>
+            </div>
+            <div className={classes.contact}>
+              <a className={classes.linkText} href='https://www.linkedin.com/in/rhysprevite/' target='_blank'>Rhys Previte</a> &nbsp;
+            <a className={classes.linkText} href='https://github.com/Preezey24' target='_blank'>
+                <GitHubIcon />
+              </a>
+            </div>
           </div>
         </div>
       </div>
+      <div className={classes.footer_right}>
+        <span>Inspired By</span>
+        <div>
+          <a className={classes.linkText} href='https://www.mapmyrun.com/' target='_blank'>MapMyRun</a>
+        </div>
+      </div>
     </div>
+    // </div>
   )
 }
 

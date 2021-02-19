@@ -17,13 +17,14 @@ const useStyles = makeStyles(theme => ({
     display: 'grid',
     gridAutoFlow: 'row',
     gridTemplateRows: 'auto 1fr auto',
-    alignItems: 'center',
     justifyItems: 'center',
-    // justifySelf: 'center',
+    alignItems: 'center',
+    width: '100vw',
+    position: 'relative',
+    // minWidth: '1200px',
+    // maxWidth: '1800px',
 
-    minHeight: '96vh',
-
-    padding: '2rem',
+    minHeight: '100vh',
     gap: '2rem',
   },
   rootContainer: {
@@ -38,15 +39,15 @@ const App = (props) => {
   const classes = useStyles()
   return (
     <>
-      <div className={classes.rootContainer} >
-        <div className={classes.root}>
-          <BrowserRouter>
-            <Header user={props.user} />
-            <Body user={props.user} />
-          </BrowserRouter>
-        </div>
-        <Footer />
+      {/* <div className={classes.rootContainer} > */}
+      <div className={classes.root}>
+        <BrowserRouter>
+          <Header user={props.user} />
+          <Body user={props.user} />
+          <Footer />
+        </BrowserRouter>
       </div>
+      {/* </div> */}
     </>
   );
 }

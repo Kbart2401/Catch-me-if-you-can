@@ -6,21 +6,30 @@ import styled from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-
 //MUI
 import { Button, makeStyles, Typography } from '@material-ui/core';
 
+//Pictures
+import Lost from './lost.jpg';
+import Pooped from './pooped.jpg';
+import Stairs from './stairs.jpg'
+
+import Topography from './topography.jpg';
+import Layer1 from './Layer1.png'
+import Layer2 from './Layer2.png'
+
 const IntroSeq = styled.div`
+  position: relative;
   justify-content: center;
   width: 100rem;
   height: 60rem;
-  background: url('/pictures/blue.jpg');
+  background: url('./blue.jpg');
   padding: 1rem 0;
   border-radius: 1rem;
 `;
 
 const Clip1 = styled.div`
-background-image: url('/pictures/lost.jpg');
+background-image: url(${Lost});
 background-size: cover;
 clip-path: polygon(0 0, 33% 0, 33% 100%, 0 100%);
 &:hover {
@@ -30,7 +39,7 @@ clip-path: polygon(0 0, 33% 0, 33% 100%, 0 100%);
 `;
 
 const Clip3 = styled.div`
-  background-image: url('/pictures/pooped.jpg');
+background-image: url(${Pooped});
   background-size: cover;
   background-position: center;
   clip-path: polygon(69% 0, 100% 0, 100% 100%, 69% 100%);
@@ -41,7 +50,7 @@ const Clip3 = styled.div`
 `;
 
 const Clip2 = styled.div`
-  background-image: url('/pictures/stairs.jpg');
+background-image: url(${Stairs});
   background-size: cover;
   clip-path: polygon(36% 0, 66% 0, 66% 100%, 36% 100%);
   &:hover {
@@ -50,14 +59,22 @@ const Clip2 = styled.div`
   };
 `;
 
-const Card = styled.div`
+const MapImageContainer = styled.div`
   position: absolute;
-  z-index: 5;
+  display: flex;
+  left: 50%;
+  z-index: 2;
 `
 
-const PicContainer = styled.div`
+const Card = styled.div`
+  position: absolute;
+  left: 50%;
+  z-index: 5;
+
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   width: 25rem;
   height: 25rem;
@@ -69,6 +86,10 @@ const PicContainer = styled.div`
   font-weight: 1000;
 `
 
+const CardWrapper = styled.div`
+  position: relative;
+  width: 100vw
+`
 
 const CallToAction = styled.div`
   display: flex;
@@ -80,6 +101,17 @@ const CallToAction = styled.div`
   background: white;
 `
 
+const MapDemo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  height: 100rem;
+  width: 75rem;
+  margin: 1rem 0;
+  clip-path: inset(0);
+`
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -89,25 +121,24 @@ const useStyles = makeStyles(() => ({
 
     width: '100rem',
     padding: '1rem',
-    backgroundImage: 'url(\'/pictures/topography.jpg\')',
+    backgroundImage: `url(${Topography})`,
   },
 
   clip: {
     position: 'absolute',
-    top: '63rem',
+    // top: 'rem',
     left: '50%',
 
     transition: '0.5s',
     width: '95rem',
     height: '55rem',
-    margin: 'calc((95rem / 2) * -1)',
+    transform: 'translate(-50%, 0)',
 
     fontSize: '2rem',
     color: 'black',
     fontFamily: 'helvetica sans-serif',
     fontWeight: '1000',
   },
-
 
   title: {
     display: 'flex',
@@ -137,42 +168,15 @@ const useStyles = makeStyles(() => ({
 
     mixBlendMode: 'multiply',
   },
-
-  map_demo: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-
-    background: '#343a40',
-    borderRadius: '1rem',
-    width: '75rem',
-    height: '100rem',
-    clipPath: 'inset(0)',
-
-    margin: '1rem 0',
-  },
-  map_demo_image_container: {
-    display: 'grid',
-    position: 'relative',
-    top: '-10rem',
-
-    gridTemplateColumns: '20rem 12rem 20rem',
-    zIndex: '1',
-  },
-  map_demo_image_wrapper: {
-    display: 'flex',
-    justifyContent: 'start',
-    position: 'relative',
-    left: '-20rem',
-  },
   map_demo_progress: {
     background: 'blue',
     width: '60rem',
     height: '900px',
 
     top: '-200px',
-
     position: 'fixed',
+
+    zIndex: '0',
   },
 }));
 
@@ -200,7 +204,8 @@ const Splash = () => {
     <div className={classes.root}>
 
       <IntroSeq>
-        <Clip1 className={classes.clip}>
+        <Clip1 className={classes.clip} style={{
+        }}>
           <h1>Don't know</h1>
           <h1>the roads?</h1>
           <h1>New area?</h1>
@@ -215,94 +220,64 @@ const Splash = () => {
       </IntroSeq>
 
       <div className={classes.title}>
-        <video autoPlay muted width='100%' src='https://www.jonathandempsey.dev/wp-content/uploads/2020/05/waves.mp4' loop style={{ borderRadius: '1rem' }} />
+        <video autoPlay muted width='1300rem' src='https://www.jonathandempsey.dev/wp-content/uploads/2020/05/waves.mp4' loop style={{ borderRadius: '1rem' }} />
         <p className={classes.title_text}>
           Catch Me
           If You Can
           </p>
       </div>
 
-      <div className={classes.map_demo}>
-        <div className={classes.map_demo_image_container}>
+      <MapDemo>
 
-          <div style={{ gridColumnStart: '1', gridColumnEnd: '2', }} className={classes.map_demo_image_wrapper}>
-            <img src='/pictures/Layer2.png' width='1200' />
-          </div>
+        <MapImageContainer style={{ transform: 'translate(-36%, 0)', }}>
+          <img src={`${Layer1}`} width='1000rem' height='1500rem' />
+        </MapImageContainer>
 
-          <div style={{ gridColumnStart: '2', gridColumnEnd: '3', }} className={classes.map_demo_image_wrapper}>
-            <img src='/pictures/Layer1.png' width='1200' />
-          </div>
+        <MapImageContainer style={{ transform: 'translate(-64%, 0)', }}>
+          <img src={`${Layer2}`} width='1000rem' height='1500rem' />
+        </MapImageContainer>
 
-        </div>
-        <div className={classes.map_demo_progress}></div>
-      </div>
-
-      <Card data-aos="fade-left" data-aos-offset="700" style={{
-        top: '140rem',
-        left: '45rem',
-        width: 'fit-content',
-        height: 'fit-content',
-      }}>
-        <PicContainer style={{
-          backgroundImage: 'url(\'/pictures/mountain_bike.jpg\')',
-          backgroundSize: '500px 700px',
-          backgroundPosition: 'center',
+        <Card data-aos="fade-left" data-aos-offset="500" style={{
+          // top: '20rem',
+          transform: 'translate(-100%, 0)',
         }}>
-          <p style={{ color: 'white', }}>
+          <p style={{ color: 'black' }}>
             Get access to all the popular
             trails and routes in your area
         </p>
-        </PicContainer>
-      </Card>
+        </Card>
 
-      <Card data-aos="fade-left" data-aos-offset="700" style={{
-        top: '160rem',
-        left: '80rem',
-      }}>
-        <PicContainer style={{
-          backgroundImage: 'url(\'/pictures/flare.jpg\')',
-          backgroundSize: '500px 700px',
-          backgroundPosition: 'center',
+        <Card data-aos="fade-left" data-aos-offset="500" style={{
+          top: '20rem',
+          // transform: 'translate(-45%, 0)',
         }}>
-          <p style={{ color: 'black', }}>
+          <p style={{ color: 'black' }}>
             Climb the leaderboards
             of newfound motivation
         </p>
-        </PicContainer>
-      </Card>
-      <Card data-aos="fade-left" data-aos-offset="700" style={{
-        top: '180rem',
-        left: '45rem',
-      }}>
-        <PicContainer style={{
-          backgroundImage: 'url(\'/pictures/sponsored_by_nike.jpg\')',
-          backgroundSize: '500px 500px',
-          backgroundPosition: 'center',
+        </Card>
+        <Card data-aos="fade-left" data-aos-offset="500" style={{
+          top: '40rem',
+          // transform: 'translate(-45%, 0)',
         }}>
-          <p style={{ color: 'white', }}>
+          <p style={{ color: 'black' }}>
             Keep up to date
-            with you progress
+            with your progress
         </p>
-        </PicContainer>
-      </Card>
-      <Card data-aos="fade-left" data-aos-offset="500" style={{
-        top: '205rem',
-        left: '65rem',
-        // width: '10rem',
-      }}>
-        <PicContainer style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          // backgroundImage: 'url(\'/pictures/topography.jpg\')',
-          backgroundSize: '500px 500px',
-          backgroundPosition: 'center',
+        </Card>
+        <Card data-aos="fade-left" data-aos-offset="400" style={{
+          top: '66rem',
+          transform: 'translate(-50%, 0)',
+          background: 'white',
+          borderRadius: '1rem',
         }}>
           <p style={{ color: 'black', }}>Ready to begin Your Journey</p>
           <Button variant='outlined' onClick={() => handleClick()}>Get Started</Button>
-        </PicContainer>
-      </Card>
-    </div>
+        </Card>
+
+        <div className={classes.map_demo_progress}></div>
+      </MapDemo>
+    </div >
   )
 }
 
