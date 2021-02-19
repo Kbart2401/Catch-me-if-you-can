@@ -129,32 +129,28 @@ const MapSearch = () => {
   function findRuns(e) {
     e.preventDefault();
     if (point.length === 0) return;
-    let foundRoutes = []
-    if (createdRoutes) {
-      let n = [];
-      let d = [];
-      let i = []; 
-      Object.keys(createdRoutes.routes).forEach(key => {
-        foundRoutes.push(createdRoutes.routes[key].route_coordinates[0]);
-        n.push(createdRoutes.routes[key].name)
-        d.push(createdRoutes.routes[key].distance)
-        i.push(createdRoutes.routes[key].id); 
-      })
-      setNames([...n]);
-      setDistances([...d]);
-      setIds([...i]);
-    };
-
     let results = [];
-    foundRoutes.forEach(marker => {
+    let n = []; 
+    let d = []; 
+    let i = []; 
+    Object.keys(createdRoutes.routes).forEach(key => {
+      const lon = createdRoutes.routes[key].route_coordinates[0][0];
+      const lat = createdRoutes.routes[key].route_coordinates[0][1];
+      const marker = [lon, lat] 
       const point = turf.point([marker[0], marker[1]]);
       const poly = turf.polygon(polyCoords);
 
       if (turf.inside(point, poly)) {
         results.push(marker);
+        n.push(createdRoutes.routes[key].name);
+        d.push(createdRoutes.routes[key].distance);
+        i.push(createdRoutes.routes[key].id);
       }
-    })
+    });
     setMarkers(results);
+    setNames([...n]);
+    setDistances([...d]);
+    setIds([...i]);
   }
 
   return (
