@@ -7,6 +7,14 @@ import './MapSearch.css';
 import * as turf from '@turf/turf';
 import ClimbingBoxLoader from 'react-spinners/ClimbingBoxLoader';
 import { Typography } from '@material-ui/core';
+// see https://github.com/mapbox/mapbox-gl-js/issues/10173#issuecomment-753662795
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl";
+
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
 const mapboxAPI = process.env.REACT_APP_MAPBOX;
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
@@ -59,7 +67,7 @@ const MapSearch = () => {
   };
 
   useEffect(() => {
-    if (user && user.email === 'demo@aa.io') {
+    if (user && (user.email === 'demo@aa.io' || user.email === 'sj@sj.io' || user.email === 'gb@gb.io')) {
       success({ coords: { latitude: 39.9763752, longitude: -82.9238448 } })
     }
     else navigator.geolocation.getCurrentPosition(success, error);
@@ -121,32 +129,28 @@ const MapSearch = () => {
   function findRuns(e) {
     e.preventDefault();
     if (point.length === 0) return;
-    let foundRoutes = []
-    if (createdRoutes) {
-      let n = [];
-      let d = [];
-      let i = []; 
-      Object.keys(createdRoutes.routes).forEach(key => {
-        foundRoutes.push(createdRoutes.routes[key].route_coordinates[0]);
-        n.push(createdRoutes.routes[key].name)
-        d.push(createdRoutes.routes[key].distance)
-        i.push(createdRoutes.routes[key].id); 
-      })
-      setNames([...n]);
-      setDistances([...d]);
-      setIds([...i]);
-    };
-
     let results = [];
-    foundRoutes.forEach(marker => {
+    let n = []; 
+    let d = []; 
+    let i = []; 
+    Object.keys(createdRoutes.routes).forEach(key => {
+      const lon = createdRoutes.routes[key].route_coordinates[0][0];
+      const lat = createdRoutes.routes[key].route_coordinates[0][1];
+      const marker = [lon, lat] 
       const point = turf.point([marker[0], marker[1]]);
       const poly = turf.polygon(polyCoords);
 
       if (turf.inside(point, poly)) {
         results.push(marker);
+        n.push(createdRoutes.routes[key].name);
+        d.push(createdRoutes.routes[key].distance);
+        i.push(createdRoutes.routes[key].id);
       }
-    })
+    });
     setMarkers(results);
+    setNames([...n]);
+    setDistances([...d]);
+    setIds([...i]);
   }
 
   return (
@@ -163,7 +167,7 @@ const MapSearch = () => {
       { mapLoad &&
         <>
           <h5 className='header-font create-route'>Find a Route</h5>
-          <Typography style={{maxWidth: '65vw', paddingBottom: '10px'}}>Choose a location on the map, set the search radius and then press the
+          <Typography style={{maxWidth: '65vw', maxWidth: '1000px', minWidth: '800px', paddingBottom: '10px'}}>Choose a location on the map, set the search radius and then press the
           search button to find all the registered routes in the area.  
           </Typography>
           <div className={"map_container"}>

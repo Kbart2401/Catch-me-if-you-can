@@ -25,31 +25,51 @@
 ## Summary
 Catch Me If You Can is a fun, competitive app that lets you create and track routes that you've walked, biked or ran. Add friends ("rivals") and they can track their own times on your route. Each route has a leaderboard to see who has the fastest time!
 
+### A note on the Demo User
+There is a **Demo** login that allows access to the site. However, the Demo User Login does **NOT** use your geolocation, but instead uses a hard-coded latitude and longitude. The **Demo User** also comes with pre-seeded data (including routes and run times) so that you can utilize the full functionality of the site as it was intended. If you would like to create and find routes (if they are existing) in your local area, either manually navigate to your region or sign up for the site to get instant data on your area.
+
 ## Features
+### Modern interactive landing page
+- Includes several items on the page that change according to user interaction
+
+![Screen Shot 2021-02-08 at 10 50 08 AM](https://user-images.githubusercontent.com/67812737/107246216-0451a000-69fe-11eb-993c-c1cfed9bbeb4.png)
+
 ### Interactive map using © MapBox api 
   - Create routes using markers for start and finish of a route
+
+  ![Screen Shot 2021-02-08 at 10 52 33 AM](https://user-images.githubusercontent.com/67812737/107245486-34e50a00-69fd-11eb-80a5-5467e77754af.png)
+
+
   - Search for beginning points of routes within a certain radius using the app's Find a Route feature
 
-  ![Screen Shot 2021-02-02 at 5 18 11 PM](https://user-images.githubusercontent.com/67812737/106670155-ac88e400-657a-11eb-8f49-8b0f22d58f2c.png)
+![Screen Shot 2021-02-08 at 10 57 43 AM](https://user-images.githubusercontent.com/67812737/107245686-6c53b680-69fd-11eb-8a5a-e27854959ef1.png)
 
 ### Dashboard that tracks several key metrics
   - Most recent route's time to completion and distance
   - Total distance along routes
   - Total time on routes
   - Total calories burned
+
+  ![Screen Shot 2021-02-08 at 10 51 14 AM](https://user-images.githubusercontent.com/67812737/107245737-7d042c80-69fd-11eb-99b9-2ee1fea2c94f.png)
+
 ### Community page with the following features
   - Search for other users ("rivals") and add them to your community
   - See community members' profile and dashboard
+
+  ![Screen Shot 2021-02-08 at 10 59 16 AM](https://user-images.githubusercontent.com/67812737/107245934-b5a40600-69fd-11eb-81fe-9c8f375b6e69.png)
+
+### Fun animated 404 page
+![Screen Shot 2021-02-08 at 10 59 44 AM](https://user-images.githubusercontent.com/67812737/107246394-3531d500-69fe-11eb-85c4-ad2cd0ea96ee.png)
+
 ### View all the personal routes you've added and view their leaderboards
+![Screen Shot 2021-02-08 at 11 12 02 AM](https://user-images.githubusercontent.com/67812737/107246729-8b9f1380-69fe-11eb-99b3-cf93fc607692.png)
 <br>
 
-## Database Schema
-![Database Schema](./Documentation/Database-schema.png)
+# Database Schema
+<img width="1458" alt="Screen Shot 2021-02-08 at 11 32 37 AM" src="https://user-images.githubusercontent.com/67812737/107249485-6c55b580-6a01-11eb-83f5-9a13447b47ea.png">
+<br />
 
 # Usage 
-
-## Demo User
-There is a **Demo** login that allows access to the site. However, the Demo User Login does **NOT** use your geolocation, but instead uses a hard-coded latitude and longitude. If you would like to see routes in your local area, either manually navigate to your region or sign up for the site to get instant data on your area.
 
 ## Contribution
 If you would like to contribute to this project in any way, you may take the following steps

@@ -6,10 +6,16 @@ from app.models import db, User
 
 def seed_users():
 
-    demo = User(first_name='Patrick', last_name='Mahomes', email='demo@aa.io',
-                gender='male', height=180, weight=180, password='password')
+    demo = User(first_name='Dwayne', last_name='Johnson', email='demo@aa.io',
+                gender='male', height=180, weight=120, password='password')
+    demo_two = User(first_name='Sarah', last_name='Jane', email='sj@sj.io',
+                gender='female', height=160, weight=65, password='password')
+    demo_three = User(first_name='Georgie', last_name='Burns', email='gb@gb.io',
+                gender='male', height=210, weight=85, password='password')
 
     db.session.add(demo)
+    db.session.add(demo_two)
+    db.session.add(demo_three)
 
     db.session.commit()
 
