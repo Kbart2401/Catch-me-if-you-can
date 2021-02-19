@@ -19,6 +19,7 @@ import Layer1 from './Layer1.png'
 import Layer2 from './Layer2.png'
 
 const IntroSeq = styled.div`
+  position: relative;
   justify-content: center;
   width: 100rem;
   height: 60rem;
@@ -61,8 +62,8 @@ background-image: url(${Stairs});
 const MapImageContainer = styled.div`
   position: absolute;
   display: flex;
-  left: 30%;
-  z-index: 10;
+  left: 50%;
+  z-index: 2;
 `
 
 const Card = styled.div`
@@ -85,6 +86,11 @@ const Card = styled.div`
   font-weight: 1000;
 `
 
+const CardWrapper = styled.div`
+  position: relative;
+  width: 100vw
+`
+
 const CallToAction = styled.div`
   display: flex;
   flex-direction: column;
@@ -93,6 +99,18 @@ const CallToAction = styled.div`
   width: 50rem;
   height: 20rem;
   background: white;
+`
+
+const MapDemo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  height: 100rem;
+  width: 75rem;
+  margin: 1rem 0;
+  clip-path: inset(0);
 `
 
 const useStyles = makeStyles(() => ({
@@ -108,20 +126,19 @@ const useStyles = makeStyles(() => ({
 
   clip: {
     position: 'absolute',
-    top: '15rem',
+    // top: 'rem',
     left: '50%',
 
     transition: '0.5s',
     width: '95rem',
     height: '55rem',
-    // transform: 'translate(-50%, -50%)',
+    transform: 'translate(-50%, 0)',
 
     fontSize: '2rem',
     color: 'black',
     fontFamily: 'helvetica sans-serif',
     fontWeight: '1000',
   },
-
 
   title: {
     display: 'flex',
@@ -150,20 +167,6 @@ const useStyles = makeStyles(() => ({
     fontWeight: '1000',
 
     mixBlendMode: 'multiply',
-  },
-
-  map_demo: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-
-    // background: '#343a40',
-    borderRadius: '1rem',
-    width: '75rem',
-    height: '100rem',
-    clipPath: 'inset(0)',
-
-    margin: '1rem 0',
   },
   map_demo_progress: {
     background: 'blue',
@@ -224,52 +227,56 @@ const Splash = () => {
           </p>
       </div>
 
-      <div className={classes.map_demo}>
+      <MapDemo>
 
-        <MapImageContainer style={{ margin: '0 8.5rem' }}>
+        <MapImageContainer style={{ transform: 'translate(-36%, 0)', }}>
           <img src={`${Layer1}`} width='1000rem' height='1500rem' />
         </MapImageContainer>
 
-        <MapImageContainer style={{ margin: '0 -8.5rem' }}>
+        <MapImageContainer style={{ transform: 'translate(-64%, 0)', }}>
           <img src={`${Layer2}`} width='1000rem' height='1500rem' />
         </MapImageContainer>
 
+        <Card data-aos="fade-left" data-aos-offset="500" style={{
+          // top: '20rem',
+          transform: 'translate(-100%, 0)',
+        }}>
+          <p style={{ color: 'black' }}>
+            Get access to all the popular
+            trails and routes in your area
+        </p>
+        </Card>
+
+        <Card data-aos="fade-left" data-aos-offset="500" style={{
+          top: '20rem',
+          // transform: 'translate(-45%, 0)',
+        }}>
+          <p style={{ color: 'black' }}>
+            Climb the leaderboards
+            of newfound motivation
+        </p>
+        </Card>
+        <Card data-aos="fade-left" data-aos-offset="500" style={{
+          top: '40rem',
+          // transform: 'translate(-45%, 0)',
+        }}>
+          <p style={{ color: 'black' }}>
+            Keep up to date
+            with your progress
+        </p>
+        </Card>
+        <Card data-aos="fade-left" data-aos-offset="400" style={{
+          top: '66rem',
+          transform: 'translate(-50%, 0)',
+          background: 'white',
+          borderRadius: '1rem',
+        }}>
+          <p style={{ color: 'black', }}>Ready to begin Your Journey</p>
+          <Button variant='outlined' onClick={() => handleClick()}>Get Started</Button>
+        </Card>
+
         <div className={classes.map_demo_progress}></div>
-      </div>
-
-      <Card data-aos="fade-left" data-aos-offset="500" style={{
-        top: '140rem',
-      }}>
-        <p style={{ color: 'black', }}>
-          Get access to all the popular
-          trails and routes in your area
-        </p>
-      </Card>
-
-      <Card data-aos="fade-left" data-aos-offset="500" style={{
-        top: '160rem',
-      }}>
-        <p style={{ color: 'black', }}>
-          Climb the leaderboards
-          of newfound motivation
-        </p>
-      </Card>
-      <Card data-aos="fade-left" data-aos-offset="500" style={{
-        top: '180rem',
-      }}>
-        <p style={{ color: 'black' }}>
-          Keep up to date
-          with your progress
-        </p>
-      </Card>
-      <Card data-aos="fade-left" data-aos-offset="500" style={{
-        top: '250rem',
-        margin: '-40rem -40rem',
-
-      }}>
-        <p style={{ color: 'black', }}>Ready to begin Your Journey</p>
-        <Button variant='outlined' onClick={() => handleClick()}>Get Started</Button>
-      </Card>
+      </MapDemo>
     </div >
   )
 }
