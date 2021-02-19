@@ -100,7 +100,7 @@ const Dashboard = (props) => {
   const calculateCalories = (totalDist, time) => {
     const calories = ((8.5 * totalDist) * time * (1 / 60))
 
-    return calories
+    return calories / 10
   }
 
   const handleGraphData = (weekData) => {
@@ -137,7 +137,7 @@ const Dashboard = (props) => {
       totalRecentDistance += dashboardData.recent_run[i].distance
     }
 
-    totalRecentDistance = totalRecentDistance / 1000
+    totalRecentDistance = totalRecentDistance 
 
     for (let i = 0; i < dashboardData.recent_run.length; i++) {
       // sum += Math.floor((8.5 * totalRecentDistance) * Math.trunc(dashboardData.recent_run[i].time * (1 / 60)))
@@ -146,6 +146,8 @@ const Dashboard = (props) => {
 
     return (sum).toFixed(0)
   }
+
+
 
   useEffect(() => {
     if (user) {
@@ -162,6 +164,7 @@ const Dashboard = (props) => {
       }
     }
   }, [user])
+  console.log(dashboardData); 
 
   const communityReturn = (userId) => {
     history.push(`/community`);
@@ -170,116 +173,124 @@ const Dashboard = (props) => {
   // console.log(dashboardData)
 
   return (
-		isLoaded && (
-			<div className={classes.root}>
-				<div className={classes.title}>
-					<Typography variant={"h5"} className="header-font">
-						DashBoard
-					</Typography>
-					<Typography className="dashboard-font username">
-						{dashboardData.first_name && dashboardData.last_name
-							? `${dashboardData.first_name} ${dashboardData.last_name}`
-							: ""}
-					</Typography>
-          {user.id !== userId && (
-            <Button
-              variant="outlined"
-              onClick={() => {
-                communityReturn();
-              }}
+    <>
+      {isLoaded && (
+        <div className={classes.root}>
+          <div className={classes.title}>
+            <Typography variant={"h5"} className="header-font">
+              DashBoard
+            </Typography>
+            <Typography className="dashboard-font username">
+              {dashboardData.first_name && dashboardData.last_name
+                ? `${dashboardData.first_name} ${dashboardData.last_name}`
+                : ""}
+            </Typography>
+            {user.id !== userId && (
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  communityReturn();
+                }}
+              >
+                <Typography>Return to Community</Typography>
+              </Button>
+            )}
+          </div>
+
+          <div className={classes.dashboard_circle}>
+            <div
+              className={classes.dashboard_circle_stat_container}
+              className="dashboard-font"
             >
-              <Typography>Return to Community</Typography>
-            </Button>
-          )}
-				</div>
+              <div className={classes.dashboard_circle_stat}>
+                {" "}
+                <Typography variant={"h5"}>Weekly Stats</Typography>
+              </div>
+              <div className={classes.dashboard_circle_stat}>
+                <Typography variant={"h5"}>
+                  {dashboardData.recent_run ? calcRecentDistance() : 0} meters
+                </Typography>
+              </div>
+              <div className={classes.dashboard_circle_stat}>
+                <Typography variant={"h5"}>
+                  {dashboardData.recent_run ? calcRecentCalories() : 0} Cal
+                </Typography>
+              </div>
+            </div>
+          </div>
 
-				<div className={classes.dashboard_circle}>
-					<div
-						className={classes.dashboard_circle_stat_container}
-						className="dashboard-font"
-					>
-						<div className={classes.dashboard_circle_stat}>
-							{" "}
-							<Typography variant={"h5"}>Weekly Stats</Typography>
-						</div>
-						<div className={classes.dashboard_circle_stat}>
-							<Typography variant={"h5"}>
-								{dashboardData.recent_run ? calcRecentDistance() : 0} meters
-							</Typography>
-						</div>
-						<div className={classes.dashboard_circle_stat}>
-							<Typography variant={"h5"}>
-								{dashboardData.recent_run ? calcRecentCalories() : 0} Cal
-							</Typography>
-						</div>
-					</div>
-				</div>
+          <div className={classes.dashboard_totalStat_container}>
+            <div className={classes.dashboard_totalStat_stats}>
+              <Typography variant={"h4"}>
+                {dashboardData.total_runtime
+                  ? calculateTime(dashboardData.total_runtime)
+                  : calculateTime(0)}
+              </Typography>
+              <Typography>Total Time</Typography>
+            </div>
+            <div className={classes.dashboard_totalStat_stats}>
+              <Typography variant={"h4"}>
+                {dashboardData.run_count ? dashboardData.run_count : 0}
+              </Typography>
+              <Typography>Total Runs</Typography>
+            </div>
+            <div className={classes.dashboard_totalStat_stats}>
+              <Typography variant={"h4"}>
+                {dashboardData.total_distance
+                  ? (dashboardData.total_distance/1000).toFixed(2)
+                  : 0}
+              </Typography>
+              <Typography>Total Km</Typography>
+            </div>
+            <div className={classes.dashboard_totalStat_stats}>
+              <Typography variant={"h4"}>
+                {dashboardData.total_runtime &&
+                  dashboardData.total_distance &&
+                  calculateCalories(
+                    dashboardData.total_distance,
+                    dashboardData.total_runtime
+                  ).toFixed(0)}
+              </Typography>
+              <Typography>Total Cal</Typography>
+            </div>
+          </div>
 
-				<div className={classes.dashboard_totalStat_container}>
-					<div className={classes.dashboard_totalStat_stats}>
-						<Typography variant={"h4"}>
-							{dashboardData.total_runtime
-								? calculateTime(dashboardData.total_runtime)
-								: calculateTime(0)}
-						</Typography>
-						<Typography>Total Time</Typography>
-					</div>
-					<div className={classes.dashboard_totalStat_stats}>
-						<Typography variant={"h4"}>
-							{dashboardData.run_count ? dashboardData.run_count : 0}
-						</Typography>
-						<Typography>Total Runs</Typography>
-					</div>
-					<div className={classes.dashboard_totalStat_stats}>
-						<Typography variant={"h4"}>
-							{dashboardData.total_distance
-								? dashboardData.total_distance.toFixed(0)
-								: 0}
-						</Typography>
-						<Typography>Total Km</Typography>
-					</div>
-					<div className={classes.dashboard_totalStat_stats}>
-						<Typography variant={"h4"}>
-							{dashboardData.total_runtime &&
-								dashboardData.total_distance &&
-								calculateCalories(
-									dashboardData.total_distance,
-									dashboardData.total_runtime
-								).toFixed(0)}
-						</Typography>
-						<Typography>Total Cal</Typography>
-					</div>
-				</div>
+          <div className={classes.dashboard_activity_container}>
+            <BarGraph weekData={handleGraphData(dashboardData.week_data)} />
+          </div>
 
-				<div className={classes.dashboard_activity_container}>
-					<BarGraph weekData={handleGraphData(dashboardData.week_data)} />
-				</div>
+          <div className={classes.dashboard_accordian_container}>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography style={{ color: "#3f51b5", fontWeight: "550" }}>
+                  History
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <History userId={userId} />
+              </AccordionDetails>
+            </Accordion>
 
-				<div className={classes.dashboard_accordian_container}>
-					<Accordion className={classes.accordion}>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography style={{ color: "#3f51b5", fontWeight: "550" }}>
-								History
-							</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<History userId={userId} />
-						</AccordionDetails>
-					</Accordion>
-
-					<Accordion className={classes.accordion}>
-						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography style={{ color: "#3f51b5", fontWeight: "550" }}>
-								My Routes
-							</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Routes created_routes={dashboardData.created_routes} />
-						</AccordionDetails>
-					</Accordion>
-				</div>
-			</div>
-		)
+            <Accordion className={classes.accordion}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography style={{ color: "#3f51b5", fontWeight: "550" }}>
+                  My Routes
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Routes created_routes={dashboardData.created_routes} />
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </div>
+      )}
+      {!isLoaded && (
+        <>
+          <Typography variant={'h5'} className='header-font'>Dashboard</Typography>
+          <Typography>No Dashboard stats available until you log your first route!</Typography>
+        </>
+      )}
+    </>
 	);
 }
 

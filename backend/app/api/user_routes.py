@@ -41,16 +41,19 @@ def runCount(id):
     dict_routes = dict(zip(keys, my_routes))
 
     # get total distance ran
-    total_distance = Route.query.join(RunTime).filter(
-        RunTime.user_id == id).all()
+    total_distance = RunTime.query.filter_by(user_id=id).all()
     if total_distance:
         if isinstance(total_distance, list):
-            def distances(distance):
-                return distance.distance
+            def distances(run_time):
+                route = run_time.route_id
+                route = Route.query.filter_by(id=route).first() 
+                return route.distance
             user_distances = map(distances, total_distance)
             user_total_distance_ran = sum(user_distances)
         else:
-            user_total_distance_ran = total_distance.distance
+            route = total_distance.route_id
+            route = Router.query.filter_by(id=route).first() 
+            user_total_distance_ran = route.distance
 
     # get total running time
     total_times = RunTime.query.filter_by(user_id=id).all()

@@ -2,6 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactMapGL, { Marker, Layer, Source } from 'react-map-gl';
 import StartPin from './StartPin';
 import EndPin from './EndPin'; 
+// see https://github.com/mapbox/mapbox-gl-js/issues/10173#issuecomment-753662795
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl";
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+
 const mapboxAPI = process.env.REACT_APP_MAPBOX;
 const mapboxSTYLE = process.env.REACT_APP_MAPBOX_STYLE;
 
