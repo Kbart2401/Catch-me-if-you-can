@@ -20,6 +20,9 @@ const useStyles = makeStyles(theme => ({
     justifyItems: 'center',
     alignItems: 'center',
     width: '100vw',
+    position: 'relative',
+    // minWidth: '1200px',
+    // maxWidth: '1800px',
 
     minHeight: '100vh',
     gap: '2rem',
