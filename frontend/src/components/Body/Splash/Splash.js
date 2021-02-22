@@ -7,7 +7,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 //MUI
-import { Button, makeStyles, Typography } from '@material-ui/core';
+import { Button, Hidden, makeStyles, Typography } from '@material-ui/core';
 
 //Pictures
 import Lost from './lost.jpg';
@@ -119,8 +119,8 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
 
-    width: '100vw',
-    padding: '1rem',
+    width: '100%',
+    // padding: '1rem',
     backgroundImage: `url(${Topography})`,
   },
 
@@ -130,7 +130,7 @@ const useStyles = makeStyles(() => ({
     left: '50%',
 
     transition: '0.5s',
-    width: '95vw',
+    width: '95%',
     height: '55rem',
     transform: 'translate(-50%, 0)',
 
@@ -171,7 +171,7 @@ const useStyles = makeStyles(() => ({
   map_demo_progress: {
     background: 'blue',
     width: '60rem',
-    height: '900px',
+    height: '664px',
 
     top: '-200px',
     position: 'fixed',

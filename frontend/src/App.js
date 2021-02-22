@@ -63,7 +63,7 @@ const AppContainer = (props) => {
   }, []);
 
   return isLoaded && (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', overflowX: 'hidden' }}>
       <App user={user} />
     </div>
   )
