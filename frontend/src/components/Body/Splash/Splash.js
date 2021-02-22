@@ -21,7 +21,7 @@ import Layer2 from './Layer2.png'
 const IntroSeq = styled.div`
   position: relative;
   justify-content: center;
-  width: 100rem;
+  width: 100vw;
   height: 60rem;
   background: url('./blue.jpg');
   padding: 1rem 0;
@@ -107,7 +107,7 @@ const MapDemo = styled.div`
   align-items: center;
   position: relative;
 
-  height: 100rem;
+  height: 100vw;
   width: 75rem;
   margin: 1rem 0;
   clip-path: inset(0);
@@ -119,7 +119,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
 
-    width: '100rem',
+    width: '100vw',
     padding: '1rem',
     backgroundImage: `url(${Topography})`,
   },
@@ -130,7 +130,7 @@ const useStyles = makeStyles(() => ({
     left: '50%',
 
     transition: '0.5s',
-    width: '95rem',
+    width: '95vw',
     height: '55rem',
     transform: 'translate(-50%, 0)',
 
