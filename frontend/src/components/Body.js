@@ -42,6 +42,8 @@ const useStyles = makeStyles(() => ({
 
     backgroundColor: '#e9ecef',
     padding: '1rem',
+    paddingLeft: '5px',
+    paddingRight: '5px', 
     width: 'fit-content',
   },
 }))
