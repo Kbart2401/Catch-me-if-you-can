@@ -9,13 +9,14 @@ import Routes from './Body/RoutesPage/Route';
 import MyRoutes from './Body/Dashboard/myRoutes';
 import Dashboard from './Body/Dashboard/Dashboard';
 import Profile from './Body/Profile'
-import Splash from './Body/Splash/Splash';
 import User from './Body/Profile';
 import UsersList from './Body/UsersList';
 import RivalsList from './Body/Community/RivalsList';
 import MapSearch from './Body/RoutesPage/MapSearch';
 import CreateMap from './Body/RoutesPage/CreateMap'
 import BadRequest from './Body/BadRequest';
+// import Splash from './Body/Splash/Splash';
+import Splash from './Body/Splash/NewSplash';
 
 
 //MUI
